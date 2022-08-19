@@ -5,4 +5,4 @@ Workflow (nextflow?) to run a bunch of analysis on a genome in order to start to
 
 * A) preliminary analysis (masking & stats)
 * B) annotation independent analysis
-* c) annotation dependent analysis
+* C) annotation dependent analysis
