@@ -9,7 +9,7 @@ B. annotation independent analysis
 * Genome-wide heterozygosity
 * Runs of homozygosity
 
-* GC content and CpG islands
+* GC content and CpG islands (move to A.? pre-masking?)
 
 * Historical population size inference
 * Generation time and mutation rate inference
