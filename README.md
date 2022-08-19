@@ -1,1 +1,1 @@
-# JATG
+# Just Analyze This Genome
