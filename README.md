@@ -15,6 +15,6 @@ B. annotation independent analysis
 * Generation time and mutation rate inference
 
 * Conserved synteny
-** Structural variants
+* Structural variants
 
 C. annotation dependent analysis
