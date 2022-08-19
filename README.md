@@ -3,6 +3,6 @@
 
 Workflow (nextflow?) to run a bunch of analysis on a genome in order to start to understand where we are and where we can go
 
-. A) preliminary analysis (masking & stats)
-. B) annotation independent analysis
-. c) annotation dependent analysis
+* A) preliminary analysis (masking & stats)
+* B) annotation independent analysis
+* c) annotation dependent analysis
