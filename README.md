@@ -18,3 +18,5 @@ B. annotation independent analysis
 * Structural variants
 
 C. annotation dependent analysis
+* BUSCO comparison
+* 
