@@ -19,4 +19,5 @@ B. annotation independent analysis
 
 C. annotation dependent analysis
 * BUSCO comparison
-* 
+*
+*
