@@ -3,7 +3,9 @@
 
 Workflow (nextflow?) to run a bunch of analysis on a genome in order to start to understand where we are and where we can go
 
-A. preliminary analysis (masking & stats)
+A. preliminary analysis
+* Stats
+* Masking
 
 B. annotation independent analysis
 * Genome-wide heterozygosity
@@ -18,6 +20,7 @@ B. annotation independent analysis
 * Structural variants
 
 C. annotation dependent analysis
-* BUSCO comparison
+* BUSCO genes
+* Orthologs sets
 *
 *
