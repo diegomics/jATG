@@ -1,7 +1,7 @@
 # Just Analyze This Genome
 🧬 ➡️ 🙏 ➡️ 🤖 ➡️ 📊 ➡️ 🥹 
 
-Workflow (nextflow?) to run a bunch of analysis on a genome in order to start to understand where we are and where we can go
+Workflow (nextflow?) to run a bunch of analyses on a genome to start understanding where we are and where we can go.
 
 A. preliminary analysis
 * Stats
