@@ -1,8 +1,3 @@
-# Just Analyze This Genome
-🧬 ➡️ 🙏 ➡️ 🤖 ➡️ 📊 ➡️ 🥹
-
-🧬 ➡ 🙏 ➡ 🤖 ➡ 📊 ➡ 🥹
-
 🧬 → 🙏 → 🤖 → 📊 → 🥹
 
 Workflow (nextflow?) to run a bunch of analyses on a genome to start understanding where we are and where we can go.
