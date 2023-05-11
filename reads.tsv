@@ -1,0 +1,6 @@
+asm_id  sample_name run_name  read_type reads_dir
+mEleMax1_pri  indA  run28 illumina  /reads/dir/illumina/elephant1
+mEleMax1_pri  indA  run30 illumina  /reads/dir/illumina/elephant2
+mEleMax1.2_hap1 indA  run28 illumina  /reads/dir/illumina/elephant1
+mEleMax1.2_hap1 indB  run14 hifi  /reads/dir/hifi/elephant8
+fSilAri_pri indX  run45 illumina  /reads/dir/illumina/fish1
