@@ -6,7 +6,6 @@ export OUT_DIR="/scratch/ddepanis/jilda/jATG/1.2_masking"
 export CONDA_BIN_DIR="/scratch/ddepanis/Software/anaconda3/bin"
 
 # singularity-specific variables
-export SINGULARITY_LOAD="module load singularity"
 export BIND_DIR="/scratch/ddepanis/"
 
 # slurm-specific variables
