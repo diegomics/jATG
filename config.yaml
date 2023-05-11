@@ -1,0 +1,16 @@
+# variables for the repeats annotation and masking pipeline:
+export INSTALLATION_DIR="/home/ddepanis/jatg/1.preliminary/2.masking"
+export OUT_DIR="/scratch/ddepanis/jilda/jATG/1.2_masking"
+
+# conda-specific variables
+export CONDA_BIN_DIR="/scratch/ddepanis/Software/anaconda3/bin"
+
+# singularity-specific variables
+export SINGULARITY_LOAD="module load singularity"
+export BIND_DIR="/scratch/ddepanis/"
+
+# slurm-specific variables
+export USER_MAIL='ddepanis@zedat.fu-berlin.de'
+export PARTITION='begendiv,main'
+export QUEUE="standard"
+export LOAD_SINGULARITY='module load singularity' # comment this line if singularity is in path
