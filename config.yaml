@@ -1,6 +1,6 @@
 # variables for the repeats annotation and masking pipeline:
-export INSTALLATION_DIR="/home/ddepanis/jatg/1.preliminary/2.masking"
-export OUT_DIR="/scratch/ddepanis/jilda/jATG/1.2_masking" #where the jATG folder will be created
+export INSTALLATION_DIR="/home/ddepanis/jATG" #where the cloned repo folder is
+export OUT_DIR="/scratch/ddepanis/results" #where the jATG folder will be created
 
 # conda-specific variables
 export CONDA_BIN_DIR="/scratch/ddepanis/Software/anaconda3/bin"
