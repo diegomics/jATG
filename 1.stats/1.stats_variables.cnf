@@ -1,0 +1,9 @@
+# variables for the stats pipeline:
+export INSTALLATION_DIR="/home/ddepanis/jatg/1.preliminary"
+export OUT_DIR="/scratch/ddepanis/jilda/jATG"
+export ASSEMBLY="/scratch/ddepanis/jilda/D.mawsoni.genome.fasta" # .fa .fasta .fna #also can be gzipped
+export ASM_ID="mawsoni"
+export SPECIES_NAME='Notothenioidei'
+
+# conda-specific variables
+export CONDA_BIN_DIR="/scratch/ddepanis/Software/anaconda3/bin"
