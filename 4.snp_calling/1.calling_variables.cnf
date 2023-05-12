@@ -1,0 +1,30 @@
+# Running mode variables
+export READ_TYPE="illuminaPE" # IMPORTANT!!! only two possible values "HiFi" or "illuminaPE"
+export SAMPLE_NAME="" # IMPORTANT!!! enter value if multiple reads files from same sample, if one (paired)data file leave it blank ("")
+
+
+# pipeline variables
+export ASSEMBLY="/scratch/ddepanis/Condor_project/other_genomes/california_condor__Gymnogyps_californianus/jATG/1.2_masking/3_masker/GCF_018139145.2_ASM1813914v2.masked.fa"
+#export FQ_DIR="" # IN DEVELOPMENT
+export TRIM_DIR="/scratch/ddepanis/Condor_project/other_genomes/california_condor__Gymnogyps_californianus/reads/trimmed"
+export MASKED_BED="/scratch/ddepanis/Condor_project/other_genomes/california_condor__Gymnogyps_californianus/jATG/1.2_masking/3_masker/GCF_018139145.2_ASM1813914v2.3cols.bed" # Output from ../JATG/repeat/3_masker
+
+#export INSTALLATION_DIR="/home/ddepanis/jatg/2.annotation_independent/03.snp_calling"
+export OUT_DIR="/scratch/ddepanis/Condor_project/other_genomes/california_condor__Gymnogyps_californianus/jATG/2.3_calling"
+export TMPDIR="/scratch/ddepanis/tmp"
+
+
+# slurm-specific variables
+export USER_MAIL='ddepanis@zedat.fu-berlin.de'
+export MAIL_TYPE='END,FAIL'
+export PARTITION='begendiv,main'
+export QUEUE="standard"
+
+
+# conda-specific variables
+export CONDA_BIN_DIR="/scratch/ddepanis/Software/anaconda3/bin"
+
+
+# singularity-specific variables
+export SINGULARITY_LOAD="module load singularity"
+export BIND_DIR="/scratch/ddepanis/"
