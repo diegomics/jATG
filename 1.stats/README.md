@@ -4,7 +4,7 @@ This first analysis aims to generate a rapid overview of the genome assembly pro
 
 The outputs are:
 * b
-* `full_fasta_header`: contains the full name of all the scaffolds
+* `full_fasta_header` contains the full name of all the scaffolds
 * b
 * b
 
