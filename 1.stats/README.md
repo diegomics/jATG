@@ -9,3 +9,5 @@ The outputs are:
 * b
 
 creates a file with assembly stats named assembly_stats, a file with the full name of the scaffolds named full_fasta_header, a TSV file named number_lengths_GC_Ns showing in decreasing order the row number (to quick compare with N90 from the stats), name, length, GC content and Ns content of the scaffolds, and a file with a list with the names of the main scaffolds to maybe use in downstream analysis (larger than 5Mb).
+
+### How to run?
