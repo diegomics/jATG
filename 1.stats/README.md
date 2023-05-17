@@ -36,4 +36,4 @@ Requirements:
 
 3) Run the masking pipeline in _Slurm_ with: `bash 3.Run_stats.sh`
 
-\*) It uses up to xx cpus and xx Gb of RAM
+\*) It uses up to 8 cpus and 16 Gb of RAM
