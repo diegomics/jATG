@@ -10,11 +10,24 @@ This second analysis generates a species-tailored masked version of the genome u
     └── [SPECIES_NAME]
         └── [ASSEMBLY_ID]
             ├── 1.stats
-            |   └── ..
-            └── 1.stats
-                ├── ..
-                ├── <..>.HM.fa      # hard-masked genome   
-                └── <..>.masked.fa  # soft-masked genome
+            │   └── ..
+            └── 1.masking
+                ├── 1_modeler
+                │   ├── <..>.families.fa        # consensus repeat sequences de novo identified
+                │   └── ..
+                ├── 2_libraries
+                │   ├── <..>-rm.fa              # species/lineage-specific repeat sequences from the built-in library
+                │   └── <..>_combined.fa        # <..>.families.fa and <..>-rm.fa files combined
+                └── 3_masker
+                    ├── <..>.masked.fa          # soft-masked assembly
+                    ├── <..>.HM.fa              # hard-masked assembly
+                    ├── <..>.gff                # repeats annotation in gff3 format
+                    ├── <..>.bed                # repeats annotation in bed format
+                    ├── <..>..3cols.bed         # coordinates of assembly that is masked
+                    ├── <..>.tbl                # summary result of the repeats in the assembly
+                    ├── <..>.align.divsum.html  # (repeat landscape) abundance of repeat classes in the genome versus the Kimura divergence from the consensus  
+                    ├── <..>.svg                # svg version of the repeat landscape
+                    └── ..
 
 ```
 
