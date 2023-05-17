@@ -1,6 +1,23 @@
 # Genomic Repeats: Annotation and Masking Analysis
 🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷
 
+This second analysis generates a species-tailored masked version of the genome using RepeatModeler and RepeatMasker. It produces quick analysis on the repeats and generates files useful for downstream steps and posterior (deeper) analysis.
+
+## Output:
+```
+[OUT_DIR]
+└── jATG
+    └── [SPECIES_NAME]
+        └── [ASSEMBLY_ID]
+            ├── 1.stats
+            |   └── ..
+            └── 1.stats
+                ├── ..
+                ├── <..>.HM.fa      # hard-masked genome   
+                └── <..>.masked.fa  # soft-masked genome
+
+```
+
 ## Requirements:
 * [Conda](https://docs.conda.io)
 * [Singularity](https://sylabs.io/guides/3.0/user-guide/index.html)
