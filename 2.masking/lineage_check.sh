@@ -12,6 +12,8 @@ echo ""
 echo "* checking if ${VAR} is present in the local repeat database..."
 echo ""
 
+$LOAD_SINGULARITY #comment if singularity is in path
+
 singularity exec --pwd /opt/RepeatMasker/Libraries/ tetools_1.8.sif famdb.py -i RepeatMaskerLib.h5 lineage -ad ${VAR} 2> check.tmp
 
 if [[ $(cat check.tmp) == *"No species found for search term"* ]]; then
