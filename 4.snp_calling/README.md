@@ -1,5 +1,6 @@
 # Variant Calling
-🧬🧐🧬🧐🧬🧐🧬🧐🧬🧐
+🧬🧐🧬🧐🧬🧐🧬🧐
+
 This step does the variant calling 
 
 
