@@ -33,7 +33,7 @@ This second analysis generates a species-tailored masked version of the genome a
 
 ### How to run?
 
-:::info
+:::
 Requirements:
 * [Slurm](https://slurm.schedmd.com)
 * [Conda](https://docs.conda.io)
