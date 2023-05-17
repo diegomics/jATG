@@ -1,10 +1,12 @@
-# variables for the repeats annotation and masking pipeline:
+# assembly variables
+export SPECIES_NAME="Leptodirus_hochenwarti" # Use underscore instead space, eg: Homo_sapiens
+export ASSEMBLY_ID="LepHoc_pri"
+export ASSEMBLY="/scratch/ddepanis/pilot/Leptodirus_hochenwarti/asm/icLepHoch12.1.pri.fa" # .fa .fasta .fna #also can be gzipped
+export LINEAGE_NAME="" # If SPECIES_NAME is found by test_lineage.sh leave it blank (""), if not add preferred lineage 
+
+# pipeline variables
 export INSTALLATION_DIR="/home/ddepanis/jATG" #the github cloned folder 
 export OUT_DIR="/scratch/ddepanis/test" #the results will written here, it will create a folder jATG/
-export ASSEMBLY="/scratch/ddepanis/pilot/Leptodirus_hochenwarti/asm/icLepHoch12.1.pri.fa" # .fa .fasta .fna #also can be gzipped
-export ASSEMBLY_ID="LepHoc_pri"
-export SPECIES_NAME="Leptodirus_hochenwarti" # Use underscore instead space, eg: Homo_sapiens
-export LINEAGE_NAME="Coleoptera" # If SPECIES_NAME is found by test_lineage.sh leave it blank (""), if not add preferred lineage 
 
 # conda-specific variables
 export CONDA_BIN_DIR="/scratch/ddepanis/Software/anaconda3/bin"
