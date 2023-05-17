@@ -25,8 +25,8 @@ This second analysis generates a species-tailored masked version of the genome u
                     ├── <..>.bed                # repeats annotation in bed format
                     ├── <..>..3cols.bed         # coordinates of assembly that is masked
                     ├── <..>.tbl                # summary result of the repeats in the assembly
-                    ├── <..>.align.divsum.html  # (repeat landscape) abundance of repeat classes in the genome versus the Kimura divergence from the consensus  
-                    ├── <..>.svg                # svg version of the repeat landscape
+                    ├── <..>.align.divsum.html  # abundance of repeats in the assembly vs the Kimura divergence from the consensus  
+                    ├── <..>.svg                # svg version of the repeat landscape <..>.align.divsum.html
                     └── ..
 
 ```
