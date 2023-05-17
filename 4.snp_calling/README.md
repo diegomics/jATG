@@ -4,7 +4,7 @@ This step does the variant calling
 
 
 ## Output:
-```bash
+```
 [OUT_DIR]
 └── jATG
     └── [SPECIES_NAME]
