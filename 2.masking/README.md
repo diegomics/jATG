@@ -1,5 +1,5 @@
 # Repeats Annotation and Masking Analysis
-🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷
+🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬
 
 This second analysis generates a species-tailored masked version of the genome and annotation files using RepeatModeler and RepeatMasker. It also produces quick analysis from the repeats and generates files useful for downstream steps and posterior (deeper) analysis.
 
