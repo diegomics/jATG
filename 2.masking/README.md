@@ -33,12 +33,11 @@ This second analysis generates a species-tailored masked version of the genome a
 
 ### How to run?
 
-:::
 Requirements:
 * [Slurm](https://slurm.schedmd.com)
 * [Conda](https://docs.conda.io)
 * [Singularity](https://sylabs.io/guides/3.0/user-guide/index.html)
-:::
+
 
 1) Edit `1.repeat_variables.cnf` file with the respective paths, values and parameters.
 
