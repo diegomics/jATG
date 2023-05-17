@@ -1,5 +1,5 @@
-## Annotation and masking of repeats in the genome
-🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷
+# Genomic Repeats: Annotation and Masking Analysis
+🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷🧬😷
 
 ## Requirements:
 * [Conda](https://docs.conda.io)
