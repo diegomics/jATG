@@ -12,7 +12,7 @@ This first analysis aims to generate a rapid overview of the genome assembly and
                 ├── <..>_shortStats.tsv     # very brief stats of the assembly
                 ├── full_fasta_header       # complete header of each scaffold
                 ├── main_scaffolds          # list with scaffolds longer than 5 Mbp
-                ├── number_lengths_GC_Ns    # TSV table with number of scaffold, name, length (decreasing order), GC rate, % of Ns 
+                ├── number_lengths_GC_Ns    # table with number of scaffold, name, length (decreasing order), GC rate, % of Ns 
                 ├── <..>_sequences.fasta    # sex chromosomes linked genes sequences identified for the species
                 ├── <..>_genes.txt          # sex chromosomes linked genes IDs
                 ├── <..>.blast              # table with matches between sex chromosome linked genes and the assembly
