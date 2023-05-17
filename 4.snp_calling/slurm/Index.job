@@ -1,0 +1,48 @@
+#!/bin/bash
+
+#SBATCH -J Index
+
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=64G
+#SBATCH --time=03:00:00
+
+export PATH="${CONDA_BIN_DIR}:${PATH}"
+source activate CALLING_env
+
+
+cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/0_idx
+
+
+###############################################################################
+echo ""
+echo ". Indexing reference..."
+echo ""
+
+if [[ "${ASSEMBLY##*.}" == "gz" ]]
+then
+	INTER=$(basename ${ASSEMBLY} .gz)
+        ASSEMBLY_NAME=$(basename $INTER .${INTER##*.})
+        gunzip -c ${ASSEMBLY} > ${ASSEMBLY_NAME}.fa
+elif  [[ "${ASSEMBLY##*.}" == "fa" ]] || [[ "${ASSEMBLY##*.}" == "fasta" ]] || [[ "${ASSEMBLY##*.}" == "fna" ]]
+then
+        ASSEMBLY_NAME=$(basename $ASSEMBLY .${ASSEMBLY##*.})
+        ln -s ${ASSEMBLY} ${ASSEMBLY_NAME}.fa
+else
+        echo "Invalid reference extension name!"
+fi
+
+
+# indexing depending on the read type
+if [[ "${READ_TYPE}" == "illuminaPE" ]]
+then
+	bwa-mem2 index -p ${ASSEMBLY_NAME} "${ASSEMBLY_NAME}.fa"
+
+elif  [[ "${READ_TYPE}" == "HiFi" ]]
+then
+
+	minimap2 -d "${ASSEMBLY_NAME}.mmi" "${ASSEMBLY_NAME}.fa"
+else
+        echo 'Invalid read type. Valid values for READ_TYPE variable in variables.cnf file are: "illuminaPE" or "HiFi"'
+fi
+
+samtools faidx "${ASSEMBLY_NAME}.fa"

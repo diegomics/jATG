@@ -1,0 +1,133 @@
+#!/bin/bash
+
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=8G
+#SBATCH --time=8:00:00
+
+export PATH="${CONDA_BIN_DIR}:${PATH}"
+source activate CALLING_env
+
+cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs
+mkdir filt
+
+
+# get READ/SAMPLE variables
+#if [[ "${READ_TYPE}" == "illuminaPE" ]]
+#then
+#
+#	if [ -z "${SAMPLE_NAME}" ]
+#	then
+#		READ=$(ls ${TRIM_DIR}/*_R1.trimmed.fq.gz | tail -n 1)
+#		READ_NAME=$(basename ${READ} _R1.trimmed.fq.gz)
+#		SAMPLE_NAME="${READ_NAME}"
+#		echo "Sample: ${SAMPLE_NAME}"
+#	else
+#		echo "Sample: ${SAMPLE_NAME}"
+#	fi
+#
+#elif  [[ "${READ_TYPE}" == "HiFi" ]]
+#then
+#
+#	if [ -z "${SAMPLE_NAME}" ]
+#	then
+#        	READ=$(ls ${TRIM_DIR}/*.trimmed.fq.gz | tail -n 1)
+#        	READ_NAME=$(basename ${READ} .trimmed.fq.gz)
+#	        SAMPLE_NAME="${READ_NAME}"
+#	        echo "Sample: ${SAMPLE_NAME}"
+#	else
+#	        echo "Sample: ${SAMPLE_NAME}"
+#	fi
+#
+#else
+#        echo 'Invalid read type. Valid values for READ_TYPE variable in variables.cnf file are: "illuminaPE" or "HiFi"'
+#fi
+
+########## PASS
+echo ""
+echo ". Analysing stats on VCF..."
+echo ""
+
+#count Total SNPs
+echo "Total variants" > "filt/${SAMPLE_NAME}.PASS_snps_amount"
+bcftools view -H "${SAMPLE_NAME}.PASS.vcf.gz" | wc -l >> "filt/${SAMPLE_NAME}.PASS_snps_amount"
+echo "--------------------------------------------------------------" >> "filt/${SAMPLE_NAME}.PASS_snps_amount"
+
+#calculate site quality
+vcftools --gzvcf "${SAMPLE_NAME}.PASS.vcf.gz" --site-quality --out "filt/${SAMPLE_NAME}.PASS"
+
+#Calculate mean coverage depth per site
+vcftools --gzvcf "${SAMPLE_NAME}.PASS.vcf.gz" --site-mean-depth --out "filt/${SAMPLE_NAME}.PASS"
+
+echo -e "mean\tsd" > "filt/${SAMPLE_NAME}.PASS.vcf_meanCov"
+cut -f3 "filt/${SAMPLE_NAME}.PASS.ldepth.mean" | awk '{for(i=1;i<=NF;i++) {sum[i] += $i; sumsq[i] += ($i)^2}} END {for (i=1;i<=NF;i++) {printf "%f\t%f \n", sum[i]/NR, sqrt((sumsq[i]-sum[i]^2/NR)/NR)}}' >> "filt/${SAMPLE_NAME}.PASS.vcf_meanCov"
+
+echo ""
+echo ". Analysing stats on subset VCF..."
+echo ""
+
+#Filter indels
+vcftools --gzvcf "${SAMPLE_NAME}.PASS.vcf.gz" --remove-indels --recode --stdout | bgzip > "filt/${SAMPLE_NAME}_InDel.vcf.gz"
+bcftools index -o "filt/${SAMPLE_NAME}_InDel.vcf.gz.csi" "filt/${SAMPLE_NAME}_InDel.vcf.gz"
+
+echo "" >> "filt/${SAMPLE_NAME}.PASS_snps_amount"
+echo "Total variants after filtering InDels" >> "filt/${SAMPLE_NAME}.PASS_snps_amount"
+bcftools view -H "filt/${SAMPLE_NAME}_InDel.vcf.gz" | wc -l >> "filt/${SAMPLE_NAME}.PASS_snps_amount"
+
+rm filt/${SAMPLE_NAME}_InDel.vcf.gz*
+
+#Filter only biallelic
+vcftools --gzvcf "${SAMPLE_NAME}.PASS.vcf.gz" --max-alleles 2 --recode --stdout | bgzip > "filt/${SAMPLE_NAME}_Bi.vcf.gz"
+bcftools index -o "filt/${SAMPLE_NAME}_Bi.vcf.gz.csi" "filt/${SAMPLE_NAME}_Bi.vcf.gz"
+
+echo "" >> "filt/${SAMPLE_NAME}.PASS_snps_amount"
+echo "Total variants after filtering only biallelic" >> "filt/${SAMPLE_NAME}.PASS_snps_amount"
+bcftools view -H "filt/${SAMPLE_NAME}_Bi.vcf.gz" | wc -l >> "filt/${SAMPLE_NAME}.PASS_snps_amount"
+
+rm filt/${SAMPLE_NAME}_Bi.vcf.gz*
+
+#Filter by Quality
+vcftools --gzvcf "${SAMPLE_NAME}.PASS.vcf.gz" --minQ 30 --recode --stdout | bgzip > "filt/${SAMPLE_NAME}_Qual30.vcf.gz"
+bcftools index -o "filt/${SAMPLE_NAME}_Qual30.vcf.gz.csi" "${SAMPLE_NAME}_Qual30.vcf.gz"
+
+echo "" >> "filt/${SAMPLE_NAME}.PASS_snps_amount"
+echo "Total variants after filtering only Qual>30" >> "filt/${SAMPLE_NAME}.PASS_snps_amount"
+bcftools view -H "filt/${SAMPLE_NAME}_Qual30.vcf.gz" | wc -l >> "filt/${SAMPLE_NAME}.PASS_snps_amount"
+
+rm filt/${SAMPLE_NAME}_Qual30.vcf.gz*
+
+#Filter by Coverage
+VAR=$(cut -f1 filt/${SAMPLE_NAME}.PASS.vcf_meanCov | tail -1)
+MAX=$(printf "%.0f\n" $(echo "$VAR * 2" | bc))
+MIN=$(printf "%.0f\n" $(echo "$VAR * 1/3" | bc))
+
+vcftools --gzvcf "${SAMPLE_NAME}.PASS.vcf.gz" --min-meanDP ${MIN} --max-meanDP ${MAX} --recode --stdout | bgzip > "filt/${SAMPLE_NAME}_Cov.vcf.gz"
+bcftools index -o "filt/${SAMPLE_NAME}_Cov.vcf.gz.csi" "filt/${SAMPLE_NAME}_Cov.vcf.gz"
+
+echo "" >> "filt/${SAMPLE_NAME}.PASS_snps_amount"
+echo "Total variants after filtering by Max(${MAX}) and Min(${MIN}) Coverage" >> "filt/${SAMPLE_NAME}.PASS_snps_amount"
+bcftools view -H "filt/${SAMPLE_NAME}_Cov.vcf.gz" | wc -l >> "filt/${SAMPLE_NAME}.PASS_snps_amount"
+
+rm filt/${SAMPLE_NAME}_Cov.vcf.gz*
+
+#Final combined filter
+vcftools --gzvcf "${SAMPLE_NAME}.PASS.vcf.gz" --remove-indels --max-alleles 2 --minQ 30 --min-meanDP ${MIN} --max-meanDP ${MAX} --recode --stdout | bgzip > "filt/${SAMPLE_NAME}.PASS_filtered.vcf.gz"
+bcftools index -o "filt/${SAMPLE_NAME}.PASS_filtered.vcf.gz.csi" "filt/${SAMPLE_NAME}.PASS_filtered.vcf.gz"
+
+echo "" >> "filt/${SAMPLE_NAME}.PASS_snps_amount"
+echo "==============================================================" >> "filt/${SAMPLE_NAME}.PASS_snps_amount"
+echo "Total variants after the combined filtering" >> "filt/${SAMPLE_NAME}.PASS_snps_amount"
+bcftools view -H "filt/${SAMPLE_NAME}.PASS_filtered.vcf.gz" | wc -l >> "filt/${SAMPLE_NAME}.PASS_snps_amount"
+
+
+
+echo ""
+echo ". Filtering PASS&filtered VCF for masked regions..."
+echo ""
+
+bedtools intersect -header -a "filt/${SAMPLE_NAME}.PASS_filtered.vcf.gz" -b ${MASKED_BED} -v | bgzip > "filt/${SAMPLE_NAME}.PASS.masked_filtered.vcf.gz"
+bcftools index -o "filt/${SAMPLE_NAME}.PASS.masked_filtered.vcf.gz.csi" "filt/${SAMPLE_NAME}.PASS.masked_filtered.vcf.gz"
+
+echo "" >> "filt/${SAMPLE_NAME}.PASS_snps_amount"
+echo "==============================================================" >> "filt/${SAMPLE_NAME}.PASS_snps_amount"
+echo "Total variants after the combined filtering and masking" >> "filt/${SAMPLE_NAME}.PASS_snps_amount"
+bcftools view -H "filt/${SAMPLE_NAME}.PASS.masked_filtered.vcf.gz" | wc -l >> "filt/${SAMPLE_NAME}.PASS_snps_amount"

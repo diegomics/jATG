@@ -1,0 +1,76 @@
+#!/bin/bash
+
+#SBATCH -J Map_Dups
+
+#SBATCH --cpus-per-task=24
+#SBATCH --mem=64G
+#SBATCH --time=2-00:00:00
+
+export PATH="${CONDA_BIN_DIR}:${PATH}"
+source activate CALLING_env
+
+cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs
+
+if [[ "${ASSEMBLY##*.}" == "gz" ]]
+then
+        INTER=$(basename ${ASSEMBLY} .gz)
+        ASSEMBLY_NAME=$(basename $INTER .${INTER##*.})
+elif  [[ "${ASSEMBLY##*.}" == "fa" ]] || [[ "${ASSEMBLY##*.}" == "fasta" ]] || [[ "${ASSEMBLY##*.}" == "fna" ]]
+then
+        ASSEMBLY_NAME=$(basename $ASSEMBLY .${ASSEMBLY##*.})
+else
+        echo "Invalid reference extension name!"
+fi
+
+
+###############################################################################
+echo ""
+echo ". Starting minimap2 & samtools..."
+echo ""
+READ=$(ls ${TRIMMED_READS_DIR}/*{trim*fq,fq,trim*fastq,fastq}.gz 2>/dev/null | head -n ${SLURM_ARRAY_TASK_ID} | tail -n 1)
+VAR=$(basename $READ .gz)
+READ_ID=$(basename $VAR .${VAR##*.})
+
+#if [ -z "${MULTI_RUN}" ]
+#then
+#      SAMPLE_NAME="${READ_NAME}"
+#else
+#      echo "Mapping data for the sample name: ${SAMPLE_NAME}"
+#fi
+
+srun \
+minimap2 -t 24 --MD --eqx -ax map-hifi \
+-R "@RG\tID:${READ_ID}\tSM:${SAMPLE_NAME}" \
+"${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/0_idx/${ASSEMBLY_NAME}.mmi" ${READ} | \
+samtools view -@ 12 -b -u | \
+samtools sort -@ 12 -o ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/${READ_ID}.bam
+
+###############################################################################
+echo ""
+echo ". Indexing bam..."
+echo ""
+srun \
+samtools index ${READ_ID}.bam
+
+
+###############################################################################
+echo ""
+echo ". Starting Picard..."
+echo ""
+srun \
+picard -Xmx64g MarkDuplicates \
+-ASSUME_SORTED true \
+-VALIDATION_STRINGENCY SILENT \
+-MAX_FILE_HANDLES_FOR_READ_ENDS_MAP 1000 \
+-I ${READ_ID}.bam \
+-O ${READ_ID}.markdup.bam \
+-M ${READ_ID}.markdup_metrics.txt \
+-TMP_DIR ${TMPDIR}
+
+
+###############################################################################
+echo ""
+echo ". Indexing bam..."
+echo ""
+srun \
+samtools index ${READ_ID}.markdup.bam

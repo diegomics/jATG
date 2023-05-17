@@ -1,0 +1,44 @@
+#!/bin/bash
+
+#SBATCH -J Hold_link
+
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=1G
+#SBATCH --time=00:05:00
+
+cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs
+
+if [[ "${READ_TYPE}" == "illuminaPE" ]]
+then
+	READ1=$(ls ${TRIMMED_READS_DIR}/*{1.trim*fq,1.fq,1.trim*fastq,1.fastq}.gz 2>/dev/null | tail -n 1)
+	READ1_NAME=$(basename $READ1)
+	if [[ $READ1 == *1.trim*fq.gz ]]; then
+        	READ_ID=${READ1_NAME%%1.trim*fq.gz}
+
+	elif [[ $READ1 == *1.fq.gz ]]; then
+        	READ_ID=${READ1_NAME%%1.fq.gz}
+
+	elif [[ $READ1 == *1.trim*fastq.gz ]]; then
+        	READ_ID=${READ1_NAME%%1.trim*fastq.gz}
+
+	elif [[ $READ1 == *1.fastq.gz ]]; then
+        	READ_ID=${READ1_NAME%%1.fastq.gz}
+
+	else
+        	echo "Error: Invalid read name"
+
+	fi
+
+elif  [[ "${READ_TYPE}" == "HiFi" ]]
+then
+	READ=$(ls ${TRIMMED_READS_DIR}/*{trim*fq,fq,trim*fastq,fastq}.gz 2>/dev/null | tail -n 1)
+	VAR=$(basename $READ .gz)
+	READ_ID=$(basename $VAR .${VAR##*.})
+
+else
+        echo 'Error: Invalid read type. Valid values for READ_TYPE variable in variables.cnf file are: "illuminaPE" or "HiFi"'
+fi
+
+#SAMPLE_NAME="${READ_NAME}"
+ln -s "${READ_ID}.markdup.bam" "${SAMPLE_NAME}.merged.bam"
+ln -s "${READ_ID}.markdup.bam.bai" "${SAMPLE_NAME}.merged.bam.bai"

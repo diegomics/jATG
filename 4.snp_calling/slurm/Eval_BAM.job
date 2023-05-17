@@ -1,0 +1,70 @@
+#!/bin/bash
+
+#SBATCH -J BAMstats
+
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=8G
+#SBATCH --time=2-00:00:00
+
+export PATH="${CONDA_BIN_DIR}:${PATH}"
+source activate CALLING_env
+
+cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs
+
+# get READ/SAMPLE variables
+#if [[ "${READ_TYPE}" == "illuminaPE" ]]
+#then
+#
+#	if [ -z "${SAMPLE_NAME}" ]
+#	then
+#		READ=$(ls ${TRIM_DIR}/*_R1.trimmed.fq.gz | tail -n 1)
+#		READ_NAME=$(basename ${READ} _R1.trimmed.fq.gz)
+#		SAMPLE_NAME="${READ_NAME}"
+#		echo "Sample: ${SAMPLE_NAME}"
+#	else
+#		echo "Sample: ${SAMPLE_NAME}"
+#	fi
+#
+#elif  [[ "${READ_TYPE}" == "HiFi" ]]
+#then
+#
+#	if [ -z "${SAMPLE_NAME}" ]
+#	then
+#        	READ=$(ls ${TRIM_DIR}/*.trimmed.fq.gz | tail -n 1)
+#        	READ_NAME=$(basename ${READ} .trimmed.fq.gz)
+#	        SAMPLE_NAME="${READ_NAME}"
+#	        echo "Sample: ${SAMPLE_NAME}"
+#	else
+#	        echo "Sample: ${SAMPLE_NAME}"
+#	fi
+#
+#else
+#        echo 'Invalid read type. Valid values for READ_TYPE variable in variables.cnf file are: "illuminaPE" or "HiFi"'
+#fi
+
+
+
+###############################################################################
+echo ""
+echo ". Analyzing reference coverage..."
+echo ""
+
+#Number of primary aligned reads ### CHECK THIS IF IS COUNTING ALSO THE DUPLICATED READS ##################################################
+READS_NUMBER=$(samtools view -c -F 260 ${SAMPLE_NAME}.merged.bam)
+echo "$READS_NUMBER" >> ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/eval/${SAMPLE_NAME}.rmd_PrimAligRead
+
+#Reference coverage
+samtools coverage "${SAMPLE_NAME}.merged.bam" >> ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/eval/${SAMPLE_NAME}.temp
+sed -i 's/#//g' "${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/eval/${SAMPLE_NAME}.temp"
+cat "${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/eval/${SAMPLE_NAME}.temp" |\
+csvtk tab2csv |\
+csvtk csv2md > "${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/eval/${SAMPLE_NAME}.merged_RefCov.md"
+rm ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/eval/${SAMPLE_NAME}.temp
+
+#mean coverage
+REF_LENGTH=$(samtools view -@ 2 -H ${SAMPLE_NAME}.merged.bam | awk -vFS=: '/^@SQ/ {sum+=$3} END {print sum}')
+SEQ_DEPTH=$(samtools depth ${SAMPLE_NAME}.merged.bam | awk '{sum+=$3} END {print sum}')
+COVERAGE=$(echo "$SEQ_DEPTH/$REF_LENGTH" | bc -l)
+echo "${COVERAGE}" >> "${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/eval/${SAMPLE_NAME}.merged_MeanCov"
+
+mv *_metrics.txt "${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/eval/"
