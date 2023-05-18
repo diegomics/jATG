@@ -24,17 +24,14 @@ This analysis **estimates historical population sizes from a single genome seque
                     ├── scaffolds_ok # list of scaffolds >5Mbp and without sex chrom.
                     ├── scaffolds_ok.vcf.gz # filtered VCF containing only scaffolds_ok
                     ├── <..>_consensus.fasta
+                    ├── <..>.psmcfa
+                    ├── <..>.psmcfa.split.psmcfa
+                    ├── <..>.psmc
+                    ├── round-1.psmc
+                    ├── round-2.psmc
                     ├── ..
-                    ├── ..
-                    ├── ..
-                    ├── ..
-                    ├── ..
-                    ├── ..
-                    ├── ..
-                    ├── ..
-                    ├── ..
-                    ├── ..
-                    ├── ..
+                    ├── <..>.combined.psmc
+                    ├── <..>.png
                     └── ..
 
 ```
