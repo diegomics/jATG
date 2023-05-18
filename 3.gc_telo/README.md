@@ -9,7 +9,9 @@ This first analysis aims to generate a rapid overview of the genome assembly and
 └── jATG
     └── [SPECIES_NAME]
         └── [ASSEMBLY_ID]
-            └── 1.stats
+            ├── 1.stats
+            ├── 2.masking
+            └── 3.gc_telo
                 ├── <..>_shortStats.tsv     # very brief stats of the assembly
                 ├── full_fasta_header       # complete header of each scaffold
                 ├── main_scaffolds          # list with scaffolds longer than 5 Mbp
