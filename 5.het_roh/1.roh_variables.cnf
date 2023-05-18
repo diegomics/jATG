@@ -1,13 +1,13 @@
 # assembly variables
-export SPECIES_NAME="Gymnogyps_californianus" # Use underscore instead space, eg: Homo_sapiens
-export ASSEMBLY_ID="ASM1813914v2"
+export SPECIES_NAME="Elephas_maximus"       # Use underscore instead space, eg: Homo_sapiens
+export ASSEMBLY_ID="mEleMax1"               # assembly ID
 
 # reads variables
-export SAMPLE_NAME="SAMN18477434" #eg: Brown_Dog
+export SAMPLE_NAME="SAMN18477434"           # eg: Brown_Dog
 
-# pipelines variables
-export INSTALLATION_DIR="/home/ddepanis/jATG" #/home/ddepanis/jATG
-export OUT_DIR="/scratch/ddepanis/Condor_project/CaCo" # where ../jATG/.. folder will be created
+# pipeline variables
+export INSTALLATION_DIR="/home/jATG"        # path of the cloned jATG repo 
+export OUT_DIR="/scratch/Elephant_project"  # where the ../jATG/.. folder with all the results will be created
 export TMPDIR="/scratch/ddepanis/tmp"
 
 # slurm-specific variables
@@ -17,9 +17,9 @@ export PARTITION='begendiv,main'
 export QUEUE="standard"
 
 # conda-specific variables
-export CONDA_BIN_DIR="/scratch/ddepanis/Software/anaconda3/bin"
+export CONDA_BIN_DIR="/path/to/conda/bin"
 
 # singularity-specific variables
-export SINGULARITY_LOAD="module load singularity"
+export SINGULARITY_LOAD="module load singularity" # comment this line if singularity is in path
 export BIND_DIR="/scratch/ddepanis/"
 
