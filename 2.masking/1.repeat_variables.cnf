@@ -1,15 +1,15 @@
 # assembly variables
-export SPECIES_NAME="Leptodirus_hochenwarti" # Use underscore instead space, eg: Homo_sapiens
-export ASSEMBLY_ID="LepHoc_pri"
-export ASSEMBLY="/scratch/ddepanis/pilot/Leptodirus_hochenwarti/asm/icLepHoch12.1.pri.fa" # .fa .fasta .fna #also can be gzipped
-export LINEAGE_NAME="" # If SPECIES_NAME is found by test_lineage.sh leave it blank (""), if not add preferred lineage 
+export SPECIES_NAME="Elephas_maximus"       # Use underscore instead space, eg: Homo_sapiens
+export ASSEMBLY_ID="mEleMax1"               # assembly ID
+export ASSEMBLY="/path/to/assembly.fasta"   # # path to the genome assembly (.fa .fasta .fna), can be gz
+export LINEAGE_NAME=""                      # If SPECIES_NAME is found by test_lineage.sh leave it blank "", if not add preferred lineage 
 
 # pipeline variables
-export INSTALLATION_DIR="/home/ddepanis/jATG" #the github cloned folder 
-export OUT_DIR="/scratch/ddepanis/test" #the results will written here, it will create a folder jATG/
+export INSTALLATION_DIR="/home/jATG"        # path of the cloned jATG repo 
+export OUT_DIR="/scratch/Elephant_project"  # where the ../jATG/.. folder with all the results will be created
 
 # conda-specific variables
-export CONDA_BIN_DIR="/scratch/ddepanis/Software/anaconda3/bin"
+export CONDA_BIN_DIR="/path/to/conda/bin"
 
 # singularity-specific variables
 export BIND_DIR="/scratch/ddepanis/"
