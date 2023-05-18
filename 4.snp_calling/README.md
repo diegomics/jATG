@@ -1,7 +1,7 @@
 # Variant Calling & Filtering
 🧬🧐🧬🧐🧬🧐🧬🧐🧬🧐🧬🧐🧬🧐
 
-Complete snp-calling pipeline, including filtering and BAM/VCF metrics analysis
+Complete snp-calling pipeline, including filtering and BAM/VCF metrics analysis. Accepts Illumina paired-end and PacBio HiFi reads.
 
 
 ## Output:
