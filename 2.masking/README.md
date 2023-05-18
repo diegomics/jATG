@@ -11,7 +11,7 @@ This analysis generates a species-tailored masked version of the genome and anno
         └── [ASSEMBLY_ID]
             ├── 1.stats
             │   └── ..
-            └── 1.masking
+            └── 2.masking
                 ├── 1_modeler
                 │   ├── <..>.families.fa        # consensus repeat sequences de novo identified
                 │   └── ..
