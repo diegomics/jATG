@@ -3,9 +3,6 @@
 
 This analysis generates a diagram of the scaffolds showing the GC%, the telomeric signal, and the gaps across its length. 
 
-The GC content may be correlated with underlying rates of recombination through GC-biased gene conversion.
-Telo blabla
-
 ## Output:
 ```
 [OUT_DIR]
