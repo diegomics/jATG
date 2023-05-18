@@ -1,4 +1,4 @@
-# assembly variables# assembly variables
+# assembly variables
 export SPECIES_NAME="Gymnogyps_californianus"       # use underscore instead space, eg: Homo_sapiens
 export ASSEMBLY_ID="ASM1813914v2"                   # assembly ID
 export ASSEMBLY="/path/to/assembly.fasta"           # path to the genome assembly, can be gz
