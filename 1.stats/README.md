@@ -13,12 +13,13 @@ This first analysis aims to generate a rapid overview of the genome assembly and
                 ├── <..>_shortStats.tsv     # very brief stats of the assembly
                 ├── full_fasta_header       # complete header of each scaffold
                 ├── main_scaffolds          # list with scaffolds longer than 5 Mbp
-                ├── number_lengths_GC_Ns    # table with number of scaffold, name, length (decreasing order), GC rate, % of Ns 
-                ├── <..>_sequences.fasta    # sex chromosomes linked genes sequences identified for the species
-                ├── <..>_genes.txt          # sex chromosomes linked genes IDs
-                ├── <..>.blast              # table with matches between sex chromosome linked genes and the assembly
-                ├── <..>.SYNTENYTAB.tsv     # synteny between the assembly and a reference (if provided)
-                ├── <..>.png                # DotPlot between the assembly and a reference (if provided)
+                ├── number_lengths_GC_Ns    # table with name, length (decreasing order), GC rate, % of Ns of each scaffold
+                ├── <..>_main_scaff.paf     # alignment between the main scaffolds of the assembly and a reference (if provided)
+                ├── <..>.html               # interactive DotPlot between the assembly and a reference (if provided)
+                ├── <..>.png                # png of the DotPlot between the assembly and a reference (if provided)
+                ├── <..>_sexChrSeqs.faa     # sex chromosomes-linked genes sequences identified from a reference (if provided)
+                ├── <..>_sexChrGenes.txt    # sex chromosomes-linked genes IDs identified from a reference (if provided)
+                ├── <..>sexChr.paf          # alignment between sex-chromosome linked genes from reference (if provided) and the assembly
                 └── ..
 
 ```
@@ -36,4 +37,4 @@ Requirements:
 
 3) Run the masking pipeline in _Slurm_ with: `bash 3.Run_stats.sh`
 
-\*) It uses up to 8 cpus and 16 Gb of RAM
+\*) It uses up to 6 cpus and 18 Gb of RAM
