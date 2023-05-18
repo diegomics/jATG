@@ -13,7 +13,7 @@ source activate PSMC_env
 cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc
 
 psmc -N25 -t15 -r5 -p "4+25*2+4+6" -o ${SAMPLE_NAME}.psmc ${SAMPLE_NAME}.psmcfa 
-seq 10 | xargs -i echo psmc -N25 -t15 -r5 -b -p "4+25*2+4+6" -o round-{}.psmc ${SAMPLE_NAME}.psmcfa.split.psmcfa | sh
+seq ${BOOTST} | xargs -i echo psmc -N25 -t15 -r5 -b -p "4+25*2+4+6" -o round-{}.psmc ${SAMPLE_NAME}.psmcfa.split.psmcfa | sh
 cat ${SAMPLE_NAME}.psmc round-*.psmc > ${SAMPLE_NAME}.combined.psmc
 #rm round-*.psmc
 
