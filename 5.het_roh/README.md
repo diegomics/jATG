@@ -26,11 +26,6 @@ It runs in one take [Darwindow](https://github.com/mennodejong1986/Darwindow/tre
                     ├── Rplots.pdf
                     ├── He_with_vs_withoutROH.pop.pdf
                     ├── ..
-                    ├── ..
-                    ├── ..
-                    ├── ..
-                    ├── ..
-                    ├── ..
                     └── ..
 
 ```
