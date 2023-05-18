@@ -33,7 +33,6 @@ This analysis **estimates historical population sizes from a single genome seque
                     ├── <..>.combined.psmc
                     ├── <..>.png
                     └── ..
-
 ```
 
 ### How to run?
