@@ -57,8 +57,8 @@ Requirements:
 * [Slurm](https://slurm.schedmd.com)
 * [Conda](https://docs.conda.io)
 * [Singularity](https://sylabs.io/guides/3.0/user-guide/index.html)
-* PacBio HiFi trimmed reads should end with (trim\*fq, or fq or trim\*fastq or fastq).gz
-* Illumina paired-end trimmed reads should end with (1.trim\*fq, or 1.fq or 1.trim\*fastq or 1.fastq).gz
+* PacBio HiFi trimmed reads should end with (trim\*fq, or fq, or trim\*fastq, or fastq).gz
+* Illumina paired-end trimmed reads should end with (1.trim\*fq, or 1.fq, or 1.trim\*fastq, or 1.fastq).gz
 
 1) Edit `1.calling_variables.cnf` file with the respective paths, values and parameters.
 
