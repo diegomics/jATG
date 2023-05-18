@@ -57,3 +57,4 @@ print(f"Scaff_N90\t{output_data['Scaff_N90']}")
 print(f"Scaff_L90\t{output_data['Scaff_L90']}")
 print(f"Gaps_sum\t{output_data['Gaps_sum']}")
 print(f"Gaps\t{output_data['Gaps']}")
+

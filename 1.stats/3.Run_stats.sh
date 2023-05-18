@@ -1,37 +1,44 @@
-#!/bin/bash
 source 1.stats_variables.cnf
-export PATH="${CONDA_BIN_DIR}:${PATH}"
-source activate STATS_env
 
-mkdir -p $OUT_DIR/${SPECIES_NAME}/${ASM_ID}/1.stats
-cd  $OUT_DIR/${SPECIES_NAME}/${ASM_ID}/1.stats
+echo ""
+echo "=== Sending jobs for step: Calculating quick stats ====================================="
+echo ""
 
-if [[ "${ASSEMBLY##*.}" == "gz" ]]
+
+mkdir -p ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/1.stats/logs
+STATS_JOB=$(sbatch --mail-user=${USER_MAIL} --mail-type=${MAIL_TYPE} --partition=${PARTITION} --qos=${QUEUE} --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/1.stats/logs/%x.%j.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/1.stats/logs/%x.%j.err slurm/Stats.job)
+STATS_JOB_ID=$(echo ${STATS_JOB} | cut -d ' ' -f4)
+
+
+
+if [ -z "${REF_ASSEMBLY}" ]
 then
-    echo "decompressing the file..."
-    INTER=$(basename ${ASSEMBLY} .gz)
-    export ASSEMBLY_NAME=$(basename $INTER .${INTER##*.})
-    gunzip -c ${ASSEMBLY} > "${ASSEMBLY_NAME}.fa"
-elif  [[ "${ASSEMBLY##*.}" == "fa" ]] || [[ "${ASSEMBLY##*.}" == "fasta" ]] || [[ "${ASSEMBLY##*.}" == "fna" ]]
-then
-    export ASSEMBLY_NAME=$(basename $ASSEMBLY .${ASSEMBLY##*.})
-    ln -s ${ASSEMBLY} "${ASSEMBLY_NAME}.fa"
+	echo "No reference or related assembly provided"
+
 else
-echo "Invalid reference extension name!"
+	echo ""
+	echo "=== Sending jobs for step: DotPlot ====================================="
+	echo ""
+
+	DOTPLOT_JOB=$(sbatch --mail-user=${USER_MAIL} --mail-type=${MAIL_TYPE} --partition=${PARTITION} --qos=${QUEUE} --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/1.stats/logs/%x.%j.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/1.stats/logs/%x.%j.err slurm/DotPlot.job)
+	DOTPLOT_JOB_ID=$(echo ${DOTPLOT_JOB} | cut -d ' ' -f4)
+
 fi
 
-assembly-stats "${ASSEMBLY_NAME}.fa" > assembly_stats.tmp
-python ${INSTALLATION_DIR}/1.stats/scripts/table_from_stats.py assembly_stats.tmp > ${ASSEMBLY_NAME}_shortStats.tsv
-rm assembly_stats.tmp
 
-countgc.sh "${ASSEMBLY_NAME}.fa" format=1 > temp
-cut -f1 temp > full_fasta_header
-awk '{print $1}' temp > col1_temp
-awk -F "\t" '{print $2}' temp > col2_temp
-awk -F "\t" '{print $7}' temp > col4_temp
-awk -F "\t"  '{print $8}' temp > col3_temp
-paste col1_temp col2_temp col3_temp col4_temp | awk 'NF' | sort -k 2 -n -r | awk '{print NR"\t"$s}' > number_lengths_GC_Ns
-rm *temp
 
-awk '$3 > 5000000 { print $2 }' number_lengths_GC_Ns > main_scaffolds
-rm "${ASSEMBLY_NAME}.fa"
+if [ -z "${REF_SPECIES_NAME}" ]
+then
+        echo "No reference or related species provided"
+
+else
+        echo ""
+        echo "=== Sending jobs for step: Sex Check sex-chromosome linked genes ====================================="
+        echo ""
+
+	SEX_CHROM_JOB=$(sbatch --mail-user=${USER_MAIL} --mail-type=${MAIL_TYPE} --partition=${PARTITION} --qos=${QUEUE} --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/1.stats/logs/%x.%j.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/1.stats/logs/%x.%j.err slurm/Sex_chrom.job)
+	SEX_CHROM_JOB_ID=$(echo ${SEX_CHROM_JOB} | cut -d ' ' -f4)
+
+fi
+
+

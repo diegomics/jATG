@@ -1,9 +1,22 @@
-# variables for the stats pipeline:
-export INSTALLATION_DIR="/home/ddepanis/jatg/1.preliminary"
-export OUT_DIR="/scratch/ddepanis/jilda/jATG"
-export ASSEMBLY="/scratch/ddepanis/jilda/D.mawsoni.genome.fasta" # .fa .fasta .fna #also can be gzipped
-export ASM_ID="mawsoni"
-export SPECIES_NAME='Notothenioidei'
+# assembly variables
+export SPECIES_NAME="Gymnogyps_californianus" # Use underscore instead space, eg: Homo_sapiens
+export ASSEMBLY_ID="ASM1813914v2"
+export ASSEMBLY="/scratch/ddepanis/Condor_project/CaCo/GCF_018139145.2_ASM1813914v2.fasta"
+
+# reference (or related) genome variables
+export REF_SPECIES_NAME="Gallus_gallus"
+export REF_ASSEMBLY="/scratch/ddepanis/Condor_project/other_genomes/chicken__Gallus_gallus_bGalGal1/GCF_016699485.2_bGalGal1.mat.broiler.GRCg7b_genomic.fna.gz"
+export REF_ID="bGalGal1"
+
+# pipeline variables:
+export INSTALLATION_DIR="/home/ddepanis/jATG"
+export OUT_DIR="/scratch/ddepanis/Condor_project/CaCo"
 
 # conda-specific variables
 export CONDA_BIN_DIR="/scratch/ddepanis/Software/anaconda3/bin"
+
+# slurm-specific variables
+export USER_MAIL='ddepanis@zedat.fu-berlin.de'
+export MAIL_TYPE='END,FAIL'
+export PARTITION='begendiv,main'
+export QUEUE="standard"

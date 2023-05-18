@@ -1,0 +1,26 @@
+#!/bin/bash
+
+#SBATCH -J DotPlot
+
+#SBATCH --mail-type=END,FAIL
+
+#SBATCH --cpus-per-task=6
+#SBATCH --mem=12G
+#SBATCH --time=2-00:00:00
+
+export PATH="${CONDA_BIN_DIR}:${PATH}"
+source activate STATS_env
+
+
+cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/1.stats
+
+echo "=== 1/2. Aligning reference and query genomes...  ========="
+minimap2 -x asm5 -t 6 ${REF_ASSEMBLY} ${ASSEMBLY} > ${ASSEMBLY_ID}_vs_${REF_ID}_full.paf
+awk '$2 > 5000000 && $7 > 5000000' ${ASSEMBLY_ID}_vs_${REF_ID}_full.paf > ${ASSEMBLY_ID}_vs_${REF_ID}_main_scaff.paf
+
+echo "=== 2/2. Generating Dot Plot...  ========="
+${INSTALLATION_DIR}/1.stats/scripts/pafCoordsDotPlotly.R -i ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/1.stats/${ASSEMBLY_ID}_vs_${REF_ID}_main_scaff.paf -o ${ASSEMBLY_ID}_vs_${REF_ID} -m 2000 -q 5000000 -s -t -l
+
+#-m MIN-ALIGNMENT-LENGTH #filter alignments less than cutoff X bp [default 10000]
+#-k NUMBER-REF-CHROMOSOMES [default all chromosmes]
+#-p 12 #PLOT-SIZE plot size X by X inches [default 15]
