@@ -3,9 +3,9 @@ export SPECIES_NAME="Gymnogyps_californianus" # use underscore instead space, eg
 export ASSEMBLY_ID="ASM1813914v2"             # assembly ID
 export ASSEMBLY="/path/to/assembly.fasta"     # path to the genome assembly, can be gz
 
-# reference (or related) genome variables
-export REF_SPECIES_NAME="Gallus_gallus"       # name of the reference or related species genome
-export REF_ASSEMBLY="/path/to/ref_asm.fa"     # path to the refernce or related genome assembly, can be gz
+# reference (or related species) genome variables
+export REF_SPECIES_NAME="Gallus_gallus"       # name of the reference genome (Optional). Leave the field empty "" if no data available 
+export REF_ASSEMBLY="/path/to/ref_asm.fa"     # path to the reference genome assembly (Optional), can be gz.  Leave the field empty "" if no data available 
 export REF_ID="bGalGal1"                      # reference ID
 
 # pipeline variables:
