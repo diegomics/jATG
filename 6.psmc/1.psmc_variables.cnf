@@ -9,14 +9,14 @@ export SEX_CHROM_NAME="NC_059500.1"           # name of the sex chromosome (as i
 export SAMPLE_NAME="SAMN18477434"             # name of the sample, eg: Lion_1A002M
 
 # PSMC variables
-
-
-
-
-
 export BOOTST="20"                            # rounds of bootstrapping
 export MUTATION="1.4e-08"                     # per-generation mutation rate for the species (e.g.: 1.3e-08)
 export GENERATION="10"                        # generation time for the species in years
+# The user must specify the length and number of the discrete time intervals on which the population size is constant, by adjusting the -p and -t options.
+# Both parameters should be manually chosen such that after 20 rounds of iterations, at least ~10 recombinations are inferred to occur in the intervals each parameter spans.
+# A poor choice of intervals can lead to over- or underfitting of the model.
+# The command line used at jATG has been shown to be suitable for modern humans.
+# see slurm/PSMC.job for modification of these values
 
 # pipelines variables
 export INSTALLATION_DIR="/home/jATG"          # path of the cloned jATG repo
