@@ -1,8 +1,7 @@
 # Variant Calling & Filtering
 🧬🧐🧬🧐🧬🧐🧬🧐🧬🧐🧬🧐🧬🧐
 
-This step does the variant calling 
-
+Complete snp-calling pipeline, including filtering and BAM/VCF metrics analysis
 
 
 ## Output:
@@ -32,21 +31,21 @@ This step does the variant calling
                     │   └── <..>.merged.bam.bai
                     └── 2_VCFs
                         ├── filt                                     # VCF-based metrics and filtered VCFs folder
-                        │   ├── <..>.PASS.lqual                      # [site quality]
-                        │   ├── <..>.PASS.ldepth.mean                # [mean coverage depth per site]
-                        │   ├── <..>.PASS.vcf_meanCov                # [Mean and SD coverage]
-                        │   ├── <..>.PASS_snps_amount                # [Amount of total and filtered SNPs]
-                        │   ├── <..>.PASS_filtered.vcf.gz            # [filtered VCF]
+                        │   ├── <..>.PASS.lqual                      # site quality
+                        │   ├── <..>.PASS.ldepth.mean                # mean coverage depth per site
+                        │   ├── <..>.PASS.vcf_meanCov                # mean and SD coverage
+                        │   ├── <..>.PASS_snps_amount                # amount of total and filtered SNPs
+                        │   ├── <..>.PASS_filtered.vcf.gz            # filtered VCF
                         │   ├── <..>.PASS_filtered.vcf.gz.csi
-                        │   ├── <..>.PASS.masked_filtered.vcf.gz     # [filtered & masked VCF]
+                        │   ├── <..>.PASS.masked_filtered.vcf.gz     # filtered & masked VCF
                         │   └── <..>.PASS.masked_filtered.vcf.gz.csi
                         ├── <..>.g.vcf.gz
                         ├── <..>.g.vcf.gz.tbi
-                        ├── <..>.FULL.g.vcf.gz                       # [base pair resolution gVCF]
+                        ├── <..>.FULL.g.vcf.gz                       # base pair resolution gVCF
                         ├── <..>.FULL.g.vcf.gz.csi
                         ├── <..>.vcf.gz
                         ├── <..>.vcf.gz.tbi
-                        ├── <..>.PASS.vcf.gz                         # [unfiltered VCF]
+                        ├── <..>.PASS.vcf.gz                         # unfiltered VCF
                         ├── <..>.PASS.vcf.gz.csi
                         └── <..>.visual_report.html
 ```
