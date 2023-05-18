@@ -1,18 +1,18 @@
 # assembly variables
-export SPECIES_NAME="Gymnogyps_californianus" # Use underscore instead space, eg: Homo_sapiens
-export ASSEMBLY_ID="ASM1813914v2"
-export ASSEMBLY="/scratch/ddepanis/Condor_project/CaCo/jATG/1.2_masking/3_masker/GCF_018139145.2_ASM1813914v2.masked.fa" #should be the soft masked
-export MASKED_BED="/scratch/ddepanis/Condor_project/CaCo/jATG/1.2_masking/3_masker/GCF_018139145.2_ASM1813914v2.3cols.bed"  # Output from ../JATG/repeat/3_masker
+export SPECIES_NAME="Elephas_maximus"       # Use underscore instead space, eg: Homo_sapiens
+export ASSEMBLY_ID="mEleMax1"               # assembly ID
+export ASSEMBLY="/path/to/assembly.fasta"   # path to the genome assembly (.fa .fasta .fna), can be gz
+export MASKED_BED="/path/to/file.3cols.bed" # Output from ../JATG/repeat/3_masker
 
 # reads variables
-export TRIMMED_READS_DIR="/scratch/ddepanis/Condor_project/CaCo/reads/SAMN18477434/trimmed" 
-export READ_TYPE="illuminaPE" # IMPORTANT!!! only two possible values "HiFi" or "illuminaPE"
-export SAMPLE_NAME="SAMN18477434" #eg: Brown_Dog
-export MULTI_RUN="" # IMPORTANT!!! enter "Y"  if multiple reads files from same sample, if one (paired)data file leave it blank ("")
+export TRIMMED_READS_DIR="/path/to/trimmed/reads/folder" 
+export READ_TYPE="illuminaPE"               # IMPORTANT!!! only two possible values "HiFi" or "illuminaPE"
+export SAMPLE_NAME="SAMN18477434"           # eg: Brown_Dog
+export MULTI_RUN=""                         # IMPORTANT!!! enter "Y" if multiple reads files from same sample, if one (paired)data file leave it blank ("")
 
 # pipeline variables
-export INSTALLATION_DIR="/home/ddepanis/jATG" #/home/ddepanis/jATG
-export OUT_DIR="/scratch/ddepanis/Condor_project/CaCo" # where ../jATG/.. folder will be created
+export INSTALLATION_DIR="/home/jATG"        # path of the cloned jATG repo 
+export OUT_DIR="/scratch/Elephant_project"  # where the ../jATG/.. folder with all the results will be created
 export TMPDIR="/scratch/ddepanis/tmp"
 
 # slurm-specific variables
@@ -22,8 +22,8 @@ export PARTITION='begendiv,main'
 export QUEUE="standard"
 
 # conda-specific variables
-export CONDA_BIN_DIR="/scratch/ddepanis/Software/anaconda3/bin"
+export CONDA_BIN_DIR="/path/to/conda/bin"
 
 # singularity-specific variables
-export SINGULARITY_LOAD="module load singularity"
+export SINGULARITY_LOAD="module load singularity" # comment this line if singularity is in path
 export BIND_DIR="/scratch/ddepanis/"
