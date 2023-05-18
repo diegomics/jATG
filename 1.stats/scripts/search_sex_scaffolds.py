@@ -1,6 +1,5 @@
-import ssl
-
-ssl._create_default_https_context = ssl._create_unverified_context
+import ssl # this should be fixed somehow 
+ssl._create_default_https_context = ssl._create_unverified_context # this should be fixed somehow 
 
 import argparse
 from Bio import Entrez
