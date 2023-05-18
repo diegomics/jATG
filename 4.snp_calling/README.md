@@ -26,7 +26,7 @@ Complete snp-calling pipeline, including filtering and BAM/VCF metrics analysis.
                     │   │   ├── <..>.markdup_metrics.txt             # dups metrics
                     │   │   ├── <..>.merged_MeanCov                  # mean coverage
                     │   │   ├── <..>.merged_RefCov.md                # markdown table for coverage
-                    │   │   └── <..>.rmd_PrimAligRead                # Number of primary aligned reads [CHECK THIS, it's counting dups?]
+                    │   │   └── <..>.rmd_PrimAligRead                # Number of primary aligned reads
                     │   ├── <..>.merged.bam
                     │   └── <..>.merged.bam.bai
                     └── 2_VCFs
