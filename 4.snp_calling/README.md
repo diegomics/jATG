@@ -1,7 +1,7 @@
 # Variant Calling & Filtering
 🧬🧐🧬🧐🧬🧐🧬🧐🧬🧐🧬🧐🧬🧐
 
-Complete snp-calling pipeline, including filtering and BAM/VCF metrics analysis. Accepts Illumina paired-end and PacBio HiFi reads.
+Complete snp-calling pipeline based on [DeepVariant](https://github.com/google/deepvariant), including filtering and BAM/VCF metrics analysis. Accepts Illumina paired-end and PacBio HiFi reads.
 
 
 ## Output:
