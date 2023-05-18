@@ -11,9 +11,9 @@ Telo blabla
     └── [SPECIES_NAME]
         └── [ASSEMBLY_ID]
             ├── 1.stats
-                └── ..
+            │   └── ..
             ├── 2.masking
-                            └── ..
+            │   └── ..
             └── 3.gc_telo
                 ├── <..>     # 
                 └── ..
