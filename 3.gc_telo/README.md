@@ -15,9 +15,14 @@ Telo blabla
             ├── 2.masking
             │   └── ..
             └── 3.gc_telo
-                ├── <..>     # 
-                └── ..
-
+                ├── ..
+                ├── <..>_GC.tab                         # GC% across the assembly
+                ├── <..>_telomeric_repeat_windows.tsv   # telomeric signal across the assembly
+                ├── <..>_gaps.bed                       # position of the gaps across the assembly
+                └── plots
+                    ├── COMBINED_GAPS_GC_TELO.svg       # plot showing GC%, telomeric signal and gaps in all chromosomes
+                    ├── <..>_GAPS_GC_TELO.svg           # plot showing GC%, telomeric signal and gaps in each chromosome
+                    └── ..
 ```
 
 ### How to run?
