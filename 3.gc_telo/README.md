@@ -1,5 +1,5 @@
 # Genome-wide GC and Telomeric Regions Identification
-🧬📈🧬🔚🧬📈🧬🔚🧬📈🧬🔚🧬📈🧬🔚🧬📈🧬🔚🧬📈🧬🔚🧬
+🧬📈🧬🔚🧬📈🧬🔚🧬📈🧬🔚🧬📈🧬🔚🧬📈🧬🔚🧬📈🧬🔚🧬📈🧬🔚🧬
 
 This first analysis aims to generate a rapid overview of the genome assembly and produce outputs that come in handy posteriorly.
 
