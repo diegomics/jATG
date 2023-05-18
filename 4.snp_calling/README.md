@@ -23,30 +23,30 @@ This step does the variant calling
                     │   └── ..
                     ├── 1_BAMs
                     │   ├── ..
-                    │   ├── eval ### BAM-based metrics
-                    │   │   ├── <..>.markdup_metrics.txt ### dups metrics
-                    │   │   ├── <..>.merged_MeanCov ### mean coverage
-                    │   │   ├── <..>.merged_RefCov.md ### markdown table for coverage
-                    │   │   └── <..>.rmd_PrimAligRead ### Number of primary aligned reads [CHECK THIS, it's counting dups?]
+                    │   ├── eval                                     # BAM-based metrics folder
+                    │   │   ├── <..>.markdup_metrics.txt             # dups metrics
+                    │   │   ├── <..>.merged_MeanCov                  # mean coverage
+                    │   │   ├── <..>.merged_RefCov.md                # markdown table for coverage
+                    │   │   └── <..>.rmd_PrimAligRead                # Number of primary aligned reads [CHECK THIS, it's counting dups?]
                     │   ├── <..>.merged.bam
                     │   └── <..>.merged.bam.bai
                     └── 2_VCFs
-                        ├── filt ### VCF-based metrics and filtered VCFs
-                        │   ├── <..>.PASS.lqual ### [site quality]
-                        │   ├── <..>.PASS.ldepth.mean  ### [mean coverage depth per site]
-                        │   ├── <..>.PASS.vcf_meanCov ### [Mean and SD coverage]
-                        │   ├── <..>.PASS_snps_amount ### [Amount of total and filtered SNPs]
-                        │   ├── <..>.PASS_filtered.vcf.gz ### [filtered VCF]
+                        ├── filt                                     # VCF-based metrics and filtered VCFs folder
+                        │   ├── <..>.PASS.lqual                      # [site quality]
+                        │   ├── <..>.PASS.ldepth.mean                # [mean coverage depth per site]
+                        │   ├── <..>.PASS.vcf_meanCov                # [Mean and SD coverage]
+                        │   ├── <..>.PASS_snps_amount                # [Amount of total and filtered SNPs]
+                        │   ├── <..>.PASS_filtered.vcf.gz            # [filtered VCF]
                         │   ├── <..>.PASS_filtered.vcf.gz.csi
-                        │   ├── <..>.PASS.masked_filtered.vcf.gz ### [filtered & masked VCF]
+                        │   ├── <..>.PASS.masked_filtered.vcf.gz     # [filtered & masked VCF]
                         │   └── <..>.PASS.masked_filtered.vcf.gz.csi
                         ├── <..>.g.vcf.gz
                         ├── <..>.g.vcf.gz.tbi
-                        ├── <..>.FULL.g.vcf.gz  ### [base pair resolution gVCF]
+                        ├── <..>.FULL.g.vcf.gz                       # [base pair resolution gVCF]
                         ├── <..>.FULL.g.vcf.gz.csi
                         ├── <..>.vcf.gz
                         ├── <..>.vcf.gz.tbi
-                        ├── <..>.PASS.vcf.gz ### [unfiltered VCF]
+                        ├── <..>.PASS.vcf.gz                         # [unfiltered VCF]
                         ├── <..>.PASS.vcf.gz.csi
                         └── <..>.visual_report.html
 ```
