@@ -9,6 +9,8 @@ export SEX_CHROM_NAME="NC_059500.1"           # name of the sex chromosome (as i
 export SAMPLE_NAME="SAMN18477434"             # name of the sample, eg: Lion_1A002M
 
 # PSMC variables
+
+export BOOTST="20"                            # rounds of bootstrapping
 export MUTATION="1.4e-08"                     # per-generation mutation rate for the species (e.g.: 1.3e-08)
 export GENERATION="10"                        # generation time for the species in years
 
