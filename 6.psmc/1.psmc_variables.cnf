@@ -1,0 +1,31 @@
+# assembly variables
+export SPECIES_NAME="Gymnogyps_californianus" # Use underscore instead space, eg: Homo_sapiens
+export ASSEMBLY_ID="ASM1813914v2"
+export ASSEMBLY_HM="/scratch/ddepanis/Condor_project/CaCo/jATG/Gymnogyps_californianus/ASM1813914v2/2.masking/3_masker/GCF_018139145.2_ASM1813914v2.HM.fa"
+export MAIN_CHROM="/scratch/ddepanis/Condor_project/CaCo/jATG/Gymnogyps_californianus/ASM1813914v2/1.stats/main_scaffolds" # file can be found in 1.stats/ 
+export SEX_CHROM_NAME="NC_059500.1" # If no sex chromosome, leave empty ""
+
+# reads variables
+export SAMPLE_NAME="SAMN18477434" #eg: Brown_Dog
+
+# pipelines variables
+export MUTATION="1.4e-08" # per-generation mutation rate for the species (e.g.: 1.3e-08)
+export GENERATION="10" # generation time for the species in years
+export INSTALLATION_DIR="/home/ddepanis/jATG" #/home/ddepanis/jATG
+export OUT_DIR="/scratch/ddepanis/Condor_project/CaCo" # where ../jATG/.. folder will be created
+export TMPDIR="/scratch/ddepanis/tmp"
+
+# slurm-specific variables
+export USER_MAIL='ddepanis@zedat.fu-berlin.de'
+export MAIL_TYPE='END,FAIL'
+export PARTITION='begendiv,main'
+export QUEUE="standard"
+
+# conda-specific variables
+export CONDA_BIN_DIR="/scratch/ddepanis/Software/anaconda3/bin"
+
+# singularity-specific variables
+export SINGULARITY_LOAD="module load singularity"
+export BIND_DIR="/scratch/ddepanis/"
+
+
