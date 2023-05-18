@@ -43,7 +43,7 @@ Requirements:
 
 2) Install needed software with: `bash 2.install_repeat_dependencies.sh`
 
-!) Before starting the pipeline, run `bash lineage_check.sh` to know if the species is contained in the built-in library, and if not edit 1.repeat_variables.cnf accordingly.
+!) Before starting the pipeline, run `bash lineage_check.sh` to know if the species is contained in the built-in library, and if not edit the `1.repeat_variables.cnf` file accordingly.
 
 3) Run the masking pipeline in _Slurm_ with: `bash 3.Run_RepeatM_slurm.sh`
 
