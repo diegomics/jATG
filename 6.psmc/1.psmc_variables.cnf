@@ -1,19 +1,21 @@
 # assembly variables
-export SPECIES_NAME="Gymnogyps_californianus" # Use underscore instead space, eg: Homo_sapiens
-export ASSEMBLY_ID="ASM1813914v2"
-export ASSEMBLY_HM="/scratch/ddepanis/Condor_project/CaCo/jATG/Gymnogyps_californianus/ASM1813914v2/2.masking/3_masker/GCF_018139145.2_ASM1813914v2.HM.fa"
-export MAIN_CHROM="/scratch/ddepanis/Condor_project/CaCo/jATG/Gymnogyps_californianus/ASM1813914v2/1.stats/main_scaffolds" # file can be found in 1.stats/ 
-export SEX_CHROM_NAME="NC_059500.1" # If no sex chromosome, leave empty ""
+export SPECIES_NAME="Gymnogyps_californianus" # use underscore instead space, eg: Homo_sapiens
+export ASSEMBLY_ID="ASM1813914v2"             # assembly ID
+export ASSEMBLY_HM="/path/to/assembly_HM.fa"  # path to masked assembly (can be found in ../2.masking/3_masker/..)
+export MAIN_CHROM="/path/to/main_scaffolds"   # list of main scaffolds (5>Mbp), the file can be found in ../1.stats/.. 
+export SEX_CHROM_NAME="NC_059500.1"           # name of the sex chromosome (as in the VCF file). Leave the field empty "" if no sex chrom.
 
 # reads variables
-export SAMPLE_NAME="SAMN18477434" #eg: Brown_Dog
+export SAMPLE_NAME="SAMN18477434"             # name of the sample, eg: Lion_1A002M
+
+# PSMC variables
+export MUTATION="1.4e-08"                     # per-generation mutation rate for the species (e.g.: 1.3e-08)
+export GENERATION="10"                        # generation time for the species in years
 
 # pipelines variables
-export MUTATION="1.4e-08" # per-generation mutation rate for the species (e.g.: 1.3e-08)
-export GENERATION="10" # generation time for the species in years
-export INSTALLATION_DIR="/home/ddepanis/jATG" #/home/ddepanis/jATG
-export OUT_DIR="/scratch/ddepanis/Condor_project/CaCo" # where ../jATG/.. folder will be created
-export TMPDIR="/scratch/ddepanis/tmp"
+export INSTALLATION_DIR="/home/jATG"          # path of the cloned jATG repo
+export OUT_DIR="/home/Condor_project"         # where the ../jATG/.. filder with all the results will be created
+export TMPDIR="/scratch/ddepanis/tmp"         # folder for temporary files
 
 # slurm-specific variables
 export USER_MAIL='ddepanis@zedat.fu-berlin.de'
@@ -22,10 +24,10 @@ export PARTITION='begendiv,main'
 export QUEUE="standard"
 
 # conda-specific variables
-export CONDA_BIN_DIR="/scratch/ddepanis/Software/anaconda3/bin"
+export CONDA_BIN_DIR="/path/to/conda/bin"
 
 # singularity-specific variables
-export SINGULARITY_LOAD="module load singularity"
+export SINGULARITY_LOAD="module load singularity" # if singularity in the path, comment this line!
 export BIND_DIR="/scratch/ddepanis/"
 
 
