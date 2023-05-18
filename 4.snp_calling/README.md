@@ -1,5 +1,5 @@
-# Variant Calling
-🧬🧐🧬🧐🧬🧐🧬🧐
+# Variant Calling & Filtering
+🧬🧐🧬🧐🧬🧐🧬🧐🧬🧐🧬🧐🧬🧐
 
 This step does the variant calling 
 
