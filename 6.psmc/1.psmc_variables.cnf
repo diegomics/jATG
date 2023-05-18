@@ -15,7 +15,7 @@ export GENERATION="10"                        # generation time for the species 
 # pipelines variables
 export INSTALLATION_DIR="/home/jATG"          # path of the cloned jATG repo
 export OUT_DIR="/home/Condor_project"         # where the ../jATG/.. folder with all the results will be created
-export TMPDIR="/scratch/ddepanis/tmp"         # folder for temporary files
+export TMPDIR="/scratch/tmp"         # folder for temporary files
 
 # slurm-specific variables
 export USER_MAIL='ddepanis@zedat.fu-berlin.de'
