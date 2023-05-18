@@ -21,6 +21,20 @@ This analysis **estimates historical population sizes from a single genome seque
                 ├── 5.het_roh
                 │   └── ..
                 └── 6.psmc
+                    ├── scaffolds_ok # list of scaffolds >5Mbp and without sex chrom.
+                    ├── scaffolds_ok.vcf.gz # filtered VCF containing only scaffolds_ok
+                    ├── <..>_consensus.fasta
+                    ├── ..
+                    ├── ..
+                    ├── ..
+                    ├── ..
+                    ├── ..
+                    ├── ..
+                    ├── ..
+                    ├── ..
+                    ├── ..
+                    ├── ..
+                    ├── ..
                     └── ..
 
 ```
