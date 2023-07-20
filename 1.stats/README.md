@@ -18,7 +18,7 @@ This first analysis aims to generate a rapid overview of the genome assembly and
                 ├── <..>.html               # interactive DotPlot between the assembly and a reference (if provided)
                 ├── <..>.png                # png of the DotPlot between the assembly and a reference (if provided)
                 ├── <..>_sexChrSeqs.faa     # sex chromosomes-linked genes sequences identified from a reference (if provided)
-                ├── <..>_sexChrGenes.txt    # sex chromosomes-linked genes IDs identified from a reference (if provided)
+                ├── <..>_sexChrGenes.tsv    # sex chromosomes-linked genes IDs identified from a reference (if provided)
                 ├── sexChr.paf              # alignment between sex-chromosome linked genes from reference (if provided) and the assembly
                 └── ..
 
