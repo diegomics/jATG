@@ -29,6 +29,13 @@ else
         echo -e "Using provided ${CHROM_LIST} for downstream analysis"
 fi
 
+if [ -z "${PASS_VCF}" ]
+then
+        echo -e "Using previously obtained file ${SAMPLE_NAME}.Genot.PASS.bcf for downstream analysis"
+        export PASS_VCF="${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs/filtered/${SAMPLE_NAME}.Genot.PASS.bcf"
+else
+        echo -e "Using provided ${PASS_VCF} for downstream analysis"
+fi
 
 
 echo ""
