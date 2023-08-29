@@ -1,9 +1,9 @@
 # reads variables
-export SAMPLE_NAME="ERR6412365"         # eg: Brown_Dog
-export VCF=""				# IMPORTANT!!! Leave it blank ("") to use previously obtained VCF (Genot.full.mainNoSex.mask.filt.vcf.bgz)
+export SAMPLE_NAME="ERR6412365"     # eg: Brown_Dog
+export VCF=""                       # IMPORTANT!!! Leave it blank ("") to use previously obtained base pair filtered gVCF (Genot.full.mainNoSex.mask.filt.vcf.bgz)
 
 # RoH variables
-export WIN_SIZE="10000"                 # 
-export NUM_WIN="100"                     # 
-export MAX_MISS="0.3"                   # 
-export HET_TRES=""                      # IMPORTANT!!! Leave it blank ("") for default value: (PASS_heterozygosity / 5 ) * 100
+export WIN_SIZE="10000"             # 
+export NUM_WIN="100"                # 
+export MAX_MISS="0.3"               # 
+export HET_TRES=""                  # IMPORTANT!!! Leave it blank ("") for default value: (PASS_heterozygosity / 5 ) * 100
