@@ -1,2 +1,2 @@
 # assembly variables
-export LINEAGE_NAME="Cetacea"                      # If SPECIES_NAME is found by test_lineage.sh leave it blank "", if not add preferred lineage 
+export LINEAGE_NAME=""            # Leave it blank. If after running test_lineage.sh the species name is not in the local database, add preferred lineage 
