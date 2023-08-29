@@ -57,3 +57,6 @@ Complete variant-calling pipeline based on [GATK](https://gatk.broadinstitute.or
 2) Run the variant calling pipeline: `bash 2.Run_calling.sh`
 
 \*) The pipeline is configured to use up to 24 CPUs and 64 GB of RAM
+
+
+### About the analysis and setting of the parameters:
