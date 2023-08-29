@@ -3,7 +3,7 @@ export SAMPLE_NAME="ERR6412365"     # eg: Brown_Dog
 export VCF=""                       # IMPORTANT!!! Leave it blank ("") to use previously obtained base pair filtered gVCF (Genot.full.mainNoSex.mask.filt.vcf.bgz)
 
 # RoH variables
-export WIN_SIZE="10000"             # 
-export NUM_WIN="100"                # 
-export MAX_MISS="0.3"               # 
+export WIN_SIZE="10000"             # Size of the window to evaluate heterozygosity
+export NUM_WIN="100"                # Minimum number of adjacent windows
+export MAX_MISS="0.3"               # Proportion of maximum missing sites
 export HET_TRES=""                  # IMPORTANT!!! Leave it blank ("") for default value: (filt_heterozygosity / 5 ) * 100
