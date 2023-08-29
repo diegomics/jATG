@@ -1,16 +1,16 @@
 # assembly variables
-export MASKED_BED="" 				#if empty will get from 2. if not can produce one from a softmasked fasta with script
-export SEX_CHROMS=""				# scaffold names of sex chromosome(s). IMPORTANT!!! Use comma between names. If none leave it blank ("")
+export MASKED_BED=""                             # IMPORTANT!!! Leave it blank ("") to get the file from the previous masking analysis. This file can be produced from a softmasked fasta with the provided script: 2.masking/scripts/softmasked_to_bed.py
+export SEX_CHROMS=""                             # scaffold names of sex chromosome(s). IMPORTANT!!! Use comma between names. If none leave it blank ("")
 
 # reads variables
-export TRIMMED_READS_DIR="/scratch/ddepanis/test/fish/0_trimmed"
-export READ_TYPE="HiFi"			# IMPORTANT!!! only two possible values "HiFi" or "illuminaPE"
-export SAMPLE_NAME="ERR6412365"		# eg: Brown_Dog
-export MULTI_RUN=""				# IMPORTANT!!! enter "Y" if multiple reads files from same sample, if one (paired)data file leave it blank ("")
+export TRIMMED_READS_DIR="/my/folder/HiFiTrimm"  # folder with trimmed reads
+export READ_TYPE="HiFi"                          # IMPORTANT!!! only two possible values "HiFi" or "illuminaPE"
+export SAMPLE_NAME="ERR6412365"                  # eg: Brown_Dog
+export MULTI_RUN=""                              # IMPORTANT!!! enter "Y" if multiple reads files from same sample, if one (paired)data file leave it blank ("")
 
 # VCF filtering variables
-export MIN_DEPTH="8"				# IMPORTANT!!! Leave it blank ("") for default value: 1/3 x mean coverage 
-export MAX_DEPTH="" 				# IMPORTANT!!! Leave it blank ("") for default value: 2 x mean coverage
-export MAP_QUAL=""				# IMPORTANT!!! Leave it blank ("") for default value: 40
+export MIN_DEPTH="8"                             # IMPORTANT!!! Leave it blank ("") for default value: 1/3 x mean coverage 
+export MAX_DEPTH=""                              # IMPORTANT!!! Leave it blank ("") for default value: 2 x mean coverage
+export MAP_QUAL=""                               # IMPORTANT!!! Leave it blank ("") for default value: 40
 
 
