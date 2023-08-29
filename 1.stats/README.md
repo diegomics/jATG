@@ -33,3 +33,6 @@ This first analysis aims to generate a rapid overview of the genome assembly and
 3) Run the analysis based on the inputs provided: `bash 3.Run_stats.sh`
 
 \*) It uses up to 6 cpus and 18 Gb of RAM
+
+
+### About the analysis and setting of the parameters:
