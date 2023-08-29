@@ -19,13 +19,25 @@ It runs in one take [Darwindow](https://github.com/mennodejong1986/Darwindow/tre
                 ├── 4.snp_calling
                 │   └── ..
                 └── 5.het_roh.w<WIN_SIZE>
-                    ├── mywindowhe.100000.<..>.txt 
-                    ├── Genomewide_regionHe.ind.barplot.pdf
-                    ├── He_histo_region.pdf
-                    ├── He_histo_window_20000.pdf
-                    ├── Rplots.pdf
-                    ├── He_with_vs_withoutROH.pop.pdf
-                    ├── ..
+                    ├── w<WIN_SIZE>n<NUM_WIN>m<MAX_MISS>h<HET_TRES>  # folder with results for the provided parameters
+                    │   ├── darwindow.RData                          # R session of the analysis
+                    │   ├── fROH.svg                                 # barplot 
+                    │   ├── fROH.txt
+                    │   ├── lROH.svg                                 # barplot
+                    │   ├── lROH.txt
+                    │   ├── nROH.svg                                 # barplot
+                    │   ├── nROH.txt
+                    │   ├── Genomewide_He.txt
+                    │   ├── Genomewide_propROH.txt
+                    │   ├── ROH_positions.txt
+                    │   ├── Scaff_He.txt
+                    │   ├── Scaff_propROH.txt
+                    │   ├── totalROHsMb.txt
+                    │   ├── Total_ROHs_number.txt
+                    │   ├── He_histo_region.pdf
+                    │   ├── He_withROH_<..>.1.pdf
+                    │   └── ..
+                    ├── mywindowhe.<WIN_SIZE>.allsites_roh.txt
                     └── ..
 
 ```
