@@ -20,8 +20,8 @@ This first analysis aims to generate a rapid overview of the genome assembly and
                 ├── <..>_sexChrSeqs.faa     # sex chromosomes-linked genes sequences identified from a reference (if provided)
                 ├── <..>_sexChrGenes.tsv    # sex chromosomes-linked genes IDs identified from a reference (if provided)
                 ├── sexChr.paf              # alignment between sex-chromosome linked genes from reference (if provided) and the assembly
+                ├── sexChr_evidence         # list with number of hits for sex-chromosome linked genes between reference (if provided) and each scaffold
                 └── ..
-
 ```
 
 ### How to run?
