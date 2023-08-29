@@ -1,4 +1,4 @@
-source general_variables.cnf
+source 0.general_variables.cnf
 
 echo ""
 echo "* creating conda environment ..."
