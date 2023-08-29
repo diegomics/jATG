@@ -50,3 +50,7 @@ It runs in one take [Darwindow](https://github.com/mennodejong1986/Darwindow/tre
 
 3) OPTIONAL: if you want to run the analysis with different values of `NUM_WIN` and/or `MAX_MISS` and/or `HET_TRES`, edit accordingly `1.HeRoH_variables.cnf` and run: `bash OPTIONAL_rerun.sh`
    **IMPORTANT:** for running with a different value of `WIN_SIZE`, edit accordingly `1.HeRoH_variables.cnf` and run `2.Run_roh.sh`
+
+
+### About the analysis and setting of the parameters:
+
