@@ -33,15 +33,11 @@ This analysis generates a species-tailored masked version of the genome and anno
 
 ### How to run?
 
-Requirements:
-* [Slurm](https://slurm.schedmd.com)
-* [Conda](https://docs.conda.io)
-* [Singularity](https://sylabs.io/guides/3.0/user-guide/index.html)
-
-
 1) Edit `1.repeat_variables.cnf` file with the respective paths, values and parameters.
 
-2) Install needed software with: `bash 2.install_repeat_dependencies.sh`
+2) Check if the species name is present in the local repeat database: bash 2.lineage_check.sh
+   If the species is not present
+4) Install needed software with: `bash 2.install_repeat_dependencies.sh`
 
 !) Before starting the pipeline, run `bash lineage_check.sh` to know if the species is contained in the built-in library, and if not edit the `1.repeat_variables.cnf` file accordingly.
 
