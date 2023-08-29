@@ -35,15 +35,12 @@ This analysis generates a species-tailored masked version of the genome and anno
 
 1) Edit `1.repeat_variables.cnf` file with the respective paths, values and parameters.
 
-2) Check if the species name is present in the local repeat database: bash 2.lineage_check.sh
-   If the species is not present
-4) Install needed software with: `bash 2.install_repeat_dependencies.sh`
+2) Check if the species name is present in the local repeat database: `bash 2.lineage_check.sh`
+   If the species is not present, try another lineage in `1.repeat_variables.cnf` and re-run `2.lineage_check.sh`
 
-!) Before starting the pipeline, run `bash lineage_check.sh` to know if the species is contained in the built-in library, and if not edit the `1.repeat_variables.cnf` file accordingly.
-
-3) Run the masking pipeline in _Slurm_ with: `bash 3.Run_RepeatM_slurm.sh`
+3) Run the masking pipeline: `bash 3.Run_RepeatM_slurm.sh`
 
 \*) It uses up to 16 cpus and 192 Gb of RAM (this can be adjusted in slurm/RepeatM.job)
 
-\**) For the Asian elephant genome, it takes ~48 h to finish the pipeline.
+\**) Depending on the genome, it can take ~48 h to finish the pipeline.
 
