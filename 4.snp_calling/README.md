@@ -1,7 +1,7 @@
 # Variant Calling & Filtering
 🧬🧐🧬🧐🧬🧐🧬🧐🧬🧐🧬🧐🧬🧐
 
-Complete snp-calling pipeline based on [DeepVariant](https://github.com/google/deepvariant), including filtering and BAM/VCF metrics analysis. Accepts Illumina paired-end and PacBio HiFi reads.
+Complete variant-calling pipeline based on [GATK](https://gatk.broadinstitute.org/hc/en-us), including filtering and BAM/VCF metrics analysis. Accepts Illumina paired-end and PacBio HiFi reads.
 
 
 ## Output:
@@ -22,47 +22,38 @@ Complete snp-calling pipeline based on [DeepVariant](https://github.com/google/d
                     │   └── ..
                     ├── 1_BAMs
                     │   ├── ..
-                    │   ├── eval                                     # BAM-based metrics folder
-                    │   │   ├── <..>.markdup_metrics.txt             # dups metrics
-                    │   │   ├── <..>.merged_MeanCov                  # mean coverage
-                    │   │   ├── <..>.merged_RefCov.md                # markdown table for coverage
-                    │   │   └── <..>.rmd_PrimAligRead                # Number of primary aligned reads
+                    │   ├── eval                                                 # BAM-based metrics folder
+                    │   │   ├── <..>.markdup_metrics.txt                         # dups metrics
+                    │   │   ├── <..>.merged_MeanCov                              # mean coverage based on the merged BAM
+                    │   │   ├── <..>.merged_RefCov.md                            # markdown table for coverage
+                    │   │   └── <..>.rmd_PrimAligRead                            # Number of primary aligned reads
                     │   ├── <..>.merged.bam
                     │   └── <..>.merged.bam.bai
                     └── 2_VCFs
-                        ├── filt                                     # VCF-based metrics and filtered VCFs folder
-                        │   ├── <..>.PASS.lqual                      # site quality
-                        │   ├── <..>.PASS.ldepth.mean                # mean coverage depth per site
-                        │   ├── <..>.PASS.vcf_meanCov                # mean and SD coverage
-                        │   ├── <..>.PASS_snps_amount                # amount of total and filtered SNPs
-                        │   ├── <..>.PASS_filtered.vcf.gz            # filtered VCF
-                        │   ├── <..>.PASS_filtered.vcf.gz.csi
-                        │   ├── <..>.PASS.masked_filtered.vcf.gz     # filtered & masked VCF
-                        │   └── <..>.PASS.masked_filtered.vcf.gz.csi
-                        ├── <..>.g.vcf.gz
-                        ├── <..>.g.vcf.gz.tbi
-                        ├── <..>.FULL.g.vcf.gz                       # base pair resolution gVCF
-                        ├── <..>.FULL.g.vcf.gz.csi
-                        ├── <..>.vcf.gz
-                        ├── <..>.vcf.gz.tbi
-                        ├── <..>.PASS.vcf.gz                         # unfiltered VCF
-                        ├── <..>.PASS.vcf.gz.csi
-                        └── <..>.visual_report.html
+                        ├── filtered                                             # Filtered VCFs VCF-based metrics folder
+                        │   ├── <..>.Genot.full.mainNoSex.mask.filt.vcf.bgz      # base pair resolution filtered gVCF
+                        │   ├── <..>.Genot.full.mainNoSex.mask.filt.vcf.bgz.tbi
+                        │   ├── <..>.Genot.full.mainNoSex.mask.filt.stats        # base pair resolution filtered gVCF full stats (number of SNPs, etc)
+                        │   ├── <..>.ERR6412365.Genot.PASS.bcf                   # filtered binary VCF
+                        │   ├── <..>.ERR6412365.Genot.PASS.bcf.csi
+                        │   ├── <..>.ERR6412365.Genot.PASS.stats                 # filtered binary VCF full stats (number of SNPs, etc)
+                        │   ├── <..>.filt_heterozygosity                         # estimated heterozygosity
+                        │   ├── <..>.main_scaffoldsNoSex_lengths                 # list of main scaffolds (>5Mbp) without Sex chrom names and lengths
+                        │   ├── <..>.meanCov                                     # mean coverage based on the raw base pair resolution gVCF
+                        │   └── <..>.meanCov_byChrom                             # mean coverage by scaffold based on the raw base pair resolution gVCF
+                        ├── <..>.Genot.full.bcf                                  # raw (unfiltered) base pair resolution binary gVCF
+                        ├── <..>.Genot.full.bcf.csi
+                        ├── <..>.Genot.full.stats                                # raw (unfiltered) full stats (number of SNPs, etc)
+                        └── ..
 ```
 
 ### How to run?
 
-Requirements:
-* [Slurm](https://slurm.schedmd.com)
-* [Conda](https://docs.conda.io)
-* [Singularity](https://sylabs.io/guides/3.0/user-guide/index.html)
 * PacBio HiFi trimmed reads should end with (trim\*fq, or fq, or trim\*fastq, or fastq).gz
 * Illumina paired-end trimmed reads should end with (1.trim\*fq, or 1.fq, or 1.trim\*fastq, or 1.fastq).gz
 
 1) Edit `1.calling_variables.cnf` file with the respective paths, values and parameters.
 
-2) Install needed software with: `bash 2.install_dependencies.sh`
+2) Run the variant calling pipeline: `bash 2.Run_calling.sh`
 
-3) Run the variant calling pipeline in _Slurm_ with: `bash 3.Run_DeepVariant_calling.sh`
-
-\*) The pipeline is configured to use 24 CPUs and 64 GB of RAM
+\*) The pipeline is configured to use up to 24 CPUs and 64 GB of RAM
