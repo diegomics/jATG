@@ -15,7 +15,7 @@ Requirements:
 
 2) Edit the file `0.general_variables.cnf` with the respective paths, values and parameters.
 
-3) Install needed software with: `bash install_jATG_dependencies.sh` **IMPORTANT:** this should be done only once!
+3) Install needed software with: `bash install_jATG_dependencies.sh` **IMPORTANT: this should be done only once!**
 
 4) Enter each folder to configure and run the particular analysis
 
