@@ -44,3 +44,5 @@ This analysis generates a species-tailored masked version of the genome and anno
 
 \**) Depending on the genome, it can take ~48 h to finish the pipeline.
 
+
+### About the analysis and setting of the parameters:
