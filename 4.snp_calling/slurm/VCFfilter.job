@@ -1,0 +1,142 @@
+#!/bin/bash
+
+#SBATCH -J Filter
+
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=12G
+#SBATCH --time=8:00:00
+
+export PATH="${CONDA_BIN_DIR}:${PATH}"
+source activate jATG_env
+
+cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs
+mkdir filtered
+
+
+# get READ/SAMPLE variables
+#if [[ "${READ_TYPE}" == "illuminaPE" ]]
+#then
+#
+#	if [ -z "${SAMPLE_NAME}" ]
+#	then
+#		READ=$(ls ${TRIM_DIR}/*_R1.trimmed.fq.gz | tail -n 1)
+#		READ_NAME=$(basename ${READ} _R1.trimmed.fq.gz)
+#		SAMPLE_NAME="${READ_NAME}"
+#		echo "Sample: ${SAMPLE_NAME}"
+#	else
+#		echo "Sample: ${SAMPLE_NAME}"
+#	fi
+#
+#elif  [[ "${READ_TYPE}" == "HiFi" ]]
+#then
+#
+#	if [ -z "${SAMPLE_NAME}" ]
+#	then
+#        	READ=$(ls ${TRIM_DIR}/*.trimmed.fq.gz | tail -n 1)
+#        	READ_NAME=$(basename ${READ} .trimmed.fq.gz)
+#	        SAMPLE_NAME="${READ_NAME}"
+#	        echo "Sample: ${SAMPLE_NAME}"
+#	else
+#	        echo "Sample: ${SAMPLE_NAME}"
+#	fi
+#
+#else
+#        echo 'Invalid read type. Valid values for READ_TYPE variable in variables.cnf file are: "illuminaPE" or "HiFi"'
+#fi
+
+
+# Total VCF coverage
+bcftools query -f '%DP\n' ${SAMPLE_NAME}.Genot.full.bcf | awk '{sum+=$1; count++} END {print sum/count}' > filtered/meanCov
+
+for CHROM in $(bcftools view -h ${SAMPLE_NAME}.Genot.full.bcf | grep "##contig=<ID=" | sed 's/.*ID=\([^,]*\),.*/\1/'); do
+    MEAN_COV=$(bcftools view -r $CHROM ${SAMPLE_NAME}.Genot.full.bcf | bcftools query -f '%DP\n' | awk '{sum+=$1; count++} END {print sum/count}')
+    echo -e "$CHROM\t$MEAN_COV" >> filtered/meanCov_byChrom
+done
+
+if [ -z "${MAX_DEPTH}" ]
+then
+        MAX_DEPTH=$(printf "%.0f\n" $(echo "$(cat filtered/meanCov) * 2" | bc))
+        echo -e "Using default Max depth cutoff based on mean depth * 2 = $MAX_DEPTH" 
+else
+        echo -e "Using provided value for Max depth cutoff: $MAX_DEPTH"
+fi
+
+if [ -z "${MIN_DEPTH}" ]
+then
+        MIN_DEPTH=$(printf "%.0f\n" $(echo "$(cat filtered/meanCov) * 1/3" | bc))
+        echo -e "Using default Min depth cutoff based on mean depth * 1/3 = $MIN_DEPTH" 
+else
+        echo -e "Using provided value for Min depth cutoff: $MIN_DEPTH"
+fi
+
+
+echo -e "coverage cutoffs are: MIN=$MIN_DEPTH MAX=$MAX_DEPTH"
+
+
+if [ -z "${MAP_QUAL}" ]
+then
+        MAP_QUAL=40
+        echo -e "Using default Mapping quality cutoff value: $MAP_QUAL" 
+else
+        echo -e "Using provided Mapping quality cutoff value: $MAP_QUAL"
+fi
+
+
+
+# Filter VCF by size and Sex
+awk '{print $1 "\t1\t" $2}' ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/0_idx/*.fa.fai > temp_scaffolds_lengths
+
+awk 'NR==FNR{a[$1]; next} $1 in a' ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/1.stats/main_scaffolds temp_scaffolds_lengths > temp_main_scaffolds_lengths
+#grep -f ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/1.stats/main_scaffolds temp_scaffolds_lengths > temp_main_scaffolds_lengths
+
+if [ -z "${SEX_CHROMS}" ]
+then
+	cp temp_main_scaffolds_lengths filtered/main_scaffoldsNoSex_lengths	
+else
+	VAR=$(echo $SEX_CHROMS | sed 's/, */\\|/g')
+	grep -v $VAR temp_main_scaffolds_lengths > filtered/main_scaffoldsNoSex_lengths
+fi
+
+bcftools view -O u -R filtered/main_scaffoldsNoSex_lengths ${SAMPLE_NAME}.Genot.full.bcf -o temp_${SAMPLE_NAME}.Genot.full.mainNoSex.vcf
+
+
+# Mask the VCF for repetitive content
+python ${INSTALLATION_DIR}/4.snp_calling/scripts/vcf_masking.py temp_${SAMPLE_NAME}.Genot.full.mainNoSex.vcf ${MASKED_BED} temp_${SAMPLE_NAME}.Genot.full.mainNoSex.mask.vcf
+
+
+# Mask the VCF for quality and confidence filters
+bcftools filter --threads 2 \
+--set-GTs . \
+-e "(FMT/DP<$MIN_DEPTH) || (FMT/DP>$MAX_DEPTH) || (INFO/QD<2.0) || (INFO/FS>60.0) || (INFO/MQ<40.0) || (INFO/MQRankSum<-12.5) || (INFO/ReadPosRankSum<-8.0) || (INFO/ReadPosRankSum>8.0) || (INFO/SOR>3.0) || (N_ALT()>1) || (GT='0/0' && FMT/AD[0:1]*1.0/(FMT/AD[0:0]+FMT/AD[0:1])>0.1) || (GT='1/1' && FMT/AD[0:0]*1.0/(FMT/AD[0:0]+FMT/AD[0:1])>0.1) || (GT='0/1' && (FMT/AD[0:1]*1.0/(FMT/AD[0:0]+FMT/AD[0:1])<0.2 || FMT/AD[0:1]*1.0/(FMT/AD[0:0]+FMT/AD[0:1])>0.8)) || (TYPE = 'indel')"  \
+temp_${SAMPLE_NAME}.Genot.full.mainNoSex.mask.vcf -O z -o filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz
+
+bcftools index -t -o filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz.tbi filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz
+
+# Get stats
+bcftools stats -s - filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz > filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.stats
+
+nHets=$(awk '/^PSC/ {print $6}' filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.stats)
+nRefHom=$(awk '/^PSC/ {print $4}' filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.stats)
+nNonRefHom=$(awk '/^PSC/ {print $5}' filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.stats)
+
+totalCalls=$((nHets + nRefHom + nNonRefHom))
+
+heterozygosity=$(echo "scale=5; $nHets / $totalCalls" | bc -l)
+
+echo -e "heterozygosity = nHets / totalCalls"
+echo -e "$heterozygosity = $nHets / $totalCalls"
+printf "%0.5f\n" $heterozygosity > filtered/filt_heterozygosity
+
+
+# Filter only PASS positions 
+bcftools view -O b -f PASS filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz > filtered/${SAMPLE_NAME}.Genot.PASS.bcf
+bcftools index -o filtered/${SAMPLE_NAME}.Genot.PASS.bcf.csi filtered/${SAMPLE_NAME}.Genot.PASS.bcf
+
+
+# Get stats
+bcftools stats -s - filtered/${SAMPLE_NAME}.Genot.PASS.bcf > filtered/${SAMPLE_NAME}.Genot.PASS.stats
+
+
+# Remove temp files
+#rm temp_*
+

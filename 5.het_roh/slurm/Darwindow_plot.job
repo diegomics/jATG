@@ -3,16 +3,32 @@
 #SBATCH -J Darw.plot
 
 #SBATCH --cpus-per-task=2
-#SBATCH --mem=8G
+#SBATCH --mem=2G
 #SBATCH --time=06:00:00
 
 export PATH="${CONDA_BIN_DIR}:${PATH}"
-source activate CALLING_env
+source activate jATG_env
 
 
-cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/5.het_roh
+if [ -z "${HET_TRES}" ]
+then
+	HET_TRES=$(awk '{print $1 * 100 / 5}' ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs/filtered/filt_heterozygosity)
+	echo -e "Using calculated value for Het treshold: $HET_TRES" 
+else
+	echo -e "Using provided value for Het treshold: $HET_TRES"
+fi
 
-Rscript ${INSTALLATION_DIR}/5.het_roh/scripts/Darwindow_plots.R \
-${INSTALLATION_DIR}/5.het_roh/scripts/VCF_darwindow.plotinR.txt \
-${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/5.het_roh \
-100000.${SAMPLE_NAME}.txt
+
+mkdir -p ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/5.het_roh.w${WIN_SIZE}/"w${WIN_SIZE}n${NUM_WIN}m${MAX_MISS}h${HET_TRES}"
+cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/5.het_roh.w${WIN_SIZE}/"w${WIN_SIZE}n${NUM_WIN}m${MAX_MISS}h${HET_TRES}"
+
+ln -s ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/5.het_roh.w${WIN_SIZE}/popfile.txt popfile.txt
+ln -s ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/5.het_roh.w${WIN_SIZE}/mywindowhe.${WIN_SIZE}.allsites_roh.txt mywindowhe.${WIN_SIZE}.allsites_roh.txt 
+ln -s ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/5.het_roh.w${WIN_SIZE}/myvcfsamples.txt myvcfsamples.txt
+
+
+Rscript ${INSTALLATION_DIR}/5.het_roh/scripts/get_Darwindow_results.R ${INSTALLATION_DIR}/5.het_roh/scripts/Darwindow_R_functions.txt ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/5.het_roh.w${WIN_SIZE}/"w${WIN_SIZE}n${NUM_WIN}m${MAX_MISS}h${HET_TRES}" $WIN_SIZE $NUM_WIN $MAX_MISS $HET_TRES
+
+rm popfile.txt
+rm mywindowhe.${WIN_SIZE}.allsites_roh.txt
+rm myvcfsamples.txt

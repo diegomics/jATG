@@ -1,39 +1,15 @@
 # assembly variables
-export SPECIES_NAME="Gymnogyps_californianus" # use underscore instead space, eg: Homo_sapiens
-export ASSEMBLY_ID="ASM1813914v2"             # assembly ID
-export ASSEMBLY_HM="/path/to/assembly_HM.fa"  # path to masked assembly (can be found in ../2.masking/3_masker/..)
-export MAIN_CHROM="/path/to/main_scaffolds"   # list of main scaffolds (5>Mbp), the file can be found in ../1.stats/.. 
-export SEX_CHROM_NAME="NC_059500.1"           # name of the sex chromosome (as in the VCF file). Leave the field empty "" if no sex chrom.
+export ASSEMBLY_HM="" #"/scratch/ddepanis/Condor_project/CaCo/jATG/Gymnogyps_californianus/ASM1813914v2/2.masking/3_masker/GCF_018139145.2_ASM1813914v2.HM.fa"  # path to masked assembly (can be found in ../2.masking/3_masker/..)
+export CHROM_LIST="" #"/scratch/ddepanis/Condor_project/CaCo/jATG/Gymnogyps_californianus/ASM1813914v2/SAMN18477435/4.calling/2_VCFs/filtered/main_scaffoldsNoSex_lengths"                  # list of main scaffolds (5>Mbp) without sex chromosomes found in ../4.calling/2_VCFs/filtered/main_scaffoldsNoSex_lengths
 
 # reads variables
-export SAMPLE_NAME="SAMN18477434"             # name of the sample, eg: Lion_1A002M
+export SAMPLE_NAME="ERR6412365"         # eg: Brown_Dog
+export PASS_VCF="" #"/scratch/ddepanis/Condor_project/CaCo/jATG/Gymnogyps_californianus/ASM1813914v2/SAMN18477435/4.calling/2_VCFs/filtered/SAMN18477435.Genot.PASS.bcf" # ../4.calling/2_VCFs/filtered/..
 
 # PSMC variables
-export BOOTST="20"                            # rounds of bootstrapping
-export MUTATION="1.4e-08"                     # per-generation mutation rate for the species (e.g.: 1.3e-08)
-export GENERATION="10"                        # generation time for the species in years
-# The user must specify the length and number of the discrete time intervals on which the population size is constant, by adjusting the -p and -t options.
-# Both parameters should be manually chosen such that after 20 rounds of iterations, at least ~10 recombinations are inferred to occur in the intervals each parameter spans.
-# A poor choice of intervals can lead to over- or underfitting of the model.
-# The command line used at jATG has been shown to be suitable for modern humans.
-# see slurm/PSMC.job for modification of these values
-
-# pipelines variables
-export INSTALLATION_DIR="/home/jATG"          # path of the cloned jATG repo
-export OUT_DIR="/home/Condor_project"         # where the ../jATG/.. folder with all the results will be created
-export TMPDIR="/scratch/tmp"                  # folder for temporary files
-
-# slurm-specific variables
-export USER_MAIL='ddepanis@zedat.fu-berlin.de'
-export MAIL_TYPE='END,FAIL'
-export PARTITION='begendiv,main'
-export QUEUE="standard"
-
-# conda-specific variables
-export CONDA_BIN_DIR="/path/to/conda/bin"
-
-# singularity-specific variables
-export SINGULARITY_LOAD="module load singularity" # if singularity in the path, comment this line!
-export BIND_DIR="/scratch/ddepanis/"
-
+export PARAMS="-N25 -t1 -r5" #
+export TIME_INT="4+20*2+6" # pattern of intervals in coalescent time units (+ symbol separates intervals).
+export BOOTST="10"                            # rounds of bootstrapping
+export MUTATION='1.4e-9'                     # per-generation mutation rate for the species (e.g.: 1.3e-08)
+export GENERATION='10'                        # generation time for the species in years
 

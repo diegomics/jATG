@@ -1,6 +1,8 @@
-source 1.gc_telo_variables.cnf
+source $(dirname $PWD)/0.general_variables.cnf
+source 1.gc_variables.cnf
+
 export PATH="${CONDA_BIN_DIR}:${PATH}"
-source activate GC_TELO_env
+source activate jATG_env
 
 mkdir -p ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/3.gc_telo/plots
 cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/3.gc_telo
@@ -8,16 +10,24 @@ cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/3.gc_telo
 
 if [[ "${ASSEMBLY##*.}" == "gz" ]]
 then
-    echo "decompressing the file..."
     INTER=$(basename ${ASSEMBLY} .gz)
     export ASSEMBLY_NAME=$(basename $INTER .${INTER##*.})
-    gunzip -c ${ASSEMBLY} > "${ASSEMBLY_NAME}.fa"
+    if [[ -e ${TMPDIR}/${ASSEMBLY_NAME}.fa ]]
+    then
+        echo "decompressed file exist, creating the link..."
+        ln -s "${TMPDIR}/${ASSEMBLY_NAME}.fa" "${ASSEMBLY_NAME}.fa"
+    else
+        echo "decompressing the file..."
+        gunzip -c ${ASSEMBLY} > "${TMPDIR}/${ASSEMBLY_NAME}.fa"
+        ln -s "${TMPDIR}/${ASSEMBLY_NAME}.fa" "${ASSEMBLY_NAME}.fa"
+    fi
 elif  [[ "${ASSEMBLY##*.}" == "fa" ]] || [[ "${ASSEMBLY##*.}" == "fasta" ]] || [[ "${ASSEMBLY##*.}" == "fna" ]]
 then
+    echo "crating the link..."
     export ASSEMBLY_NAME=$(basename $ASSEMBLY .${ASSEMBLY##*.})
     ln -s ${ASSEMBLY} "${ASSEMBLY_NAME}.fa"
 else
-echo "Invalid reference extension name!"
+    echo "Invalid reference extension name!"
 fi
 
 

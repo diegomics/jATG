@@ -9,7 +9,7 @@
 #SBATCH --time=2-00:00:00
 
 export PATH="${CONDA_BIN_DIR}:${PATH}"
-source activate STATS_env
+source activate jATG_env
 
 
 cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/1.stats

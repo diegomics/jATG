@@ -7,8 +7,9 @@
 #SBATCH --time=03:00:00
 
 export PATH="${CONDA_BIN_DIR}:${PATH}"
-source activate CALLING_env
+source activate jATG_env
 
+${SINGULARITY_LOAD}
 
 cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/0_idx
 
@@ -20,15 +21,24 @@ echo ""
 
 if [[ "${ASSEMBLY##*.}" == "gz" ]]
 then
-	INTER=$(basename ${ASSEMBLY} .gz)
-        ASSEMBLY_NAME=$(basename $INTER .${INTER##*.})
-        gunzip -c ${ASSEMBLY} > ${ASSEMBLY_NAME}.fa
+    INTER=$(basename ${ASSEMBLY} .gz)
+    export ASSEMBLY_NAME=$(basename $INTER .${INTER##*.})
+    if [[ -e ${TMPDIR}/${ASSEMBLY_NAME}.fa ]]
+    then
+        echo "decompressed file exist, creating the link..."
+        ln -s "${TMPDIR}/${ASSEMBLY_NAME}.fa" "${ASSEMBLY_NAME}.fa"
+    else
+        echo "decompressing the file..."
+        gunzip -c ${ASSEMBLY} > "${TMPDIR}/${ASSEMBLY_NAME}.fa"
+        ln -s "${TMPDIR}/${ASSEMBLY_NAME}.fa" "${ASSEMBLY_NAME}.fa"
+    fi
 elif  [[ "${ASSEMBLY##*.}" == "fa" ]] || [[ "${ASSEMBLY##*.}" == "fasta" ]] || [[ "${ASSEMBLY##*.}" == "fna" ]]
 then
-        ASSEMBLY_NAME=$(basename $ASSEMBLY .${ASSEMBLY##*.})
-        ln -s ${ASSEMBLY} ${ASSEMBLY_NAME}.fa
+    echo "crating the link..."
+    export ASSEMBLY_NAME=$(basename $ASSEMBLY .${ASSEMBLY##*.})
+    ln -s ${ASSEMBLY} "${ASSEMBLY_NAME}.fa"
 else
-        echo "Invalid reference extension name!"
+    echo "Invalid reference extension name!"
 fi
 
 
@@ -45,4 +55,19 @@ else
         echo 'Invalid read type. Valid values for READ_TYPE variable in variables.cnf file are: "illuminaPE" or "HiFi"'
 fi
 
-samtools faidx "${ASSEMBLY_NAME}.fa"
+LC_ALL=C
+
+
+#singularity exec -B ${BIND_DIR}:${BIND_DIR} ${INSTALLATION_DIR}/containers/gatk_latest.sif samtools \
+#faidx "${ASSEMBLY_NAME}.fa"
+
+singularity exec -B ${BIND_DIR}:${BIND_DIR} ${INSTALLATION_DIR}/containers/gatk_latest.sif gatk \
+--java-options "-Xmx${SLURM_MEM_PER_NODE}M" CreateSequenceDictionary \
+-R "${ASSEMBLY_NAME}.fa"
+
+#echo ""
+#echo ". Creating lists of scaffolds of 200 Mbp or less..."
+#echo ""
+#python ${INSTALLATION_DIR}/4.snp_calling/scripts/make_scaf_intervals.py "${ASSEMBLY_NAME}.fa.fai"
+
+

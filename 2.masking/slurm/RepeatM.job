@@ -10,10 +10,11 @@
 
 
 export PATH="${CONDA_BIN_DIR}:${PATH}"
-source activate REPEAT_env
+source activate jATG_env
 
-$LOAD_SINGULARITY #comment if singularity is in path
+${SINGULARITY_LOAD} #comment if singularity is in path
 
+LC_ALL=C
 
 echo "=== 1/5. Indexing genome for RepeatModeler...  ======================================="
 
@@ -24,25 +25,34 @@ cd /dev/shm/${ASSEMBLY_ID}/2.masking/1_modeler
 
 if [[ "${ASSEMBLY##*.}" == "gz" ]]
 then
-        INTER=$(basename ${ASSEMBLY} .gz)
-        export ASSEMBLY_NAME=$(basename $INTER .${INTER##*.})
-        gunzip -c ${ASSEMBLY} > "${ASSEMBLY_NAME}.fa"
+    INTER=$(basename ${ASSEMBLY} .gz)
+    export ASSEMBLY_NAME=$(basename $INTER .${INTER##*.})
+    if [[ -e ${TMPDIR}/${ASSEMBLY_NAME}.fa ]]
+    then
+        echo "decompressed file exist, creating the link..."
+        ln -s "${TMPDIR}/${ASSEMBLY_NAME}.fa" "${ASSEMBLY_NAME}.fa"
+    else
+        echo "decompressing the file..."
+        gunzip -c ${ASSEMBLY} > "${TMPDIR}/${ASSEMBLY_NAME}.fa"
+        ln -s "${TMPDIR}/${ASSEMBLY_NAME}.fa" "${ASSEMBLY_NAME}.fa"
+    fi
 elif  [[ "${ASSEMBLY##*.}" == "fa" ]] || [[ "${ASSEMBLY##*.}" == "fasta" ]] || [[ "${ASSEMBLY##*.}" == "fna" ]]
 then
-        export ASSEMBLY_NAME=$(basename $ASSEMBLY .${ASSEMBLY##*.})
-        ln -s ${ASSEMBLY} "${ASSEMBLY_NAME}.fa"
+    echo "crating the link..."
+    export ASSEMBLY_NAME=$(basename $ASSEMBLY .${ASSEMBLY##*.})
+    ln -s ${ASSEMBLY} "${ASSEMBLY_NAME}.fa"
 else
-        echo "Invalid reference extension name!"
+    echo "Invalid reference extension name!"
 fi
 
 
-LC_ALL=C singularity exec --bind ${BIND_DIR}:${BIND_DIR} "${INSTALLATION_DIR}/2.masking/tetools_1.8.sif" \
+singularity exec --bind ${BIND_DIR}:${BIND_DIR} "${INSTALLATION_DIR}/containers/tetools_1.8.sif" \
 BuildDatabase -name ${ASSEMBLY_NAME} ${ASSEMBLY_NAME}.fa
 
 
 echo "=== 2/5. Starting RepeatModeler...  =================================================="
 
-LC_ALL=C singularity exec --bind ${BIND_DIR}:${BIND_DIR} "${INSTALLATION_DIR}/2.masking/tetools_1.8.sif" \
+singularity exec --bind ${BIND_DIR}:${BIND_DIR} "${INSTALLATION_DIR}/containers/tetools_1.8.sif" \
 RepeatModeler -database ${ASSEMBLY_NAME} -threads ${SLURM_CPUS_PER_TASK} -LTRStruct
 
 cp -r * ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/2.masking/1_modeler
@@ -53,7 +63,7 @@ echo "=== 3/5. Combining repeats libraries...  =================================
 
 mkdir -p ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/2.masking/2_libraries
 
-cd ${OUT_DIR}/${SPECIES_NAME}/${ASSEMBLY_ID}/2.masking/2_libraries
+cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/2.masking/2_libraries
 
 if [ -z "${LINEAGE_NAME}" ]
 then
@@ -63,7 +73,7 @@ else
 fi
 
 #extract a species-specific FASTA library from the installed libraries
-LC_ALL=C singularity exec --bind ${BIND_DIR}:${BIND_DIR} --pwd /opt/RepeatMasker/Libraries/ "${INSTALLATION_DIR}/2.masking/tetools_1.8.sif" \
+singularity exec --bind ${BIND_DIR}:${BIND_DIR} --pwd /opt/RepeatMasker/Libraries/ "${INSTALLATION_DIR}/containers/tetools_1.8.sif" \
 famdb.py -i RepeatMaskerLib.h5 families --format fasta_name --include-class-in-name --ancestors --descendants "${LINEAGE_NAME}" > ${ASSEMBLY_NAME}-rm.fa
 
 #combine libraries
@@ -76,9 +86,9 @@ mkdir -p ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/2.masking/3_masker
 mkdir -p /dev/shm/${ASSEMBLY_ID}/2.masking/3_masker
 
 cd /dev/shm/${ASSEMBLY_ID}/2.masking/3_masker
-ln -s ${ASSEMBLY} ${ASSEMBLY_NAME}
+ln -s ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/2.masking/1_modeler/${ASSEMBLY_NAME}.fa ${ASSEMBLY_NAME}
 
-LC_ALL=C singularity exec --bind ${BIND_DIR}:${BIND_DIR} "${INSTALLATION_DIR}/2.masking/tetools_1.8.sif" \
+singularity exec --bind ${BIND_DIR}:${BIND_DIR} "${INSTALLATION_DIR}/containers/tetools_1.8.sif" \
 RepeatMasker -pa 4 -a -s -gccalc -xsmall -gff -lib ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/2.masking/2_libraries/${ASSEMBLY_NAME}_combined.fa ${ASSEMBLY_NAME}
 
 mv ${ASSEMBLY_NAME}.masked ${ASSEMBLY_NAME}.masked.fa
@@ -95,12 +105,12 @@ bedtools maskfasta -fi ${ASSEMBLY_NAME}.masked.fa -bed ${ASSEMBLY_NAME}.3cols.be
 
 echo "=== 5/5. Plotting results...  ========================================================"
 
-LC_ALL=C singularity exec --bind ${BIND_DIR}:${BIND_DIR} "${INSTALLATION_DIR}/2.masking/tetools_1.8.sif" \
+singularity exec --bind ${BIND_DIR}:${BIND_DIR} "${INSTALLATION_DIR}/containers/tetools_1.8.sif" \
 calcDivergenceFromAlign.pl -s ${ASSEMBLY_NAME}.align.divsum -a ${ASSEMBLY_NAME}.align_with_div ${ASSEMBLY_NAME}.align
 
 SIZE=$(grep "total length:" ${ASSEMBLY_NAME}.tbl | awk '{print $3}')
 
-LC_ALL=C singularity exec --bind ${BIND_DIR}:${BIND_DIR} "${INSTALLATION_DIR}/2.masking/tetools_1.8.sif" \
+singularity exec --bind ${BIND_DIR}:${BIND_DIR} "${INSTALLATION_DIR}/containers/tetools_1.8.sif" \
 createRepeatLandscape.pl -div ${ASSEMBLY_NAME}.align.divsum -g ${SIZE} > ${ASSEMBLY_NAME}.align.divsum.html
 
 python ${INSTALLATION_DIR}/2.masking/scripts/repeatMaskerHtml2R.py -html ${ASSEMBLY_NAME}.align.divsum.html -out ${ASSEMBLY_NAME}.tsv

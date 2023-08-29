@@ -1,4 +1,7 @@
-source 1.repeat_variables.cnf
+source $(dirname $PWD)/0.general_variables.cnf
+source 1.masking_variables.cnf
+${SINGULARITY_LOAD}
+
 
 if [ -z "${LINEAGE_NAME}" ]
 then
@@ -14,9 +17,9 @@ echo ""
 
 $LOAD_SINGULARITY #comment if singularity is in path
 
-singularity exec --pwd /opt/RepeatMasker/Libraries/ tetools_1.8.sif famdb.py -i RepeatMaskerLib.h5 lineage -ad ${VAR} 2> check.tmp
+singularity exec --pwd /opt/RepeatMasker/Libraries/ "${INSTALLATION_DIR}/containers/tetools_1.8.sif" famdb.py -i RepeatMaskerLib.h5 lineage -ad ${VAR} > ${TMPDIR}/check_lineage.tmp 2>&1
 
-if [[ $(cat check.tmp) == *"No species found for search term"* ]]; then
+if [[ $(cat ${TMPDIR}/check_lineage.tmp) == *"No species found for search term"* ]]; then
 	echo "WARNING! $VAR not found!"
 	echo "Please add a proper lineage to LINEAGE_NAME variable in 1.repeat_variables.cnf file"
 else
@@ -25,4 +28,4 @@ else
 	echo "Looks like $VAR is present in the local repeat database ;)"
 fi
 
-#rm check.tmp
+echo -e "Result of local database query: ${TMPDIR}/check_lineage.tmp"

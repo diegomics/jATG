@@ -1,5 +1,0 @@
-species_name  asm_id  asm_file
-Elephas_maximus mEleMax1_pri  /path/dir/asm_pri.fasta
-Elephas_maximus mEleMax1.2_hap1  /path/dir/asm_h1.fasta
-Elephas_maximus mEleMax1.2_hap2  /path/dir/asm_h2.fasta
-Silurus_aristotelis fSilAri_pri /path/dir/asm_pri.fasta

@@ -2,8 +2,8 @@
 
 #SBATCH -J Conv
 
-#SBATCH --cpus-per-task=1
-#SBATCH --mem=1G
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=6G
 #SBATCH --time=12:00:00
 
 export PATH="${CONDA_BIN_DIR}:${PATH}"
@@ -17,3 +17,4 @@ fq2psmcfa ${SAMPLE_NAME}_consensus.fasta > ${SAMPLE_NAME}.psmcfa
 #Split sequences to perform bootstrapping
 splitfa ${SAMPLE_NAME}.psmcfa > ${SAMPLE_NAME}.psmcfa.split.psmcfa
 
+rm temp_*

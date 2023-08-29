@@ -1,0 +1,22 @@
+# assembly variables
+export SPECIES_NAME="Phocoena_sinus"					# use underscore instead space, eg: Homo_sapiens
+export ASSEMBLY_ID="mPhoSin1.pri"             			# assembly ID
+export ASSEMBLY="/scratch/ddepanis/workshop/vaquita/GCF_008692025.1_mPhoSin1.pri_genomic.fna.gz"     # path to the genome assembly, can be gz
+
+# pipeline variables:
+export INSTALLATION_DIR="/scratch/ddepanis/new_jATG"          		# path of the cloned jATG repo
+export OUT_DIR="/scratch/ddepanis/workshop"				# where the ../jATG/.. folder with all the results will be created
+export TMPDIR="${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/tmp"	# Default folder for temporary files, you can leave it like this
+
+# conda-specific variables
+export CONDA_BIN_DIR="/scratch/ddepanis/Software/anaconda3/bin"
+
+# singularity-specific variables
+export SINGULARITY_LOAD="module load singularity"			# comment this line if singularity is in path
+export BIND_DIR="/scratch/ddepanis/"
+
+# slurm-specific variables
+export USER_MAIL='ddepanis@zedat.fu-berlin.de'
+export MAIL_TYPE='END,FAIL'
+export PARTITION='begendiv,main'
+export QUEUE="standard"

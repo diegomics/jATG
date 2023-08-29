@@ -3,14 +3,11 @@
 #SBATCH -J Darw.calc
 
 #SBATCH --cpus-per-task=2
-#SBATCH --mem=2G
-#SBATCH --time=06:00:00
+#SBATCH --mem=4G
+#SBATCH --time=12:00:00
 
 export PATH="${CONDA_BIN_DIR}:${PATH}"
-source activate CALLING_env
-
-
-
+source activate jATG_env
 
 
 
@@ -85,22 +82,29 @@ source activate CALLING_env
 
 ###########################
 #TABIX=/opt/software/htslib/htslib-1.9/bin               		# without forward slash at the end (not: note to tabix executable itself, but to bin directory which contains tabix and bgzip executable)
-#TABIX=/opt/software/htslib-1.14
-#VCFTOOLS=/opt/software/vcftools/vcftools_0.1.17/bin/vcftools	# Needed for LD calculations only
-ADMIXTEST=/home/mdejong/bearproject/snpfiles_december2020/slidingwindow121/testrun/VCF_3poptest_admixtools.sh	# Not needed, unless admixture f3 analysis. Note: first read instructions in VCF_3poptest_admixtools.sh script.  
+#TABIX=tabix
+#VCFTOOLS=vcftools	# Needed for LD calculations only
+#ADMIXTEST=/home/mdejong/bearproject/snpfiles_december2020/slidingwindow121/testrun/VCF_3poptest_admixtools.sh	# Not needed, unless admixture f3 analysis. Note: first read instructions in VCF_3poptest_admixtools.sh script.  
+
+cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/5.het_roh.w${WIN_SIZE}
 
 
-cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/5.het_roh
 
-#ln -s ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs/${SAMPLE_NAME}.FULL.g.vcf.gz ${SAMPLE_NAME}.FULL.g.vcf
+VCF_NAME=$(basename $VCF)
+#ln -s $VCF ${VCF_NAME}
+#ln -s ${VCF}.tbi ${VCF_NAME}.tbi
+
+#echo -e "name\tpop\tpopcol" > popfile.txt
+#echo -e "${SAMPLE_NAME}\t${SPECIES_NAME}\tblue4" >> popfile.txt
 
 
-MYVCF="${SAMPLE_NAME}.FULL.g.vcf"                                    		# Note: without gz extension, even if input file is gunzipped
-POPFILE=mymainpopfile.txt										# Only needed if flag 'pop_scores' is set to TRUE
 
-winsize=100000
+MYVCF=${VCF_NAME}                                      		# Note: without gz extension, even if input file is gunzipped
+POPFILE=popfile.txt										# Only needed if flag 'pop_scores' is set to TRUE
+
+winsize=${WIN_SIZE}
 mincontigbp=5000000												# minimum length of contig (in bp) to be considered in analysis
-suffix="${SAMPLE_NAME}"
+suffix="allsites_roh"
 biallelic=FALSE
 annotated=FALSE
 haploiddata=FALSE						# Set to TRUE in case of haploid data. Only useful to count alternative sites (because no heterozygous sites present anyway).
@@ -124,19 +128,16 @@ admix_scores=FALSE
 
 
 
-
-
-
 ###### PREPARE FILES ######
 
-if [[ -f "${MYVCF}" ]]
-	then
-	echo "Input: unzipped file."
-	grep -B1000000 -m 1 '#CHROM' ${MYVCF} > myvcf.header.txt
-	else
-	echo "Input: gzipped file."
-	zgrep -B1000000 -m 1 '#CHROM' ${MYVCF}.gz > myvcf.header.txt
-fi
+#if [[ -f "${MYVCF}" ]]
+#	then
+#	echo "Input: unzipped file."
+#	grep -B1000000 -m 1 '#CHROM' ${MYVCF} > myvcf.header.txt
+#	else
+#	echo "Input: gzipped file."
+#	zgrep -B1000000 -m 1 '#CHROM' ${MYVCF}.gz > myvcf.header.txt
+#fi
 
 # index:
 if [[ "$do_bgzip" = TRUE ]]
@@ -146,12 +147,12 @@ if [[ "$do_bgzip" = TRUE ]]
 	if [[ -f "${MYVCF}.gz" ]]
 	    then
 	    echo "Input: gzipped file."
-	    gunzip -c ${MYVCF}.gz | grep -v 'INDEL' | bgzip -@ 2 -f > ${MYVCF}.bgz &
+	    gunzip -c ${MYVCF}.gz | grep -v 'INDEL' | bgzip -f > ${MYVCF}.bgz &
 	    else
 	    if [[ -f "${MYVCF}" ]]
 			then
 			echo "Input: unzipped file."
-			grep -v 'INDEL' $MYVCF | bgzip -@ 2 -f > ${MYVCF}.bgz &
+			grep -v 'INDEL' $MYVCF | bgzip -f > ${MYVCF}.bgz &
 			else
 			echo "ERROR: input (gzipped) vcf-file not found. Note that you should not provide the gz extension, even if file is gzipped."
 		fi
@@ -216,7 +217,8 @@ if [[ "$extract_samples" = TRUE ]]
 	   then
 	   paste header1.tmp.txt header2.tmp.txt > mywindowheader.txt
 	   else
-	   cp header1.tmp.txt mywindowheader.txt
+	   #cp header1.tmp.txt mywindowheader.txt
+	   paste header1.tmp.txt header2.tmp.txt > mywindowheader.txt
 	fi
 	rm mysamplenrs.txt mysamplenrs.nsites.tmp.txt mysamplenrs.nmiss.tmp.txt mysamplenrs.nhet.tmp.txt mysamplenrs.nalthomo.tmp.txt header2.tmp.txt header1.tmp.txt 
 	echo "Sample info retrieved."
@@ -381,7 +383,7 @@ if [[ "$run_loop" = TRUE ]]
 				winsize2=$winsize
 			fi
 			# CALCULATE WINDOW STATS:
-			tabix ${MYVCF}.bgz ${contigname}:${startbp}-${endbp} > myvcfregion.${winsize}.allcolumns.noindels.txt
+			tabix ${MYVCF} ${contigname}:${startbp}-${endbp} > myvcfregion.${winsize}.allcolumns.noindels.txt
 			cut -f10- myvcfregion.${winsize}.allcolumns.noindels.txt > myvcfregion.${winsize}.noindels.txt
 			cut -f1-9 myvcfregion.${winsize}.allcolumns.noindels.txt > myvcfregion.${winsize}.metainfo.noindels.txt
 			totalbp=$(wc -l myvcfregion.${winsize}.metainfo.noindels.txt | cut -f1 -d ' ')
@@ -408,7 +410,7 @@ if [[ "$run_loop" = TRUE ]]
 			if [[ "$ld_scores" = TRUE ]]
 				then 
 				cat myvcf.header.txt myvcfregion.${winsize}.allcolumns.noindels.txt > myvcfregion.withheader.vcf
-				vcftools --vcf myvcfregion.withheader.vcf --geno-r2 --mac 12 --ld-window-bp 1000 --out myldscores
+				$VCFTOOLS --vcf myvcfregion.withheader.vcf --geno-r2 --mac 12 --ld-window-bp 1000 --out myldscores
 				awk -v FS='\t' '$5!="-nan"' myldscores.geno.ld > myldscores.nonan.txt
 				nrsnps=$(wc -l myvcfregion.${winsize}.onlypoly.alleles.txt | cut -f1 -d ' ')
 				nrpairs=$(wc -l myldscores.nonan.txt | cut -f1 -d ' ')

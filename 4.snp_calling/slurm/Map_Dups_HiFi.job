@@ -7,7 +7,10 @@
 #SBATCH --time=2-00:00:00
 
 export PATH="${CONDA_BIN_DIR}:${PATH}"
-source activate CALLING_env
+source activate jATG_env
+
+${SINGULARITY_LOAD}
+
 
 cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs
 
@@ -27,7 +30,7 @@ fi
 echo ""
 echo ". Starting minimap2 & samtools..."
 echo ""
-READ=$(ls ${TRIMMED_READS_DIR}/*{trim*fq,fq,trim*fastq,fastq}.gz 2>/dev/null | head -n ${SLURM_ARRAY_TASK_ID} | tail -n 1)
+READ=$(ls ${TRIMMED_READS_DIR}/*{trim*fq,fq,trim*fastq,fastq}.gz 2>/dev/null | sort | uniq | head -n ${SLURM_ARRAY_TASK_ID} | tail -n 1)
 VAR=$(basename $READ .gz)
 READ_ID=$(basename $VAR .${VAR##*.})
 
@@ -38,31 +41,32 @@ READ_ID=$(basename $VAR .${VAR##*.})
 #      echo "Mapping data for the sample name: ${SAMPLE_NAME}"
 #fi
 
-srun \
 minimap2 -t 24 --MD --eqx -ax map-hifi \
 -R "@RG\tID:${READ_ID}\tSM:${SAMPLE_NAME}" \
 "${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/0_idx/${ASSEMBLY_NAME}.mmi" ${READ} | \
 samtools view -@ 12 -b -u | \
-samtools sort -@ 12 -o ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/${READ_ID}.bam
+samtools sort -@ 12 -o ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/temp_${READ_ID}.bam
 
 ###############################################################################
 echo ""
 echo ". Indexing bam..."
 echo ""
-srun \
-samtools index ${READ_ID}.bam
+samtools index temp_${READ_ID}.bam
 
 
 ###############################################################################
 echo ""
 echo ". Starting Picard..."
 echo ""
-srun \
-picard -Xmx64g MarkDuplicates \
+
+LC_ALL=C
+
+singularity exec -B ${BIND_DIR}:${BIND_DIR} ${INSTALLATION_DIR}/containers/gatk_latest.sif gatk \
+--java-options "-Xmx${SLURM_MEM_PER_NODE}M" MarkDuplicates \
 -ASSUME_SORTED true \
 -VALIDATION_STRINGENCY SILENT \
 -MAX_FILE_HANDLES_FOR_READ_ENDS_MAP 1000 \
--I ${READ_ID}.bam \
+-I temp_${READ_ID}.bam \
 -O ${READ_ID}.markdup.bam \
 -M ${READ_ID}.markdup_metrics.txt \
 -TMP_DIR ${TMPDIR}
@@ -72,5 +76,4 @@ picard -Xmx64g MarkDuplicates \
 echo ""
 echo ". Indexing bam..."
 echo ""
-srun \
 samtools index ${READ_ID}.markdup.bam

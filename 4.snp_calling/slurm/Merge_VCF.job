@@ -1,0 +1,71 @@
+#!/bin/bash
+
+#SBATCH -J MergeVCF
+
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=8G
+#SBATCH --time=2-00:00:00
+
+export PATH="${CONDA_BIN_DIR}:${PATH}"
+source activate jATG_env
+
+${SINGULARITY_LOAD}
+
+cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs
+
+LC_ALL=C
+
+###############################################################################
+echo ""
+echo ". Starting VCFs merging..."
+echo ""
+
+GATHERVCFS="singularity exec -B ${BIND_DIR}:${BIND_DIR} ${INSTALLATION_DIR}/containers/gatk_latest.sif gatk --java-options -Xmx${SLURM_MEM_PER_NODE}M GatherVcfs"
+
+# loop over files
+for interval_vcf in *.Genot.interval*.vcf.gz
+do
+    # append each file to the command string
+    GATHERVCFS+=" --INPUT $interval_vcf"
+done
+
+# add the output file to the command
+GATHERVCFS+=" --OUTPUT ${SAMPLE_NAME}.Genot.full.vcf.gz --TMP_DIR ${TMPDIR}"
+
+# run the command
+$GATHERVCFS
+
+
+###############################################################################
+echo ""
+echo ". Indexing VCF..."
+echo ""
+
+bcftools view -O b ${SAMPLE_NAME}.Genot.full.vcf.gz -o ${SAMPLE_NAME}.Genot.full.bcf
+bcftools index ${SAMPLE_NAME}.Genot.full.bcf
+
+
+###############################################################################
+echo ""
+echo ". Getting some stats..."
+echo ""
+
+bcftools stats -s - ${SAMPLE_NAME}.Genot.full.bcf > ${SAMPLE_NAME}.Genot.full.stats
+
+nHets=$(awk '/^PSC/ {print $6}' ${SAMPLE_NAME}.Genot.full.stats)
+nRefHom=$(awk '/^PSC/ {print $4}' ${SAMPLE_NAME}.Genot.full.stats)
+nNonRefHom=$(awk '/^PSC/ {print $5}' ${SAMPLE_NAME}.Genot.full.stats)
+
+totalCalls=$((nHets + nRefHom + nNonRefHom))
+
+heterozygosity=$(echo "scale=5; $nHets / $totalCalls" | bc -l)
+
+printf "%0.5f\n" $heterozygosity > raw_heterozygosity
+
+
+
+#singularity exec -B ${BIND_DIR}:${BIND_DIR} ${INSTALLATION_DIR}/4.snp_calling/gatk_latest.sif gatk \
+#--java-options "-Xmx${SLURM_MEM_PER_NODE}M" IndexFeatureFile \
+#--input ${SAMPLE_NAME}.Genot.full.vcf.gz
+
+#bcftools index ${SAMPLE_NAME}.Genot.full.vcf.gz

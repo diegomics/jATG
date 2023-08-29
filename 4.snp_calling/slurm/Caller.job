@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#SBATCH -J Deepvariant
+#SBATCH -J GATK
 
-#SBATCH --cpus-per-task=18
-#SBATCH --mem=64G
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=48G
 #SBATCH --time=36:00:00
 
 export PATH="${CONDA_BIN_DIR}:${PATH}"
-source activate CALLING_env
+source activate jATG_env
 
 ${SINGULARITY_LOAD}
 
@@ -19,97 +19,42 @@ if [[ "${ASSEMBLY##*.}" == "gz" ]]
 then
 	INTER=$(basename ${ASSEMBLY} .gz)
         ASSEMBLY_NAME=$(basename $INTER .${INTER##*.})
-        gunzip -c ${ASSEMBLY} > "${ASSEMBLY_NAME}.fa"
+#        gunzip -c ${ASSEMBLY} > "${ASSEMBLY_NAME}.fa"
 elif  [[ "${ASSEMBLY##*.}" == "fa" ]] || [[ "${ASSEMBLY##*.}" == "fasta" ]] || [[ "${ASSEMBLY##*.}" == "fna" ]]
 then
         ASSEMBLY_NAME=$(basename $ASSEMBLY .${ASSEMBLY##*.})
-        cp ${ASSEMBLY} "${ASSEMBLY_NAME}.fa"
+#        cp ${ASSEMBLY} "${ASSEMBLY_NAME}.fa"
 else
         echo "Invalid reference extension name!"
 fi
 
 
-cp "${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/0_idx/${ASSEMBLY_NAME}.fa.fai" .
+#cp "${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/0_idx/${ASSEMBLY_NAME}.fa.fai" .
 
 
-# 
-if [[ "${READ_TYPE}" == "illuminaPE" ]]
-then
+INTERVAL=$(ls ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/0_idx/interval*.list 2>/dev/null | head -n ${SLURM_ARRAY_TASK_ID} | tail -n 1)
+INTERVAL_NAME=$(basename $INTERVAL .list)
 
-	# get READ/SAMPLE variables
-#	if [ -z "${MULTI_RUN}" ]
-#	then
-#		READ=$(ls ${TRIM_DIR}/*_R1.trimmed.fq.gz | tail -n 1)
-#		READ_NAME=$(basename ${READ} _R1.trimmed.fq.gz)
-#		SAMPLE_NAME="${READ_NAME}"
-#		echo "Sample: ${SAMPLE_NAME}"
-#	else
-#		echo "Sample: ${SAMPLE_NAME}"
-#	fi
+LC_ALL=C
 
-	###############################################################################
-	echo ""
-	echo ". Starting Deepvariant..."
-	echo ""
-	LC_ALL=C singularity run -B ${BIND_DIR}:${BIND_DIR} \
-	${INSTALLATION_DIR}/4.snp_calling/deepvariant_1.5.0.sif /opt/deepvariant/bin/run_deepvariant \
-	--model_type=WGS \
-	--ref="${ASSEMBLY_NAME}.fa" \
-	--reads="${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/${SAMPLE_NAME}.merged.bam" \
-	--output_vcf="${SAMPLE_NAME}.vcf.gz" \
-	--output_gvcf="${SAMPLE_NAME}.g.vcf.gz" \
-	--intermediate_results_dir="${TMPDIR}/${SAMPLE_NAME}" \
-	--num_shards=18
-
-elif  [[ "${READ_TYPE}" == "HiFi" ]]
-then
-
-	# get READ/SAMPLE variables
-#	if [ -z "${SAMPLE_NAME}" ]
-#	then
-#        	READ=$(ls ${TRIM_DIR}/*.trimmed.fq.gz | tail -n 1)
-#        	READ_NAME=$(basename ${READ} .trimmed.fq.gz)
-#	        SAMPLE_NAME="${READ_NAME}"
-#	        echo "Sample: ${SAMPLE_NAME}"
-#	else
-#	        echo "Sample: ${SAMPLE_NAME}"
-#	fi
-
-	###############################################################################
-	echo ""
-	echo ". Starting Deepvariant..."
-	echo ""
-	LC_ALL=C singularity run -B ${BIND_DIR}:${BIND_DIR} \
-	 ${INSTALLATION_DIR}/4.snp_calling/deepvariant_1.5.0.sif /opt/deepvariant/bin/run_deepvariant \
-	--model_type=PACBIO \
-	--ref="${ASSEMBLY_NAME}.fa" \
-	--reads="${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/${SAMPLE_NAME}.merged.bam" \
-	--output_vcf="${SAMPLE_NAME}.vcf.gz" \
-	--output_gvcf="${SAMPLE_NAME}.g.vcf.gz" \
-	--intermediate_results_dir="${TMPDIR}/${SAMPLE_NAME}" \
-	--num_shards=18
-
-else
-        echo 'Invalid read type. Valid values for READ_TYPE variable in variables.cnf file are: "illuminaPE" or "HiFi"'
-fi
+singularity exec -B ${BIND_DIR}:${BIND_DIR} ${INSTALLATION_DIR}/containers/gatk_latest.sif gatk \
+--java-options "-Xmx${SLURM_MEM_PER_NODE}M" HaplotypeCaller \
+--reference ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/0_idx/${ASSEMBLY_NAME}.fa \
+--input ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/${SAMPLE_NAME}.merged.bam \
+--intervals ${INTERVAL} \
+--output ${SAMPLE_NAME}.HapCal.${INTERVAL_NAME}.vcf.gz \
+--output-mode EMIT_ALL_CONFIDENT_SITES \
+-ERC BP_RESOLUTION \
+--tmp-dir ${TMPDIR} \
+--native-pair-hmm-threads ${SLURM_CPUS_PER_TASK}
 
 
-###############################################################################
-echo ""
-echo ". Filtering VCF for PASS calls..."
-echo ""
+singularity exec -B ${BIND_DIR}:${BIND_DIR} ${INSTALLATION_DIR}/containers/gatk_latest.sif gatk \
+--java-options "-Xmx${SLURM_MEM_PER_NODE}M" GenotypeGVCFs \
+--reference ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/0_idx/${ASSEMBLY_NAME}.fa \
+--variant ${SAMPLE_NAME}.HapCal.${INTERVAL_NAME}.vcf.gz \
+--output ${SAMPLE_NAME}.Genot.${INTERVAL_NAME}.vcf.gz \
+--include-non-variant-sites \
+--standard-min-confidence-threshold-for-calling 0 \
+--tmp-dir ${TMPDIR}
 
-zgrep -v RefCall "${SAMPLE_NAME}.vcf.gz" | bgzip > "${SAMPLE_NAME}.PASS.vcf.gz"
-bcftools index "${SAMPLE_NAME}.PASS.vcf.gz"
-
-
-###############################################################################
-echo ""
-echo ". Creating basepair resolution gVCF..."
-echo ""
-bcftools convert --gvcf2vcf "${SAMPLE_NAME}.g.vcf.gz" --fasta-ref "${ASSEMBLY_NAME}.fa" | bgzip > "${SAMPLE_NAME}.FULL.g.vcf.gz"
-bcftools index  "${SAMPLE_NAME}.FULL.g.vcf.gz"
-
-
-# cleaning a little
-rm "${ASSEMBLY_NAME}.fa" "${ASSEMBLY_NAME}.fa.fai"

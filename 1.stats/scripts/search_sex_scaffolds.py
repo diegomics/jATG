@@ -2,6 +2,18 @@ import argparse
 import csv
 from Bio import Entrez
 
+def genes_exist_for_species(species, email):
+    Entrez.email = email
+    species_formatted = species.replace('_', ' ')
+    query = f"{species_formatted}[Orgn] AND (X[Chromosome] OR Y[Chromosome] OR Z[Chromosome] OR W[Chromosome])"
+
+    handle = Entrez.esearch(db="gene", term=query)
+    record = Entrez.read(handle)
+    handle.close()
+
+    return bool(record["IdList"])
+
+
 def get_genes_linked_to_sex_chromosomes(species, email):
     Entrez.email = email
     species_formatted = species.replace('_', ' ')
@@ -45,7 +57,7 @@ def get_genes_linked_to_sex_chromosomes(species, email):
             fasta_sequences.append(fasta_sequence)
 
     if not genes:
-        print("Nothing found for the given species name. Maybe try another name?")
+        print("Nothing found for the given species name. Try running 2.reference_check.sh with another name")
         return None, None
     else:
         return genes, fasta_sequences
@@ -54,20 +66,29 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("email", help="Email for NCBI tracking")
     parser.add_argument("species", help="Species name with underscores instead of spaces, e.g. Gallus_gallus")
+    parser.add_argument("--ask", action="store_true", help="Check if information exists for the given species name")
+    parser.add_argument("--get", action="store_true", help="Get genes and sequences linked to sex chromosomes for the species")
     args = parser.parse_args()
 
-    genes, fasta_sequences = get_genes_linked_to_sex_chromosomes(args.species, args.email)
+    if args.ask:
+        exists = genes_exist_for_species(args.species, args.email)
+        if exists:
+            print(f"Genes linked to sex chromosomes found for species: {args.species.replace('_', ' ')}. Continue with 3.Run_stats.sh")
+        else:
+            print(f"No genes linked to sex chromosomes found for species: {args.species.replace('_', ' ')}. Maybe try another name?")
+    elif args.get:
+        genes, fasta_sequences = get_genes_linked_to_sex_chromosomes(args.species, args.email)
+        
+        if genes:
+            with open(f"{args.species}_sexChrGenes.tsv", 'w', newline='') as f:
+                writer = csv.DictWriter(f, fieldnames=['Symbol', 'Name', 'Location'], delimiter='\t')
+                writer.writeheader()
+                for gene in genes:
+                    writer.writerow(gene)
 
-    if genes:
-        with open(f"{args.species}_sexChrGenes.tsv", 'w', newline='') as f:
-            writer = csv.DictWriter(f, fieldnames=['Symbol', 'Name', 'Location'], delimiter='\t')
-            writer.writeheader()
-            for gene in genes:
-                writer.writerow(gene)
-
-        with open(f"{args.species}_sexChrSeqs.faa", 'w') as f:
-            for fasta_sequence in fasta_sequences:
-                f.write(fasta_sequence + "\n")
+            with open(f"{args.species}_sexChrSeqs.faa", 'w') as f:
+                for fasta_sequence in fasta_sequences:
+                    f.write(fasta_sequence + "\n")
 
 if __name__ == "__main__":
     main()

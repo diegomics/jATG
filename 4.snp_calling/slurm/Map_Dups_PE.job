@@ -7,7 +7,7 @@
 #SBATCH --time=2-00:00:00
 
 export PATH="${CONDA_BIN_DIR}:${PATH}"
-source activate CALLING_env
+source activate jATG_env
 
 cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs
 
@@ -27,7 +27,7 @@ fi
 echo ""
 echo ". Starting bwa-mem2 & samtools..."
 echo ""
-READ1=$(ls ${TRIMMED_READS_DIR}/*{1.trim*fq,1.fq,1.trim*fastq,1.fastq}.gz 2>/dev/null | head -n ${SLURM_ARRAY_TASK_ID} | tail -n 1)
+READ1=$(ls ${TRIMMED_READS_DIR}/*{1.trim*fq,1.fq,1.trim*fastq,1.fastq}.gz 2>/dev/null | sort | uniq | head -n ${SLURM_ARRAY_TASK_ID} | tail -n 1)
 READ1_NAME=$(basename $READ1)
 if [[ $READ1 == *1.trim*fq.gz ]]; then
 	READ_ID=${READ1_NAME%%1.trim*fq.gz}
@@ -57,7 +57,6 @@ fi
 #      echo "Mapping data for the sample name: ${SAMPLE_NAME}"
 #fi
 
-srun \
 bwa-mem2 mem -t 24 -M \
 -R "@RG\tID:${READ_ID}\tSM:${SAMPLE_NAME}" \
 "${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/0_idx/${ASSEMBLY_NAME}" \
@@ -71,7 +70,6 @@ samtools sort -@ 12 -o "${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_
 echo ""
 echo ". Indexing bam..."
 echo ""
-srun \
 samtools index ${READ_ID}.bam
 
 
@@ -79,7 +77,6 @@ samtools index ${READ_ID}.bam
 echo ""
 echo ". Starting Picard..."
 echo ""
-srun \
 picard -Xmx64g MarkDuplicates \
 -ASSUME_SORTED true \
 -VALIDATION_STRINGENCY SILENT \
@@ -94,5 +91,4 @@ picard -Xmx64g MarkDuplicates \
 echo ""
 echo ". Indexing bam..."
 echo ""
-srun \
 samtools index ${READ_ID}.markdup.bam

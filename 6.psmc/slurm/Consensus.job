@@ -3,7 +3,7 @@
 #SBATCH -J Cons
 
 #SBATCH --cpus-per-task=1
-#SBATCH --mem=1G
+#SBATCH --mem=2G
 #SBATCH --time=12:00:00
 
 export PATH="${CONDA_BIN_DIR}:${PATH}"
@@ -12,19 +12,23 @@ source activate PSMC_env
 cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc
 
 
-if [ -z "${SEX_CHROM_NAME}" ]
-then
-	cp ${MAIN_CHROM} scaffolds_ok
-else
-	sed "/${SEX_CHROM_NAME}/d" ${MAIN_CHROM} > scaffolds_ok
-fi
+#if [ -z "${SEX_CHROM_NAME}" ]
+#then
+#	cp ${MAIN_CHROM} scaffolds_ok
+#else
+#	sed "/${SEX_CHROM_NAME}/d" ${MAIN_CHROM} > scaffolds_ok
+#fi
 
-bcftools view -r $(paste -s -d, scaffolds_ok) \
-${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs/filt/${SAMPLE_NAME}.PASS.masked_filtered.vcf.gz | bgzip > scaffolds_ok.vcf.gz
+cut -f1 $CHROM_LIST > temp_scaffold_names
+python ${INSTALLATION_DIR}/6.psmc/scripts/exclude_scaf.py ${ASSEMBLY_HM} temp_scaffold_names temp_asm_HM_psmc.fa
 
-bcftools index scaffolds_ok.vcf.gz
 
-cat ${ASSEMBLY_HM} | bcftools consensus -I scaffolds_ok.vcf.gz > ${SAMPLE_NAME}_consensus.fasta
+#bcftools view -r $(paste -s -d, scaffolds_ok) \
+#${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs/filt/${SAMPLE_NAME}.PASS.masked_filtered.vcf.gz | bgzip > scaffolds_ok.vcf.gz
+
+#bcftools index scaffolds_ok.vcf.gz
+
+cat temp_asm_HM_psmc.fa | bcftools consensus -I ${PASS_VCF} > ${SAMPLE_NAME}_consensus.fasta
 #-I: It uses the ambiguity codes. For example "nucleotide" Y means that position is heterozygote for C and T nucleotides. If you have a Y in your sliding window, PSMC calls that window to have heterozygosity. SNPs are converted into these IUPAC codes to represent diploid information in a haploid-like single sequence in the prior step.
 
 

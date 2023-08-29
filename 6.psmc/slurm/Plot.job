@@ -2,8 +2,8 @@
 
 #SBATCH -J Plot
 
-#SBATCH --cpus-per-task=8
-#SBATCH --mem=48G
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=2G
 #SBATCH --time=2-00:00:00
 
 export PATH="${CONDA_BIN_DIR}:${PATH}"
@@ -12,8 +12,9 @@ source activate PSMC_env
 
 cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc
 
+mkdir plots
 
-psmc_plot.pl -u ${MUTATION} -g ${GENERATON} -R -T ${SAMPLE_NAME} -p ${SAMPLE_NAME}_plot ${SAMPLE_NAME}.combined.psmc
+psmc_plot.pl -u ${MUTATION} -g ${GENERATION} -R -T ${SAMPLE_NAME} -p "plots/${SAMPLE_NAME}_plot" "${SAMPLE_NAME}.combined.psmc"
 
 # -u: per-generation mutation rate  
 # -g: generation time in years
