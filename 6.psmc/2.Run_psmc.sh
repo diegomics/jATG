@@ -11,7 +11,7 @@ then
     export ASSEMBLY_NAME=$(basename $ASSEMBLY .${ASSEMBLY##*.})
 else
     echo "Invalid reference extension name!"
-
+fi
 
 if [ -z "${ASSEMBLY_HM}" ]
 then
