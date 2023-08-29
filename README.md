@@ -17,7 +17,7 @@ Requirements:
 
 3) Install needed software with: `bash install_jATG_dependencies.sh` IMPORTANT: this should be done only once!
 
-4) Enter each folder to run the particular analysis
+4) Enter each folder to configure and run the particular analysis
 
 
 
