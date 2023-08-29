@@ -23,7 +23,7 @@ Requirements:
 
 ---
 
-In the end, the analysis produces the following output structure:
+In the end, the pipeline produces the following output structure:
 ```
 [OUT_DIR]
 └── jATG
