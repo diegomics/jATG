@@ -44,3 +44,6 @@ This analysis **estimates historical population sizes from a single genome seque
 3) Run the masking pipeline in _Slurm_ with: `bash 3.Run_psmc.sh`
 
 \*) It uses up to 8 cpus and 16 Gb of RAM
+
+
+### About the analysis and setting of the parameters:
