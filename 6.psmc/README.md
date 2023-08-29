@@ -37,11 +37,6 @@ This analysis **estimates historical population sizes from a single genome seque
 
 ### How to run?
 
-Requirements:
-* [Slurm](https://slurm.schedmd.com)
-* [Conda](https://docs.conda.io)
-
-
 1) Edit `1.psmc_variables.cnf` file with the respective paths, values and parameters.
 
 2) Install needed software with: `bash 2.install_psmc_dependencies.sh`
