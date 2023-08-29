@@ -1,4 +1,4 @@
 # reference (or related species) genome variables
-export REF_SPECIES_NAME="Tursiops_truncatus" #			# name of the reference genome, use underscore instead space, eg: Homo_sapiens Leave the field empty ("") if no data available (it will not run the Sex-chrom analysis)
-export REF_ASSEMBLY="/scratch/ddepanis/workshop/vaquita/GCF_011762595.1_mTurTru1.mat.Y_genomic.fna.gz"     # path to the reference genome assembly, can be gz.  Leave the field empty ("") if no data available (it will not run the DotPlot analysis)
-export REF_ID="mTurTru1"						# Not necessary if REF_ASSEMBLY is not provided
+export REF_SPECIES_NAME="Tursiops_truncatus"              # name of the reference genome, use underscore instead space, eg: Homo_sapiens. Leave the field empty ("") if no data available (it will not run the Sex-chrom analysis)
+export REF_ASSEMBLY="/my/folder/GCF_011762595.1.fna.gz"   # path to the reference genome assembly, can be gz.  Leave the field empty ("") if no data available (it will not run the DotPlot analysis)
+export REF_ID="mTurTru1"                                  # Not necessary if REF_ASSEMBLY is not provided
