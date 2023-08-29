@@ -1,7 +1,7 @@
 # 1. Quick Stats
 🧬⚡️🧬⚡️🧬⚡️🧬⚡️
 
-This first analysis aims to generate a rapid overview of the genome assembly and produce outputs that come in handy posteriorly.
+This first analysis aims to generate a rapid overview of the genome assembly and produce outputs that come in handy posteriorly. You can provide a reference or close-related species for some analysis.
 
 ## Output:
 ```
@@ -10,7 +10,7 @@ This first analysis aims to generate a rapid overview of the genome assembly and
     └── [SPECIES_NAME]
         └── [ASSEMBLY_ID]
             └── 1.stats
-                ├── <..>_shortStats.tsv     # very brief stats of the assembly
+                ├── <..>_shortStats.md      # very brief stats of the assembly
                 ├── full_fasta_header       # complete header of each scaffold
                 ├── main_scaffolds          # list with scaffolds longer than 5 Mbp
                 ├── number_lengths_GC_Ns    # table with name, length (decreasing order), GC rate, % of Ns of each scaffold
@@ -26,15 +26,10 @@ This first analysis aims to generate a rapid overview of the genome assembly and
 
 ### How to run?
 
-Requirements:
-* [Slurm](https://slurm.schedmd.com)
-* [Conda](https://docs.conda.io)
-
-
 1) Edit `1.stats_variables.cnf` file with the respective paths, values and parameters.
 
-2) Install needed software with: `bash 2.install_stats_dependencies.sh`
+2) Check if the provided reference of close-related species contains sex-chromosome relevant data: `bash 2.reference_check.sh`
 
-3) Run the masking pipeline in _Slurm_ with: `bash 3.Run_stats.sh`
+3) Run the analysis based on the inputs provided: `bash 3.Run_stats.sh`
 
 \*) It uses up to 6 cpus and 18 Gb of RAM
