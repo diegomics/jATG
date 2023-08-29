@@ -18,7 +18,7 @@ It runs in one take [Darwindow](https://github.com/mennodejong1986/Darwindow/tre
             └── [SAMPLE_NAME]
                 ├── 4.snp_calling
                 │   └── ..
-                └── 5.het_roh
+                └── 5.het_roh.w<WIN_SIZE>
                     ├── mywindowhe.100000.<..>.txt 
                     ├── Genomewide_regionHe.ind.barplot.pdf
                     ├── He_histo_region.pdf
@@ -32,10 +32,9 @@ It runs in one take [Darwindow](https://github.com/mennodejong1986/Darwindow/tre
 
 ### How to run?
 
-1) Edit `1.roh_variables.cnf` file with the respective paths, values and parameters.
+1) Edit `1.HeRoH_variables.cnf` file with the respective paths, values and parameters.
 
-2) Install needed software with: `bash 2.install_roh_dependencies.sh`
+2) Run the analysis: `bash 2.Run_roh.sh`
 
-3) Run the masking pipeline in _Slurm_ with: `bash 3.Run_het_roh.sh`
-
-\*) 
+3) OPTIONAL: if you want to run the analysis with different values of `NUM_WIN` and/or `MAX_MISS` and/or `HET_TRES`, edit accordingly `1.HeRoH_variables.cnf` and run: `bash OPTIONAL_rerun.sh`
+   **IMPORTANT:** for running with a different value of `WIN_SIZE`, edit accordingly `1.HeRoH_variables.cnf` and run `2.Run_roh.sh`
