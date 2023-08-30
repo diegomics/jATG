@@ -62,10 +62,11 @@ Important variables to run the analaysis :
 * -N: 
 * -t: scaled mutation rate (theta)
 * -r: scaled recombination rate (rho)
-
+> blabla
 
 **TIME_INT** this variable corresponds to:
 * -p: time interval patterns = number of intervals with particular widths in coalescent time units
+> blabla
 
 **BOOTST**: this variable assigns the number of bootstraps
 
