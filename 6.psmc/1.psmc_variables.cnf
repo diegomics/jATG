@@ -1,15 +1,14 @@
 # assembly variables
-export ASSEMBLY_HM="" #"/scratch/ddepanis/Condor_project/CaCo/jATG/Gymnogyps_californianus/ASM1813914v2/2.masking/3_masker/GCF_018139145.2_ASM1813914v2.HM.fa"  # path to masked assembly (can be found in ../2.masking/3_masker/..)
-export CHROM_LIST="" #"/scratch/ddepanis/Condor_project/CaCo/jATG/Gymnogyps_californianus/ASM1813914v2/SAMN18477435/4.calling/2_VCFs/filtered/main_scaffoldsNoSex_lengths"                  # list of main scaffolds (5>Mbp) without sex chromosomes found in ../4.calling/2_VCFs/filtered/main_scaffoldsNoSex_lengths
+export ASSEMBLY_HM=""             # hard-masked genome # IMPORTANT!!! Leave it blank ("") to use previously obtained hard-masked (in ../2.masking/3_masker/..)
+export CHROM_LIST=""              # list of main scaffolds (5>Mbp) without sex chromosomes # IMPORTANT!!! Leave it blank ("") to use previously obtained list (in ../4.calling/2_VCFs/filtered/..)
 
 # reads variables
-export SAMPLE_NAME="ERR6412365"         # eg: Brown_Dog
-export PASS_VCF="" #"/scratch/ddepanis/Condor_project/CaCo/jATG/Gymnogyps_californianus/ASM1813914v2/SAMN18477435/4.calling/2_VCFs/filtered/SAMN18477435.Genot.PASS.bcf" # ../4.calling/2_VCFs/filtered/..
+export SAMPLE_NAME="ERR6412365"   # eg: Brown_Dog
+export PASS_VCF=""                # filtered vcf file  # IMPORTANT!!! Leave it blank ("") to use previously obtained (in ../4.calling/2_VCFs/filtered/..)
 
 # PSMC variables
-export PARAMS="-N25 -t1 -r5" #
-export TIME_INT="4+20*2+6" # pattern of intervals in coalescent time units (+ symbol separates intervals).
-export BOOTST="10"                            # rounds of bootstrapping
-export MUTATION='1.4e-9'                     # per-generation mutation rate for the species (e.g.: 1.3e-08)
-export GENERATION='10'                        # generation time for the species in years
-
+export PARAMS="-N25 -t1 -r5"      #
+export TIME_INT="4+20*2+6"        # pattern of intervals in coalescent time units (+ symbol separates intervals).
+export BOOTST="10"                # rounds of bootstrapping
+export MUTATION='1.4e-9'          # per-generation mutation rate for the species (e.g.: 1.3e-08)
+export GENERATION='10'            # generation time for the species in years
