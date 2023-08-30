@@ -39,9 +39,7 @@ This analysis **estimates historical population sizes from a single genome seque
 
 1) Edit `1.psmc_variables.cnf` file with the respective paths, values and parameters.
 
-2) Install needed software with: `bash 2.install_psmc_dependencies.sh`
-
-3) Run the masking pipeline in _Slurm_ with: `bash 3.Run_psmc.sh`
+2) Run the analysis with: `bash 3.Run_psmc.sh`
 
 \*) It uses up to 8 cpus and 16 Gb of RAM
 
