@@ -59,17 +59,19 @@ Since the PSMC values are in coalescent units, which are not directly comparable
 Important variables to run the analaysis :
 
 **PARAMS** this variable contains the following parameters
-. -N: 
-. -t: scaled mutation rate (theta)
-. -r: scaled recombination rate (rho)
+* -N: 
+* -t: scaled mutation rate (theta)
+* -r: scaled recombination rate (rho)
 
 
 **TIME_INT** this variable corresponds to:
-. -p: time interval patterns = number of intervals with particular widths in coalescent time units
+* -p: time interval patterns = number of intervals with particular widths in coalescent time units
 
 **BOOTST** this variable assigns the number of bootsrtaps
 
 Scaling
-MUTATION
-GENERATION
+
+**MUTATION**
+
+**GENERATION**
 
