@@ -67,7 +67,7 @@ Important variables to run the analaysis :
 **TIME_INT** this variable corresponds to:
 * -p: time interval patterns = number of intervals with particular widths in coalescent time units
 
-**BOOTST** this variable assigns the number of bootsrtaps
+**BOOTST**: this variable assigns the number of bootstraps
 
 Scaling
 
