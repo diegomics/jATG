@@ -69,10 +69,10 @@ Important variables to run the analaysis :
 > blabla
 
 **BOOTST**: this variable assigns the number of bootstraps
-
-Scaling
+> blabla
 
 **MUTATION**
 
 **GENERATION**
+> blabla
 
