@@ -15,6 +15,7 @@ echo ""
 echo -e "* building singularity container in ${INSTALLATION_DIR}/containers ..."
 echo ""
 mkdir -p ${INSTALLATION_DIR}/containers
+TMPDIR="${INSTALLATION_DIR}/containers"
 cd ${INSTALLATION_DIR}/containers
 LC_ALL=C
 singularity pull docker://dfam/tetools:1.8
