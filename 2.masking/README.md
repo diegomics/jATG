@@ -42,7 +42,7 @@ This analysis generates a species-tailored masked version of the genome and anno
 
 \*) It uses up to 16 cpus and 192 Gb of RAM (this can be adjusted in slurm/RepeatM.job)
 
-\**) Depending on the genome, it can take ~48 h to finish the pipeline.
+\**) Running time depends on the genome (e.g., a mammal can take 72 h to finish the pipeline).
 
 
 ### About the analysis and setting of the parameters:
