@@ -62,11 +62,11 @@ Important variables to run the analaysis :
 * -N: maximum number of iterations. The default is 30
 * -t: maximum 2N0 coalescent time (the time it takes for two lineages to coalesce in a population of size = 2 * initial Ne). The default is 15
 * -r: initial theta/rho ratio (ratio of the mutation rate to the recombination rate). The default is 4
-> blabla
+> Example for humans: -N25 -t15
 
 **TIME_INT** this variable corresponds to:
-* -p: time interval patterns = number of intervals with particular widths in coalescent time units
-> blabla
+* -p: time interval patterns. The default is "4+5\*3+4"
+> Example for humans: -p "4+25\*2+4+6"
 
 **BOOTST**: this variable assigns the number of bootstraps
 > blabla
