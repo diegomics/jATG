@@ -67,6 +67,7 @@ Important variables to run the analaysis :
 **TIME_INT** this variable corresponds to:
 * -p: time interval patterns. The default is "4+5\*3+4"
 > Example for humans: -p "4+25\*2+4+6"
+> 
 > bla
 
 **BOOTST**: this variable assigns the number of bootstraps
