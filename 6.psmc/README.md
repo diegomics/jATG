@@ -59,9 +59,9 @@ Since the PSMC values are in coalescent units, which are not directly comparable
 Important variables to run the analaysis :
 
 **PARAMS** this variable contains the following parameters
-* -N: 
-* -t: scaled mutation rate (theta)
-* -r: scaled recombination rate (rho)
+* -N: maximum number of iterations. The default is 30
+* -t: maximum 2N0 coalescent time (the time it takes for two lineages to coalesce in a population of size = 2 * initial Ne). The default is 15
+* -r: initial theta/rho ratio (ratio of the mutation rate to the recombination rate). The default is 4
 > blabla
 
 **TIME_INT** this variable corresponds to:
