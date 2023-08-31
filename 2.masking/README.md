@@ -23,7 +23,7 @@ This analysis generates a species-tailored masked version of the genome and anno
                     ├── <..>.HM.fa              # hard-masked assembly
                     ├── <..>.gff                # repeats annotation in gff3 format
                     ├── <..>.bed                # repeats annotation in bed format
-                    ├── <..>..3cols.bed         # coordinates of assembly that is masked
+                    ├── <..>.3cols.bed         # coordinates of assembly that is masked
                     ├── <..>.tbl                # summary result of the repeats in the assembly
                     ├── <..>.align.divsum.html  # abundance of repeats in the assembly vs the Kimura divergence from the consensus  
                     ├── <..>.svg                # svg version of the repeat landscape <..>.align.divsum.html
