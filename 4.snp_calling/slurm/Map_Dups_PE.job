@@ -9,6 +9,9 @@
 export PATH="${CONDA_BIN_DIR}:${PATH}"
 source activate jATG_env
 
+${SINGULARITY_LOAD}
+
+
 cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs
 
 if [[ "${ASSEMBLY##*.}" == "gz" ]]
@@ -63,25 +66,29 @@ bwa-mem2 mem -t 24 -M \
 ${READ1} \
 "${TRIMMED_READS_DIR}/${READ2_NAME}" | \
 samtools view -@ 12 -b -u | \
-samtools sort -@ 12 -o "${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/${READ_ID}.bam"
+samtools sort -@ 12 -o "${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/temp_${READ_ID}.bam"
 
 
 ###############################################################################
 echo ""
 echo ". Indexing bam..."
 echo ""
-samtools index ${READ_ID}.bam
+samtools index temp_${READ_ID}.bam
 
 
 ###############################################################################
 echo ""
 echo ". Starting Picard..."
 echo ""
-picard -Xmx64g MarkDuplicates \
+
+LC_ALL=C
+
+singularity exec -B ${BIND_DIR}:${BIND_DIR} ${INSTALLATION_DIR}/containers/gatk_latest.sif gatk \
+--java-options "-Xmx${SLURM_MEM_PER_NODE}M" MarkDuplicates \
 -ASSUME_SORTED true \
 -VALIDATION_STRINGENCY SILENT \
 -MAX_FILE_HANDLES_FOR_READ_ENDS_MAP 1000 \
--I ${READ_ID}.bam \
+-I temp_${READ_ID}.bam \
 -O ${READ_ID}.markdup.bam \
 -M ${READ_ID}.markdup_metrics.txt \
 -TMP_DIR ${TMPDIR}
