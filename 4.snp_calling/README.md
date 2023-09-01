@@ -34,9 +34,9 @@ Complete variant-calling pipeline based on [GATK](https://gatk.broadinstitute.or
                         │   ├── <..>.Genot.full.mainNoSex.mask.filt.vcf.bgz      # base pair resolution filtered gVCF
                         │   ├── <..>.Genot.full.mainNoSex.mask.filt.vcf.bgz.tbi
                         │   ├── <..>.Genot.full.mainNoSex.mask.filt.stats        # base pair resolution filtered gVCF full stats (number of SNPs, etc)
-                        │   ├── <..>.ERR6412365.Genot.PASS.bcf                   # filtered binary VCF
-                        │   ├── <..>.ERR6412365.Genot.PASS.bcf.csi
-                        │   ├── <..>.ERR6412365.Genot.PASS.stats                 # filtered binary VCF full stats (number of SNPs, etc)
+                        │   ├── <..>.Genot.PASS.bcf                              # filtered binary VCF
+                        │   ├── <..>.Genot.PASS.bcf.csi
+                        │   ├── <..>.Genot.PASS.stats                            # filtered binary VCF full stats (number of SNPs, etc)
                         │   ├── <..>.filt_heterozygosity                         # estimated heterozygosity
                         │   ├── <..>.main_scaffoldsNoSex_lengths                 # list of main scaffolds (>5Mbp) without Sex chrom names and lengths
                         │   ├── <..>.meanCov                                     # mean coverage based on the raw base pair resolution gVCF
