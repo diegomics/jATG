@@ -12,9 +12,9 @@ source activate jATG_env
 
 cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc
 
-mkdir plots
+PLOTS_DIR="plots.m${MUTATION}.g${GENERATION}"
+mkdir $PLOTS_DIR
 
-psmc_plot.pl -u ${MUTATION} -g ${GENERATION} -R -T ${SAMPLE_NAME} -p "plots/${SAMPLE_NAME}_plot" "${SAMPLE_NAME}.combined.psmc"
+FORMATTED_MUTATION=$(awk -v num="$MUTATION" 'BEGIN { printf "%.15f", num }' | sed 's/\.\?0*$//')
 
-# -u: per-generation mutation rate  
-# -g: generation time in years
+psmc_plot.pl -u ${FORMATTED_MUTATION} -g ${GENERATION} -R -T ${SAMPLE_NAME} -p "${PLOTS_DIR}/${SAMPLE_NAME}_plot" "${SAMPLE_NAME}.combined.psmc"
