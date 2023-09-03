@@ -80,7 +80,7 @@ def main():
         genes, fasta_sequences = get_genes_linked_to_sex_chromosomes(args.species, args.email)
         
         if genes:
-            with open(f"{args.species}_sexChrGenes.tsv", 'w', newline='') as f:
+            with open(f"temp_{args.species}_sexChrGenes.tsv", 'w', newline='') as f:
                 writer = csv.DictWriter(f, fieldnames=['Symbol', 'Name', 'Location'], delimiter='\t')
                 writer.writeheader()
                 for gene in genes:
