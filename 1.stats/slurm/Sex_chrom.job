@@ -22,3 +22,6 @@ python ${INSTALLATION_DIR}/1.stats/scripts/search_sex_scaffolds.py ${USER_MAIL} 
 miniprot -t8 ${ASSEMBLY} ${REF_SPECIES_NAME}_sexChrSeqs.faa > sexChr.paf
 
 echo -e "hits\tscaf_name" > sexChr_evidence; cut -f6 sexChr.paf | sort | uniq -c | sort -nr | awk '{print $1"\t"$2}' >> sexChr_evidence
+
+cat temp_${REF_SPECIES_NAME}_sexChrGenes.tsv | csvtk tab2csv | csvtk csv2md > ${REF_SPECIES_NAME}_sexChrGenes.md
+rm temp_${REF_SPECIES_NAME}_sexChrGenes.tsv
