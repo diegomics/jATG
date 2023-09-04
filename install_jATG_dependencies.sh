@@ -33,6 +33,6 @@ then
         echo "TETools container already available!"
 else
         echo -e "* building TETools singularity container in ${INSTALLATION_DIR}/containers ..."
-        singularity pull docker://dfam/tetools:1.8
+        singularity pull docker://dfam/tetools:1.85
         ln -s tetools_1.8.sif tetools_latest.sif
 fi
