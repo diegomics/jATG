@@ -21,18 +21,19 @@ This analysis **estimates historical population sizes from a single genome seque
                 ├── 5.het_roh
                 │   └── ..
                 └── 6.psmc
-                    ├── scaffolds_ok # list of scaffolds >5Mbp and without sex chrom.
-                    ├── scaffolds_ok.vcf.gz # filtered VCF containing only scaffolds_ok
                     ├── <..>_consensus.fasta
                     ├── <..>.psmcfa
                     ├── <..>.psmcfa.split.psmcfa
                     ├── <..>.psmc
                     ├── round-1.psmc
-                    ├── round-2.psmc
                     ├── ..
+                    ├── round-<BOOTST>.psmc
                     ├── <..>.combined.psmc
-                    ├── <..>.png
-                    └── ..
+                    └── plots.m<MUTATION>.g<GENERATION>
+                        ├── <..>_plot.pdf
+                        ├── <..>_plot.0.txt
+                        ├── <..>_plot.<BOOTST>.txt
+                        └── ..
 ```
 
 ### How to run?
