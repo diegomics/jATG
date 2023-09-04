@@ -14,7 +14,7 @@ fi
 
 
 ${SINGULARITY_LOAD}
-LC_ALL=C
+export LC_ALL=C
 mkdir -p ${INSTALLATION_DIR}/containers
 cd ${INSTALLATION_DIR}/containers
 
