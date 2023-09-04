@@ -23,7 +23,7 @@ def process_fasta_to_bed(input_file, output_file):
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print("Usage: softmasked_to_bed.py <softmasked_fasta(.gz> <output_bed>")
+        print("Usage: softmasked_to_bed.py <softmasked_fasta(.gz)> <output_bed>")
         sys.exit(1)
 
     input_fasta = sys.argv[1]
