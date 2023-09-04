@@ -14,7 +14,7 @@ source activate jATG_env
 
 ${SINGULARITY_LOAD} #comment if singularity is in path
 
-LC_ALL=C
+export LC_ALL=C
 
 echo "=== 1/5. Indexing genome for RepeatModeler...  ======================================="
 
