@@ -60,3 +60,42 @@ Complete variant-calling pipeline based on [GATK](https://gatk.broadinstitute.or
 
 
 ### About the analysis and setting of the parameters:
+
+During the variant calling analysis, short paired-end reads or long HiFi reads are mapped agains the assembly using bwa-mem2 or minimap, respectively. 
+It accepts multiple reads files from the same sample (if available) and mapped them in parallel to finally merge all in a unique bam.
+After deduplication, it will get metrics based on the bam for evaluation.
+
+The variant calling step consist in splitting the analysis in scaffolds adding 200 Mbp (if possible) for better parallelisation, and running HaplotypeCaller followed by GenotypeGVCFs to produce a basepair resolution raw gVCF. Next all scaffolds shorter than 5 Mbp are removed together with scaffolds pointed as sex-chromosomes.
+Next, the genotypes in the gVCF are turned into missing "./." in all the regions masked based on a bed file with the positions to the masked regions across the assembly. Finally, the following filters are applied, also turning the genotypes to missing when the criteria is not met:
+Read depth:
+Sample's Depth (DP)
+Quality by Depth (QD)
+Fisher Strand bias (FS)
+Mapping Quality (MQ)
+MQRankSum
+ReadPosRankSum
+Symmetric Odds Ratio (SOR)
+number of alternate alleles
+Allelic Depth (AD) 
+indel
+
+Important variables to run the analysis:
+
+MASKED_BED: a 3 columns bed file with positions of masked segments (scaffold_name, start_position, end_position). This file is produced during the masking analysis. If the masking analysis was not performed, the script ../2.masking/scripts/softmasked_to_bed.py can produce the 3 columns bed file from a softmasked fasta file.
+
+SEX_CHROMS:
+
+TRIMMED_READS_DIR:
+
+READ_TYPE:
+
+SAMPLE_NAME:
+
+MULTI_RUN:
+
+MIN_DEPTH:
+
+MAX_DEPTH:
+
+MAP_QUAL:
+
