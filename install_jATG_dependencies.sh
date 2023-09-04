@@ -18,21 +18,24 @@ LC_ALL=C
 mkdir -p ${INSTALLATION_DIR}/containers
 cd ${INSTALLATION_DIR}/containers
 
-if [ -e "${INSTALLATION_DIR}/containers/gatk_latest.sif" ]
+GATK_VER="4.2.6.1"
+TET_VER="1.85"
+
+if [ -e "${INSTALLATION_DIR}/containers/gatk_${GATK_VER}.sif" ]
 then
 	echo "GATK container already available!"
 else
 	echo -e "* building GATK singularity container in ${INSTALLATION_DIR}/containers ..."
-	singularity pull docker://broadinstitute/gatk:4.2.6.1
-	ln -s gatk_4.2.6.1.sif gatk_latest.sif
+	singularity pull docker://broadinstitute/gatk:${GATK_VER}
+	ln -s gatk_${GATK_VER}.sif gatk_latest.sif
 fi
 
 
-if [ -e "${INSTALLATION_DIR}/containers/tetools_latest.sif" ]
+if [ -e "${INSTALLATION_DIR}/containers/tetools_${TET_VER}.sif" ]
 then
         echo "TETools container already available!"
 else
         echo -e "* building TETools singularity container in ${INSTALLATION_DIR}/containers ..."
-        singularity pull docker://dfam/tetools:1.85
-        ln -s tetools_1.8.sif tetools_latest.sif
+        singularity pull docker://dfam/tetools:${TET_VER}
+        ln -s tetools_${TET_VER}.sif tetools_latest.sif
 fi
