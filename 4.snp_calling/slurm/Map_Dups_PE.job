@@ -81,7 +81,7 @@ echo ""
 echo ". Starting Picard..."
 echo ""
 
-LC_ALL=C
+export LC_ALL=C
 
 singularity exec -B ${BIND_DIR}:${BIND_DIR} ${INSTALLATION_DIR}/containers/gatk_latest.sif gatk \
 --java-options "-Xmx${SLURM_MEM_PER_NODE}M" MarkDuplicates \
