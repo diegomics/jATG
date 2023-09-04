@@ -25,7 +25,7 @@ Complete variant-calling pipeline based on [GATK](https://gatk.broadinstitute.or
                     │   ├── eval                                                 # BAM-based metrics folder
                     │   │   ├── <..>.markdup_metrics.txt                         # dups metrics
                     │   │   ├── <..>.merged_MeanCov                              # mean coverage based on the merged BAM
-                    │   │   ├── <..>.merged_RefCov.md                            # markdown table for coverage
+                    │   │   ├── <..>.merged_RefCov.md                            # markdown table with metrics by scaffolds
                     │   │   └── <..>.rmd_PrimAligRead                            # Number of primary aligned reads
                     │   ├── <..>.merged.bam
                     │   └── <..>.merged.bam.bai
