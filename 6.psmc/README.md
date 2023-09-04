@@ -59,13 +59,13 @@ Since the PSMC values are in coalescent units, which are not directly comparable
 
 Important variables to run the analysis:
 
-**PARAMS** this variable contains the following parameters
+**PARAMS**: this variable contains the following parameters
 * -N: maximum number of iterations. The default is 30
 * -t: maximum 2N0 coalescent time (the time it takes for two lineages to coalesce in a population of size = 2 * initial Ne). The default is 15
 * -r: initial theta/rho ratio (ratio of the mutation rate to the recombination rate). The default is 4
 > Example for humans: -N25 -t15
 
-**TIME_INT** this variable corresponds to:
+**TIME_INT**: this variable corresponds to:
 * -p: time interval patterns. The default is "4+5\*3+4"
 > Example for humans: -p "4+25\*2+4+6"
 > 
@@ -74,8 +74,8 @@ Important variables to run the analysis:
 **BOOTST**: this variable assigns the number of bootstraps
 > blabla
 
-**MUTATION**
+**MUTATION**:
 
-**GENERATION**
+**GENERATION**:
 > blabla
 
