@@ -46,13 +46,13 @@ else
 fi
 
 
-singularity exec --bind ${BIND_DIR}:${BIND_DIR} "${INSTALLATION_DIR}/containers/tetools_1.8.sif" \
+singularity exec --bind ${BIND_DIR}:${BIND_DIR} "${INSTALLATION_DIR}/containers/tetools_latest.sif" \
 BuildDatabase -name ${ASSEMBLY_NAME} ${ASSEMBLY_NAME}.fa
 
 
 echo "=== 2/5. Starting RepeatModeler...  =================================================="
 
-singularity exec --bind ${BIND_DIR}:${BIND_DIR} "${INSTALLATION_DIR}/containers/tetools_1.8.sif" \
+singularity exec --bind ${BIND_DIR}:${BIND_DIR} "${INSTALLATION_DIR}/containers/tetools_latest.sif" \
 RepeatModeler -database ${ASSEMBLY_NAME} -threads ${SLURM_CPUS_PER_TASK} -LTRStruct
 
 cp -r * ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/2.masking/1_modeler
@@ -73,7 +73,7 @@ else
 fi
 
 #extract a species-specific FASTA library from the installed libraries
-singularity exec --bind ${BIND_DIR}:${BIND_DIR} --pwd /opt/RepeatMasker/Libraries/ "${INSTALLATION_DIR}/containers/tetools_1.8.sif" \
+singularity exec --bind ${BIND_DIR}:${BIND_DIR} --pwd /opt/RepeatMasker/Libraries/ "${INSTALLATION_DIR}/containers/tetools_latest.sif" \
 famdb.py -i RepeatMaskerLib.h5 families --format fasta_name --include-class-in-name --ancestors --descendants "${LINEAGE_NAME}" > ${ASSEMBLY_NAME}-rm.fa
 
 #combine libraries
@@ -88,7 +88,7 @@ mkdir -p /dev/shm/${ASSEMBLY_ID}/2.masking/3_masker
 cd /dev/shm/${ASSEMBLY_ID}/2.masking/3_masker
 ln -s ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/2.masking/1_modeler/${ASSEMBLY_NAME}.fa ${ASSEMBLY_NAME}
 
-singularity exec --bind ${BIND_DIR}:${BIND_DIR} "${INSTALLATION_DIR}/containers/tetools_1.8.sif" \
+singularity exec --bind ${BIND_DIR}:${BIND_DIR} "${INSTALLATION_DIR}/containers/tetools_latest.sif" \
 RepeatMasker -pa 4 -a -s -gccalc -xsmall -gff -lib ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/2.masking/2_libraries/${ASSEMBLY_NAME}_combined.fa ${ASSEMBLY_NAME}
 
 mv ${ASSEMBLY_NAME}.masked ${ASSEMBLY_NAME}.masked.fa
@@ -105,12 +105,12 @@ bedtools maskfasta -fi ${ASSEMBLY_NAME}.masked.fa -bed ${ASSEMBLY_NAME}.3cols.be
 
 echo "=== 5/5. Plotting results...  ========================================================"
 
-singularity exec --bind ${BIND_DIR}:${BIND_DIR} "${INSTALLATION_DIR}/containers/tetools_1.8.sif" \
+singularity exec --bind ${BIND_DIR}:${BIND_DIR} "${INSTALLATION_DIR}/containers/tetools_latest.sif" \
 calcDivergenceFromAlign.pl -s ${ASSEMBLY_NAME}.align.divsum -a ${ASSEMBLY_NAME}.align_with_div ${ASSEMBLY_NAME}.align
 
 SIZE=$(grep "total length:" ${ASSEMBLY_NAME}.tbl | awk '{print $3}')
 
-singularity exec --bind ${BIND_DIR}:${BIND_DIR} "${INSTALLATION_DIR}/containers/tetools_1.8.sif" \
+singularity exec --bind ${BIND_DIR}:${BIND_DIR} "${INSTALLATION_DIR}/containers/tetools_latest.sif" \
 createRepeatLandscape.pl -div ${ASSEMBLY_NAME}.align.divsum -g ${SIZE} > ${ASSEMBLY_NAME}.align.divsum.html
 
 python ${INSTALLATION_DIR}/2.masking/scripts/repeatMaskerHtml2R.py -html ${ASSEMBLY_NAME}.align.divsum.html -out ${ASSEMBLY_NAME}.tsv
