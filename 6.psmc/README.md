@@ -52,11 +52,11 @@ The PSMC estimates changes in the effective population size (Ne) through time.
 
 The script uses a hardmasked assembly without small scaffolds or sex-chromosomes, and based on a vcf with high confidence SNPs, produces a consensus fasta where diploid information is presented by using ambiguity codes (e.g., a 'Y' is placed for a heterozygote position for C and T nucleotides) to start the analysis.
 
-It will first, runs the analysis on the entire consensus, and after that, it will run it on a defined number of bootstrap replicates of the consensus. At the end, it combines the results of the original analysis and the bootstrap replicates into a single file.
+It will first, run the analysis on the entire consensus, and after that, it will run it on a defined number of bootstrap replicates of the consensus. At the end, it combines the results of the original analysis and the bootstrap replicates into a single file.
 
-Since the PSMC values are in coalescent units, which are not directly comparable to real time, we need to scale it using a per-generation mutation rate and a generation time in years so the results can be plotted to show the effective population size of the population over a real time scale.
+Since the PSMC values are in coalescent units, which are not directly comparable to real-time, we need to scale it using a per-generation mutation rate and a generation time in years so the results can be plotted to show the effective population size of the population over a real-time scale.
 
-Important variables to run the analaysis :
+Important variables to run the analysis:
 
 **PARAMS** this variable contains the following parameters
 * -N: maximum number of iterations. The default is 30
