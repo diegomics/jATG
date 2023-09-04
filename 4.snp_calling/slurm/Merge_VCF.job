@@ -13,7 +13,7 @@ ${SINGULARITY_LOAD}
 
 cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs
 
-LC_ALL=C
+export LC_ALL=C
 
 ###############################################################################
 echo ""
