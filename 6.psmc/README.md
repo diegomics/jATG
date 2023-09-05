@@ -21,18 +21,18 @@ This analysis **estimates historical population sizes from a single genome seque
                 ├── 5.het_roh
                 │   └── ..
                 └── 6.psmc
-                    ├── <..>_consensus.fasta              #
-                    ├── <..>.psmcfa                       #
-                    ├── <..>.psmcfa.split.psmcfa          #
-                    ├── <..>.psmc                         #
-                    ├── round-1.psmc                      #
+                    ├── <..>_consensus.fasta              # Hard-masked assembly without small scaffolds and sex chromosomes, and with the SNPs information 
+                    ├── <..>.psmcfa                       
+                    ├── <..>.psmcfa.split.psmcfa          
+                    ├── <..>.psmc                         # result using the entire consensus
+                    ├── round-1.psmc                      # result using the first bootstrap replicate of the consensus
                     ├── ..
-                    ├── round-<BOOTST>.psmc               #
-                    ├── <..>.combined.psmc                #
+                    ├── round-<BOOTST>.psmc               # result using the last bootstrap replicate of the consensus
+                    ├── <..>.combined.psmc                # final combined result
                     └── plots.m<MUTATION>.g<GENERATION>
-                        ├── <..>_plot.pdf                 #
-                        ├── <..>_plot.0.txt               #
-                        ├── <..>_plot.<BOOTST>.txt        #
+                        ├── <..>_plot.pdf                 # PSMC plot
+                        ├── <..>_plot.0.txt               # raw data to plot
+                        ├── <..>_plot.<BOOTST>.txt        
                         └── ..
 ```
 
@@ -64,18 +64,20 @@ Important variables to run the analysis:
 * -t: maximum 2N0 coalescent time (the time it takes for two lineages to coalesce in a population of size = 2 * initial Ne). The program's default is 15
 * -r: initial theta/rho ratio (ratio of the mutation rate to the recombination rate). The program's default is 4
 > Example for humans: -N25 -t15 -r5
+>
+> 
 
-**TIME_INT**: this variable corresponds to:
-* -p: time interval patterns. The program's default is "4+5\*3+4"
+**TIME_INT**: this variable corresponds to -p (time interval patterns). Time intervals are followed by a "+" symbol. The number corresponds to the widths in coalescent time units. The notation is: "amount of intervals"\*"width"+"amount of intervals"\*"width". The program's default is "4+5\*3+4"
 > Example for humans: -p "4+25\*2+4+6"
 > 
-> bla
+> The first interval spans 4 time units, the next 25 intervals spans 2 time units,the 27th interval spans 4 time units, and the last interval spans 6 time units (for a total of 64).
 
-**BOOTST**: this variable assigns the number of bootstraps
-> blabla
+**BOOTST**: number of resampling iterations
+> A higher number of bootstraps generally leads to more precise estimates but increase computational time
 
-**MUTATION**:
+**MUTATION**: per-generation mutation rate
+> It will determine the scale of time in PSMC results. A higher mutation rate will compress the time axis, making events appear more recent, while a lower mutation rate will stretch the time axis, making events appear more ancient. 
 
-**GENERATION**:
-> blabla
+**GENERATION**:  generation time in years
+> It will affect the scaling of the time axis in the results. A longer generation time will stretch the time axis, making events appear more ancient, while a shorter generation time will compress the time axis, making events appear more recent
 
