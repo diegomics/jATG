@@ -21,12 +21,12 @@ This analysis relies on [Darwindow](https://github.com/mennodejong1986/Darwindow
                 └── 5.het_roh.w<WIN_SIZE>
                     ├── w<WIN_SIZE>n<NUM_WIN>m<MAX_MISS>h<HET_TRES>  # folder with results for the provided parameters
                     │   ├── darwindow.RData                          # R session of the analysis
-                    │   ├── fROH.svg                                 # barplot 
-                    │   ├── fROH.txt                                 #
-                    │   ├── lROH.svg                                 # barplot
-                    │   ├── lROH.txt                                 #
-                    │   ├── nROH.svg                                 # barplot
-                    │   ├── nROH.txt                                 #
+                    │   ├── fROH.svg                                 # barplot of genome-wide proportion of RoH binned by size
+                    │   ├── fROH.txt                                 
+                    │   ├── lROH.svg                                 # barplot of genome-wide sum-length of RoH binned by size
+                    │   ├── lROH.txt                                 
+                    │   ├── nROH.svg                                 # barplot of genome-wide total number of RoH binned by size
+                    │   ├── nROH.txt                                 
                     │   ├── Genomewide_He.txt                        #
                     │   ├── Genomewide_propROH.txt                   #
                     │   ├── ROH_positions.txt                        #
@@ -37,7 +37,7 @@ This analysis relies on [Darwindow](https://github.com/mennodejong1986/Darwindow
                     │   ├── He_histo_region.pdf                      #
                     │   ├── He_withROH_<..>.1.pdf                    #
                     │   └── ..
-                    ├── mywindowhe.<WIN_SIZE>.allsites_roh.txt       #
+                    ├── mywindowhe.<WIN_SIZE>.allsites_roh.txt       # table showing per window: miss sites, non-miss sites, het sites, alt hom sites
                     └── ..
 
 ```
