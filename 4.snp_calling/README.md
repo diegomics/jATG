@@ -86,7 +86,7 @@ After filtering, it will get metrics based on the VCF (before and after) for eva
 Important variables to run the analysis:
 
 **MASKED_BED**: a 3-column bed file with positions of masked segments (scaffold_name, start_position, end_position)
-> This file is produced during the masking analysis. If the masking analysis was not performed, the script ../2.masking/scripts/softmasked_to_bed.py can produce the 3 columns bed file from a softmasked fasta file.
+> This file is produced during the masking analysis. If the masking analysis was not performed, the script `../2.masking/scripts/softmasked_to_bed.py` can produce the 3 columns bed file from a softmasked fasta file.
 
 **SEX_CHROMS**: names of the scaffold that has sex chromosome identity. If more than one scaffold, use a comma between names
 > These scaffolds will be filtered
