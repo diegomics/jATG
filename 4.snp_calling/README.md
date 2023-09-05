@@ -68,10 +68,10 @@ After deduplication, it will get metrics based on the BAM for evaluation.
 The variant calling step consists of splitting the analysis in scaffolds, adding 200 Mbp (if possible) for better parallelisation, and running HaplotypeCaller followed by GenotypeGVCFs to produce a basepair resolution raw gVCF. Next, all scaffolds shorter than 5 Mbp are removed together with scaffolds pointed as sex chromosomes.
 Next, the genotypes in the gVCF are turned into missing "./." in all the regions masked based on a bed file with the positions of the masked regions across the assembly. Finally, the following [recommended](https://gatk.broadinstitute.org/hc/en-us/articles/360035890471-Hard-filtering-germline-short-variants) variant filters are applied, also turning the genotypes to missing:
 
-- Sample's Depth (DP): less than MIN_DEPTH or more than MAX_DEPTH
+- Sample's Depth (DP): less than *MIN_DEPTH* or more than *MAX_DEPTH*
 - Quality by Depth (QD) < 2.0
 - Fisher Strand bias (FS) > 60.0
-- Mapping Quality (MQ) < MAP_QUAL
+- Mapping Quality (MQ) < *MAP_QUAL*
 - MQRankSum < -12.5
 - ReadPosRankSum < -8.0; ReadPosRankSum > 8.0
 - Symmetric Odds Ratio (SOR) > 3.0
