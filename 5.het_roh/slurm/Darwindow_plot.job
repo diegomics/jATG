@@ -32,3 +32,7 @@ Rscript ${INSTALLATION_DIR}/5.het_roh/scripts/get_Darwindow_results.R ${INSTALLA
 rm popfile.txt
 rm mywindowhe.${WIN_SIZE}.allsites_roh.txt
 rm myvcfsamples.txt
+
+[[ -f ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/5.het_roh.w${WIN_SIZE}/mywindowhe.${WIN_SIZE}.allsites_roh.txt && \
+$(stat -c %s ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/5.het_roh.w${WIN_SIZE}/mywindowhe.${WIN_SIZE}.allsites_roh.txt) -gt 100000 ]] && \
+find ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/5.het_roh.w${WIN_SIZE} -type f -size 0 -delete
