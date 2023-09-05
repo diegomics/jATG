@@ -6,7 +6,7 @@ export SEX_CHROMS=""                             # scaffold names of sex chromos
 export TRIMMED_READS_DIR="/my/folder/HiFiTrimm"  # folder with trimmed reads
 export READ_TYPE="HiFi"                          # IMPORTANT!!! only two possible values "HiFi" or "illuminaPE"
 export SAMPLE_NAME="ERR6412365"                  # eg: Brown_Dog
-export MULTI_RUN=""                              # IMPORTANT!!! enter "Y" if multiple reads files from same sample, if one (paired)data file leave it blank ("")
+export MULTI_RUN=""                              # IMPORTANT!!! enter "TRUE" if multiple reads files from same sample, if one (paired)data file leave it blank ("")
 
 # VCF filtering variables
 export MIN_DEPTH="8"                             # IMPORTANT!!! Leave it blank ("") for default value: 1/3 x mean coverage 
