@@ -68,4 +68,6 @@ The main configuration is based on four parameters:
 
 **MAX_MISS**: Maximum proportion of missing data per window (e.g., 0.5)
 
-**HET_TRES**: Heterozygosity treshold to consider a window as low heterozygous (e.g., 0.02)
+**HET_TRES**: Heterozygosity threshold to consider a window as low heterozygous (e.g., 0.02)
+
+*  A good practice is to try different values of the variables and review the results, particularly the heterozygosity curve across particular scaffolds and the fit of the RoH region in it to check consistency
