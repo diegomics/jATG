@@ -51,22 +51,22 @@ OPTIONAL: if you want to re-scale the PSMC results with different `MUTATION` and
 
 The PSMC estimates changes in the effective population size (Ne) through time.
 
-The script uses a hardmasked assembly without small scaffolds or sex-chromosomes, and based on a vcf with high confidence SNPs, produces a consensus fasta where diploid information is presented by using ambiguity codes (e.g., a 'Y' is placed for a heterozygote position for C and T nucleotides) to start the analysis.
+The script uses a hardmasked assembly without small scaffolds or sex chromosomes, and based on a VCF with high confidence SNPs, produces a consensus fasta where diploid information is presented by using ambiguity codes (e.g., a 'Y' is placed for a heterozygote position for C and T nucleotides) to start the analysis.
 
-It will first, run the analysis on the entire consensus, and after that, it will run it on a defined number of bootstrap replicates of the consensus. At the end, it combines the results of the original analysis and the bootstrap replicates into a single file.
+It will first, run the analysis on the entire consensus, and after that, run it on a defined number of bootstrap replicates of the consensus. In the end, it combines the results of the original analysis and the bootstrap replicates into a single file.
 
 Since the PSMC values are in coalescent units, which are not directly comparable to real-time, we need to scale it using a per-generation mutation rate and a generation time in years so the results can be plotted to show the effective population size of the population over a real-time scale.
 
 Important variables to run the analysis:
 
 **PARAMS**: this variable contains the following parameters
-* -N: maximum number of iterations. The default is 30
-* -t: maximum 2N0 coalescent time (the time it takes for two lineages to coalesce in a population of size = 2 * initial Ne). The default is 15
-* -r: initial theta/rho ratio (ratio of the mutation rate to the recombination rate). The default is 4
-> Example for humans: -N25 -t15
+* -N: maximum number of iterations. The program's default is 30
+* -t: maximum 2N0 coalescent time (the time it takes for two lineages to coalesce in a population of size = 2 * initial Ne). The program's default is 15
+* -r: initial theta/rho ratio (ratio of the mutation rate to the recombination rate). The program's default is 4
+> Example for humans: -N25 -t15 -r5
 
 **TIME_INT**: this variable corresponds to:
-* -p: time interval patterns. The default is "4+5\*3+4"
+* -p: time interval patterns. The program's default is "4+5\*3+4"
 > Example for humans: -p "4+25\*2+4+6"
 > 
 > bla
