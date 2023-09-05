@@ -57,7 +57,7 @@ It will first, run the analysis on the entire consensus, and after that, run it 
 
 Since the PSMC values are in coalescent units, which are not directly comparable to real-time, we need to scale it using a per-generation mutation rate and a generation time in years so the results can be plotted to show the effective population size of the population over a real-time scale.
 
-Important variables to run the analysis:
+\>\>\>\>\> Important variables when running analysis:
 
 **PARAMS**: this variable contains the following parameters
 * -N: maximum number of iterations. The program's default is 30
