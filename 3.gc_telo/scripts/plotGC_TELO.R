@@ -8,7 +8,7 @@ options(scipen = 999)
 genomeFile=read.table(args[1], header=FALSE, sep="\t")
 minLen=as.numeric(args[2])*1000000
 gcIN <- read.csv(args[3], sep='\t', header=FALSE, stringsAsFactors=TRUE)
-teloIn <- read.csv(args[4], sep=',', header=TRUE, stringsAsFactors=TRUE)
+teloIn <- read.csv(args[4], sep='\t', header=TRUE, stringsAsFactors=TRUE)
 gapIn <- read.csv(args[5], sep="\t", header=FALSE, stringsAsFactors=TRUE)
 outDir <- args[6]
 
