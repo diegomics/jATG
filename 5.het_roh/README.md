@@ -58,4 +58,11 @@ Starting from a base-pair resolution filtered gVCF, the analysis proceeds as fol
 
 * A region will be marked as RoH if it has the minimum length (in number of windows) as defined by *NUM_WIN*. Therefore, the limit of detection for a RoH is set as *WIN_SIZE* * *NUM_WIN*
 
-\>\>\>\>\> Important variables when running analysis
+\>\>\>\>\> Important variables when running analysis:
+
+The main configuration is based on four parameters:
+
+**WIN_SIZE**: Size of the window to calculate heterozygosity in base pairs (e.g., 25000)
+**NUM_WIN**: Minimum number of adjacent windows to be considered as a RoH (e.g., 4)
+**MAX_MISS**: Maximum proportion of missing data per window (e.g., 0.5)
+**HET_TRES**: Heterozygosity treshold to consider a window as low heterozygous (e.g., 0.02)
