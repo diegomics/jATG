@@ -57,3 +57,5 @@ This analysis relies on [Darwindow](https://github.com/mennodejong1986/Darwindow
 Starting from a base-pair resolution filtered gVCF, the analysis proceeds as follows: First, get heterozygosity for a given windows size (*WIN_SIZE*). Then, based on the heterozygosity threshold (*HET_TRES*), classify the window as having less heterozygosity (low) or more (not-low) than the given value. Next, count contiguous low and not-low windows. Finally, get sections where low windows occur a number of times defined by a given value (*NUM_WIN*).
 
 * A region will be marked as RoH if it has the minimum length (in number of windows) as defined by *NUM_WIN*. Therefore, the limit of detection for a RoH is set as *WIN_SIZE* * *NUM_WIN*
+
+\>\>\>\>\> Important variables when running analysis
