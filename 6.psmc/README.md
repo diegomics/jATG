@@ -70,7 +70,7 @@ Important variables to run the analysis:
 **TIME_INT**: this variable corresponds to -p (time interval patterns). Time intervals are followed by a "+" symbol. The number corresponds to the widths in coalescent time units. The notation is: "amount of intervals"\*"width"+"amount of intervals"\*"width". The program's default is "4+5\*3+4"
 > Example for humans: -p "4+25\*2+4+6"
 > 
-> The first interval spans 4 time units, the next 25 intervals spans 2 time units,the 27th interval spans 4 time units, and the last interval spans 6 time units (for a total of 64).
+> The first interval spans 4 time units, the next 25 intervals spans 2 time units,the 27th interval spans 4 time units, and the last interval spans 6 time units (for a total of 64). A poor choice of intervals can lead to over- or underfitting of the model. Repeating the analysis using different numbers of time intervals can show whether there is any impact on the inferences (Nadachowska-Brzyska et al. 2016).
 
 **BOOTST**: number of resampling iterations
 > A higher number of bootstraps generally leads to more precise estimates but increase computational time
