@@ -65,36 +65,36 @@ During the variant calling analysis, short paired-end reads or long HiFi reads a
 It accepts multiple reads files from the same sample (if available) and maps them in parallel to finally merge all in a unique bam.
 After deduplication, it will get metrics based on the bam for evaluation.
 
-The variant calling step consists of splitting the analysis in scaffolds, adding 200 Mbp (if possible) for better parallelisation, and running HaplotypeCaller followed by GenotypeGVCFs to produce a basepair resolution raw gVCF. Next, all scaffolds shorter than 5 Mbp are removed together with scaffolds pointed as sex-chromosomes.
+The variant calling step consists of splitting the analysis in scaffolds, adding 200 Mbp (if possible) for better parallelisation, and running HaplotypeCaller followed by GenotypeGVCFs to produce a basepair resolution raw gVCF. Next, all scaffolds shorter than 5 Mbp are removed together with scaffolds pointed as sex chromosomes.
 Next, the genotypes in the gVCF are turned into missing "./." in all the regions masked based on a bed file with the positions of the masked regions across the assembly. Finally, the following variant filters are applied, also turning the genotypes to missing:
-- Sample's Depth (DP)
-- Quality by Depth (QD)
-- Fisher Strand bias (FS)
-- Mapping Quality (MQ)
-- MQRankSum
-- ReadPosRankSum
-- Symmetric Odds Ratio (SOR)
-- number of alternate alleles
-- Allelic Depth (AD) 
-- indel
+- Sample's Depth (DP): less than MIN_DEPTH or more than MAX_DEPTH
+- Quality by Depth (QD) < 2.0
+- Fisher Strand bias (FS) > 60.0
+- Mapping Quality (MQ) < MAP_QUAL
+- MQRankSum < -12.5
+- ReadPosRankSum < -8.0; ReadPosRankSum > 8.0
+- Symmetric Odds Ratio (SOR) > 3.0
+- number of alternate alleles > 1
+- Allelic Depth (AD): 0/1 < 20%; 0/1 > 80%; 0/0 or 1/1 >10% 
+- InDel: all
 
 Important variables to run the analysis:
 
-MASKED_BED: a 3-column bed file with positions of masked segments (scaffold_name, start_position, end_position). This file is produced during the masking analysis. If the masking analysis was not performed, the script ../2.masking/scripts/softmasked_to_bed.py can produce the 3 columns bed file from a softmasked fasta file.
+**MASKED_BED**: a 3-column bed file with positions of masked segments (scaffold_name, start_position, end_position). This file is produced during the masking analysis. If the masking analysis was not performed, the script ../2.masking/scripts/softmasked_to_bed.py can produce the 3 columns bed file from a softmasked fasta file.
 
-SEX_CHROMS:
+**SEX_CHROMS**:
 
-TRIMMED_READS_DIR:
+**TRIMMED_READS_DIR**:
 
-READ_TYPE:
+**READ_TYPE**:
 
-SAMPLE_NAME:
+**SAMPLE_NAME**:
 
-MULTI_RUN:
+**MULTI_RUN**:
 
-MIN_DEPTH:
+**MIN_DEPTH**:
 
-MAX_DEPTH:
+**MAX_DEPTH**:
 
-MAP_QUAL:
+**MAP_QUAL**:
 
