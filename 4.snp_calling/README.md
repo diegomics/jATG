@@ -58,7 +58,7 @@ Complete variant-calling pipeline based on [GATK](https://gatk.broadinstitute.or
 
 \*) The pipeline is configured to use up to 24 CPUs and 64 GB of RAM
 
-
+---
 ### About the analysis and setting of the parameters:
 
 During the variant calling analysis, short paired-end reads or long HiFi reads are mapped agains the assembly using bwa-mem2 or minimap2, respectively. 
@@ -81,7 +81,6 @@ Next, the genotypes in the gVCF are turned into missing "./." in all the regions
 
 After filtering, it will get metrics based on the VCF (before and after) for evaluation.
 
----
 Important variables to run the analysis:
 
 **MASKED_BED**: a 3-column bed file with positions of masked segments (scaffold_name, start_position, end_position). This file is produced during the masking analysis. If the masking analysis was not performed, the script ../2.masking/scripts/softmasked_to_bed.py can produce the 3 columns bed file from a softmasked fasta file.
