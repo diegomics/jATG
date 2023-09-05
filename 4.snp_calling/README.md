@@ -61,12 +61,13 @@ Complete variant-calling pipeline based on [GATK](https://gatk.broadinstitute.or
 
 ### About the analysis and setting of the parameters:
 
-During the variant calling analysis, short paired-end reads or long HiFi reads are mapped agains the assembly using bwa-mem2 or minimap, respectively. 
+During the variant calling analysis, short paired-end reads or long HiFi reads are mapped agains the assembly using bwa-mem2 or minimap2, respectively. 
 It accepts multiple reads files from the same sample (if available) and maps them in parallel to finally merge all in a unique bam.
-After deduplication, it will get metrics based on the bam for evaluation.
+After deduplication, it will get metrics based on the BAM for evaluation.
 
 The variant calling step consists of splitting the analysis in scaffolds, adding 200 Mbp (if possible) for better parallelisation, and running HaplotypeCaller followed by GenotypeGVCFs to produce a basepair resolution raw gVCF. Next, all scaffolds shorter than 5 Mbp are removed together with scaffolds pointed as sex chromosomes.
 Next, the genotypes in the gVCF are turned into missing "./." in all the regions masked based on a bed file with the positions of the masked regions across the assembly. Finally, the following [recommended](https://gatk.broadinstitute.org/hc/en-us/articles/360035890471-Hard-filtering-germline-short-variants) variant filters are applied, also turning the genotypes to missing:
+
 - Sample's Depth (DP): less than MIN_DEPTH or more than MAX_DEPTH
 - Quality by Depth (QD) < 2.0
 - Fisher Strand bias (FS) > 60.0
@@ -78,23 +79,26 @@ Next, the genotypes in the gVCF are turned into missing "./." in all the regions
 - Allelic Depth (AD): 0/1 < 20%; 0/1 > 80%; 0/0 or 1/1 >10% 
 - InDels: all
 
+After filtering, it will get metrics based on the VCF (before and after) for evaluation.
+
 Important variables to run the analysis:
 
 **MASKED_BED**: a 3-column bed file with positions of masked segments (scaffold_name, start_position, end_position). This file is produced during the masking analysis. If the masking analysis was not performed, the script ../2.masking/scripts/softmasked_to_bed.py can produce the 3 columns bed file from a softmasked fasta file.
 
-**SEX_CHROMS**:
+**SEX_CHROMS**: names of the scaffold that has sex chromosome identity. If more than one scaffold, use a comma between names. These scaffolds will be filtered
 
-**TRIMMED_READS_DIR**:
+**TRIMMED_READS_DIR**: folder with the trimmed reads files. All reads should be in the same folder
 
-**READ_TYPE**:
+**READ_TYPE**: "HiFi" or "illuminaPE"
 
-**SAMPLE_NAME**:
+**SAMPLE_NAME**: name of the sample where the reads are coming
 
-**MULTI_RUN**:
+**MULTI_RUN**: if you have more several read files from the same sample, set it to "True"
 
-**MIN_DEPTH**:
+The following VCF filtering criteria are adjustable:
+**MIN_DEPTH**: minimum read depth. The default value is 1/3 * mean coverage 
 
-**MAX_DEPTH**:
+**MAX_DEPTH**: maximum read depth. The default value is 2 * mean coverage
 
-**MAP_QUAL**:
+**MAP_QUAL**: minimum mapping quality. The default value is 40
 
