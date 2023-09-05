@@ -21,18 +21,18 @@ This analysis **estimates historical population sizes from a single genome seque
                 ├── 5.het_roh
                 │   └── ..
                 └── 6.psmc
-                    ├── <..>_consensus.fasta
-                    ├── <..>.psmcfa
-                    ├── <..>.psmcfa.split.psmcfa
-                    ├── <..>.psmc
-                    ├── round-1.psmc
+                    ├── <..>_consensus.fasta              #
+                    ├── <..>.psmcfa                       #
+                    ├── <..>.psmcfa.split.psmcfa          #
+                    ├── <..>.psmc                         #
+                    ├── round-1.psmc                      #
                     ├── ..
-                    ├── round-<BOOTST>.psmc
-                    ├── <..>.combined.psmc
+                    ├── round-<BOOTST>.psmc               #
+                    ├── <..>.combined.psmc                #
                     └── plots.m<MUTATION>.g<GENERATION>
-                        ├── <..>_plot.pdf
-                        ├── <..>_plot.0.txt
-                        ├── <..>_plot.<BOOTST>.txt
+                        ├── <..>_plot.pdf                 #
+                        ├── <..>_plot.0.txt               #
+                        ├── <..>_plot.<BOOTST>.txt        #
                         └── ..
 ```
 
