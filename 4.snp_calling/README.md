@@ -96,6 +96,7 @@ Important variables to run the analysis:
 **MULTI_RUN**: if you have more several read files from the same sample, set it to "True"
 
 The following VCF filtering criteria are adjustable:
+
 **MIN_DEPTH**: minimum read depth. The default value is 1/3 * mean coverage 
 
 **MAX_DEPTH**: maximum read depth. The default value is 2 * mean coverage
