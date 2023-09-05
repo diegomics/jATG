@@ -46,7 +46,7 @@ OPTIONAL: if you want to re-scale the PSMC results with different `MUTATION` and
 
 \*) It uses up to 8 cpus and 16 Gb of RAM
 
-
+---
 ### About the analysis and setting of the parameters:
 
 The PSMC estimates changes in the effective population size (Ne) through time.
