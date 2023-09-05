@@ -76,7 +76,7 @@ Next, the genotypes in the gVCF are turned into missing "./." in all the regions
 - Symmetric Odds Ratio (SOR) > 3.0
 - number of alternate alleles > 1
 - Allelic Depth (AD): 0/1 < 20%; 0/1 > 80%; 0/0 or 1/1 >10% 
-- InDel: all
+- InDels: all
 
 Important variables to run the analysis:
 
