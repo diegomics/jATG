@@ -85,11 +85,14 @@ After filtering, it will get metrics based on the VCF (before and after) for eva
 
 Important variables to run the analysis:
 
-**MASKED_BED**: a 3-column bed file with positions of masked segments (scaffold_name, start_position, end_position). This file is produced during the masking analysis. If the masking analysis was not performed, the script ../2.masking/scripts/softmasked_to_bed.py can produce the 3 columns bed file from a softmasked fasta file.
+**MASKED_BED**: a 3-column bed file with positions of masked segments (scaffold_name, start_position, end_position)
+> This file is produced during the masking analysis. If the masking analysis was not performed, the script ../2.masking/scripts/softmasked_to_bed.py can produce the 3 columns bed file from a softmasked fasta file.
 
-**SEX_CHROMS**: names of the scaffold that has sex chromosome identity. If more than one scaffold, use a comma between names. These scaffolds will be filtered
+**SEX_CHROMS**: names of the scaffold that has sex chromosome identity. If more than one scaffold, use a comma between names
+> These scaffolds will be filtered
 
-**TRIMMED_READS_DIR**: folder with the trimmed reads files. All reads should be in the same folder
+**TRIMMED_READS_DIR**: folder with the trimmed reads files
+> All reads should be in the same folder
 
 **READ_TYPE**: "HiFi" or "illuminaPE"
 
@@ -99,9 +102,12 @@ Important variables to run the analysis:
 
 The following VCF filtering criteria are adjustable:
 
-**MIN_DEPTH**: minimum read depth. The default value is 1/3 * mean coverage 
+**MIN_DEPTH**: minimum read depth
+> The default value is 1/3 * mean coverage 
 
-**MAX_DEPTH**: maximum read depth. The default value is 2 * mean coverage
+**MAX_DEPTH**: maximum read depth
+> The default value is 2 * mean coverage
 
-**MAP_QUAL**: minimum mapping quality. The default value is 40
+**MAP_QUAL**: minimum mapping quality
+> The default value is 40
 
