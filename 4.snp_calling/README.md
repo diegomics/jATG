@@ -1,5 +1,5 @@
 # Variant Calling & Filtering
-🧬🧐🧬🧐🧬🧐🧬🧐🧬🧐🧬🧐🧬🧐
+🧬🧐🧬🧐🧬🧐🧬🧐🧬🧐🧬🧐🧬🧐🧬🧐
 
 Complete variant-calling pipeline based on [GATK](https://gatk.broadinstitute.org/hc/en-us), including filtering and BAM/VCF metrics analysis. Accepts Illumina paired-end and PacBio HiFi reads.
 
