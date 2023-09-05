@@ -1,7 +1,7 @@
 # Genome-wide Heterozygosity and Runs of Homozygosity
 🧬🏃‍♀️🧬🏃🧬🏃‍♂️🧬🏃‍♀️🧬🏃🧬🏃‍♂️🧬🏃‍♀️🧬🏃🧬🏃‍♂️🧬🏃‍♀️🧬🏃🧬🏃‍♂️🧬🏃‍♀️🧬🏃🧬🏃‍♂️🧬
 
-It runs in one take [Darwindow](https://github.com/mennodejong1986/Darwindow/tree/main), a tool to calculate and plot genetic estimates on a sliding-window basis, like runs of homozygosity.
+This analysis relies on [Darwindow](https://github.com/mennodejong1986/Darwindow/tree/main) to calculate and plot genetic estimates on a sliding-window basis, like heterozygosity and runs of homozygosity.
 
 ## Output:
 ```
