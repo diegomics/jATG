@@ -22,22 +22,22 @@ This analysis relies on [Darwindow](https://github.com/mennodejong1986/Darwindow
                     ├── w<WIN_SIZE>n<NUM_WIN>m<MAX_MISS>h<HET_TRES>  # folder with results for the provided parameters
                     │   ├── darwindow.RData                          # R session of the analysis
                     │   ├── fROH.svg                                 # barplot 
-                    │   ├── fROH.txt
+                    │   ├── fROH.txt                                 #
                     │   ├── lROH.svg                                 # barplot
-                    │   ├── lROH.txt
+                    │   ├── lROH.txt                                 #
                     │   ├── nROH.svg                                 # barplot
-                    │   ├── nROH.txt
-                    │   ├── Genomewide_He.txt
-                    │   ├── Genomewide_propROH.txt
-                    │   ├── ROH_positions.txt
-                    │   ├── Scaff_He.txt
-                    │   ├── Scaff_propROH.txt
-                    │   ├── totalROHsMb.txt
-                    │   ├── Total_ROHs_number.txt
-                    │   ├── He_histo_region.pdf
-                    │   ├── He_withROH_<..>.1.pdf
+                    │   ├── nROH.txt                                 #
+                    │   ├── Genomewide_He.txt                        #
+                    │   ├── Genomewide_propROH.txt                   #
+                    │   ├── ROH_positions.txt                        #
+                    │   ├── Scaff_He.txt                             #
+                    │   ├── Scaff_propROH.txt                        #
+                    │   ├── totalROHsMb.txt                          #
+                    │   ├── Total_ROHs_number.txt                    #
+                    │   ├── He_histo_region.pdf                      #
+                    │   ├── He_withROH_<..>.1.pdf                    #
                     │   └── ..
-                    ├── mywindowhe.<WIN_SIZE>.allsites_roh.txt
+                    ├── mywindowhe.<WIN_SIZE>.allsites_roh.txt       #
                     └── ..
 
 ```
