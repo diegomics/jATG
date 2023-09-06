@@ -35,8 +35,7 @@ This analysis generates a species-tailored masked version of the genome and anno
 
 1) Edit `1.repeat_variables.cnf` file with the respective paths, values and parameters.
 
-2) Check if the species name is present in the local repeat database: `bash 2.lineage_check.sh`
-   If the species is not present, try another lineage in `1.repeat_variables.cnf` and re-run `2.lineage_check.sh`
+2) Run `bash 2.lineage_check.sh` to check if the species name is present in the local repeat database. If the species is not present, fill with a proper lineage in `1.repeat_variables.cnf` and re-run `2.lineage_check.sh`
 
 3) Run the masking pipeline: `bash 3.Run_RepeatM_slurm.sh`
 
