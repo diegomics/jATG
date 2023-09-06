@@ -35,3 +35,9 @@ Requirements:
 2) Install needed software with: `bash 2.install_gc_telo_dependencies.sh`
 
 3) Run the masking pipeline in _Slurm_ with: `bash 3.run_GC_Telo.sh`
+
+---
+### About the analysis and setting of the parameters:
+
+Method<<<<<
+
