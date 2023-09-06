@@ -33,14 +33,12 @@ In the end, the pipeline produces the following output structure:
             │   └── ..
             ├── 2.masking
             │   └── ..
-            ├── 3.gc_telo
-            │   └── ..
             └── [SAMPLE_NAME]
-                ├── 4.snp_calling
+                ├── 3.snp_calling
                 │   └── ..
-                ├── 5.het_roh.w..
+                ├── 4.het_roh.w..
                 │   └── ..
-                └── 6.psmc
+                └── 5.psmc
                     └── ..
 
 ```
