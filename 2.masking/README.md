@@ -43,5 +43,7 @@ This analysis generates a species-tailored masked version of the genome and anno
 
 \**) Running time depends on the genome and computing resources (e.g., a mammal can take 2-5 days to finish the pipeline).
 
-
+---
 ### About the analysis and setting of the parameters:
+
+Bla
