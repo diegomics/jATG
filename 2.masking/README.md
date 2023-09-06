@@ -23,7 +23,7 @@ This analysis generates a species-tailored masked version of the genome and anno
                     ├── <..>.HM.fa              # hard-masked assembly
                     ├── <..>.gff                # repeats annotation in gff3 format
                     ├── <..>.bed                # repeats annotation in bed format
-                    ├── <..>.3cols.bed         # coordinates of assembly that is masked
+                    ├── <..>.3cols.bed          # coordinates of assembly that is masked
                     ├── <..>.tbl                # summary result of the repeats in the assembly
                     ├── <..>.align.divsum.html  # abundance of repeats in the assembly vs the Kimura divergence from the consensus  
                     ├── <..>.svg                # svg version of the repeat landscape <..>.align.divsum.html
@@ -42,7 +42,7 @@ This analysis generates a species-tailored masked version of the genome and anno
 
 \*) It uses up to 16 cpus and 192 Gb of RAM (this can be adjusted in slurm/RepeatM.job)
 
-\**) Running time depends on the genome (e.g., a mammal can take 72 h to finish the pipeline).
+\**) Running time depends on the genome and computing resources (e.g., a mammal can take 2-5 days to finish the pipeline).
 
 
 ### About the analysis and setting of the parameters:
