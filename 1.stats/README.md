@@ -35,7 +35,7 @@ This first analysis aims to generate a rapid overview of the genome assembly and
 
 ### How to run?
 
-1) Edit `1.stats_variables.cnf` file with the respective paths, values and parameters.
+1) Edit `1.overview_variables.cnf` file with the respective paths, values and parameters.
 
 2) Check if the provided reference of close-related species contains sex-chromosome relevant data: `bash 2.reference_check.sh`
 
