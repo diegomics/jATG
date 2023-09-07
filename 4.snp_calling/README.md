@@ -14,10 +14,8 @@ Complete variant-calling pipeline based on [GATK](https://gatk.broadinstitute.or
             │   └── ..
             ├── 2.masking
             │   └── ..
-            ├── 3.gc_telo
-            │   └── ..
             └── [SAMPLE_NAME]
-                └── 4.snp_calling
+                └── 3.calling
                     ├── 0_idx
                     │   └── ..
                     ├── 1_BAMs
