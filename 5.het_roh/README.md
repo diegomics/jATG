@@ -14,9 +14,9 @@ This analysis relies on [Darwindow](https://github.com/mennodejong1986/Darwindow
             ├── 2.masking
             │   └── ..
             └── [SAMPLE_NAME]
-                ├── 4.calling
+                ├── 3.calling
                 │   └── ..
-                └── 5.het_roh
+                └── 4.het_roh
                     ├── w<WIN_SIZE>
                     │   └── w<WIN_SIZE>n<NUM_WIN>m<MAX_MISS>h<HET_TRES>  # folder with results for the provided parameters
                     │       ├── darwindow.RData                          # R session of the analysis
