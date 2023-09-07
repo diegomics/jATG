@@ -29,14 +29,14 @@ In the end, the pipeline produces the following output structure:
 └── jATG
     └── [SPECIES_NAME]
         └── [ASSEMBLY_ID]
-            ├── 1.stats
+            ├── 1.overview
             │   └── ..
             ├── 2.masking
             │   └── ..
             └── [SAMPLE_NAME]
                 ├── 3.snp_calling
                 │   └── ..
-                ├── 4.het_roh.w..
+                ├── 4.het_roh
                 │   └── ..
                 └── 5.psmc
                     └── ..
