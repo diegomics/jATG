@@ -34,7 +34,7 @@ In the end, the pipeline produces the following output structure:
             ├── 2.masking
             │   └── ..
             └── [SAMPLE_NAME]
-                ├── 3.snp_calling
+                ├── 3.calling
                 │   └── ..
                 ├── 4.het_roh
                 │   └── ..
