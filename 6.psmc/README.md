@@ -1,5 +1,5 @@
 # 5. Past Population Dynamics Inference
-🧬🕰🧬🕰🧬🕰🧬🕰🧬🕰🧬🕰🧬🕰🧬🕰🧬🕰🧬🕰🧬🕰
+🧬🕰🧬🕰🧬🕰🧬🕰🧬🕰🧬🕰🧬🕰🧬🕰🧬🕰🧬🕰🧬🕰🧬🕰
 
 This analysis **estimates historical population sizes from a single genome sequence** using the Pairwise Sequentially Markovian Coalescent (**PSMC**). Considering its **limitations** (e.g., assumptions about **recombination rates** and low accuracy for **recent historical changes**), it's a powerful way to glean insights about the **demographic history** of the species directly from the assembly.
 
