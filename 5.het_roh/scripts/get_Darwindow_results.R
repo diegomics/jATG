@@ -155,7 +155,7 @@ write.table(data.frame(dwd$ind$name, sum(dwd$nrohdf[,1], na.rm = TRUE)),
 
 
 #Total ROH lenght in Mb
-write.table(data.frame(dwd$ind$name, sum(dwd$lrohlist[[1]], na.rm = TRUE)),
+write.table(data.frame(dwd$ind$name, sum(dwd$lrohlist2[[1]], na.rm = TRUE)/1000000),
                        file = "totalROHsMb.txt",
                        sep = "\t",
                        row.names = FALSE,
