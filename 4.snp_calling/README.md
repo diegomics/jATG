@@ -37,7 +37,7 @@ Complete variant-calling pipeline based on [GATK](https://gatk.broadinstitute.or
                         │   ├── <..>.Genot.PASS.bcf                              # filtered binary VCF
                         │   ├── <..>.Genot.PASS.bcf.csi
                         │   ├── <..>.Genot.PASS.stats                            # filtered binary VCF full stats (number of SNPs, etc)
-                        │   ├── <..>.filt_heterozygosity                         # estimated genome-wide heterozygosity
+                        │   ├── <..>.filt_heterozygosity                         # estimated genome-wide heterozygosity (hetCalls/totalCalls)
                         │   ├── <..>.main_scaffoldsNoSex_lengths                 # list of main scaffolds (>5Mbp) without Sex chrom names and lengths
                         │   ├── <..>.meanCov                                     # mean coverage based on the raw base pair resolution gVCF
                         │   └── <..>.meanCov_byChrom                             # mean coverage by scaffold based on the raw base pair resolution gVCF
