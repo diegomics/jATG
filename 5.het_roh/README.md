@@ -1,4 +1,4 @@
-# Genome-wide Heterozygosity and Runs of Homozygosity
+# 4. Genome-wide Heterozygosity and Runs of Homozygosity
 🧬🏃‍♀️🧬🏃🧬🏃‍♂️🧬🏃‍♀️🧬🏃🧬🏃‍♂️🧬🏃‍♀️🧬🏃🧬🏃‍♂️🧬🏃‍♀️🧬🏃🧬🏃‍♂️🧬🏃‍♀️🧬🏃🧬🏃‍♂️🧬🧬🏃‍♀️🧬🏃🧬
 
 This analysis relies on [Darwindow](https://github.com/mennodejong1986/Darwindow/tree/main) to calculate and plot genetic estimates on a sliding-window basis, like heterozygosity and runs of homozygosity.
@@ -9,35 +9,34 @@ This analysis relies on [Darwindow](https://github.com/mennodejong1986/Darwindow
 └── jATG
     └── [SPECIES_NAME]
         └── [ASSEMBLY_ID]
-            ├── 1.stats
+            ├── 1.overview
             │   └── ..
             ├── 2.masking
             │   └── ..
-            ├── 3.gc_telo
-            │   └── ..
             └── [SAMPLE_NAME]
-                ├── 4.snp_calling
+                ├── 4.calling
                 │   └── ..
-                └── 5.het_roh.w<WIN_SIZE>
-                    ├── w<WIN_SIZE>n<NUM_WIN>m<MAX_MISS>h<HET_TRES>  # folder with results for the provided parameters
-                    │   ├── darwindow.RData                          # R session of the analysis
-                    │   ├── fROH.svg                                 # barplot of genome-wide proportion of RoH binned by size
-                    │   ├── fROH.txt                                 
-                    │   ├── lROH.svg                                 # barplot of genome-wide sum-length of RoH binned by size
-                    │   ├── lROH.txt                                 
-                    │   ├── nROH.svg                                 # barplot of genome-wide total number of RoH binned by size
-                    │   ├── nROH.txt                                 
-                    │   ├── Genomewide_He.txt                        #
-                    │   ├── Genomewide_propROH.txt                   #
-                    │   ├── ROH_positions.txt                        #
-                    │   ├── Scaff_He.txt                             #
-                    │   ├── Scaff_propROH.txt                        #
-                    │   ├── totalROHsMb.txt                          #
-                    │   ├── Total_ROHs_number.txt                    #
-                    │   ├── He_histo_region.pdf                      #
-                    │   ├── He_withROH_<..>.1.pdf                    #
-                    │   └── ..
-                    ├── mywindowhe.<WIN_SIZE>.allsites_roh.txt       # table showing per window: miss sites, non-miss sites, het sites, alt hom sites
+                └── 5.het_roh
+                    ├── w<WIN_SIZE>
+                    │   └── w<WIN_SIZE>n<NUM_WIN>m<MAX_MISS>h<HET_TRES>  # folder with results for the provided parameters
+                    │       ├── darwindow.RData                          # R session of the analysis
+                    │       ├── fROH.svg                                 # barplot of genome-wide proportion of RoH binned by size
+                    │       ├── fROH.txt                                 
+                    │       ├── lROH.svg                                 # barplot of genome-wide sum-length of RoH binned by size
+                    │       ├── lROH.txt                                 
+                    │       ├── nROH.svg                                 # barplot of genome-wide total number of RoH binned by size
+                    │       ├── nROH.txt                                 
+                    │       ├── Genomewide_He.txt                        #
+                    │       ├── Genomewide_propROH.txt                   #
+                    │       ├── ROH_positions.txt                        #
+                    │       ├── Scaff_He.txt                             #
+                    │       ├── Scaff_propROH.txt                        #
+                    │       ├── totalROHsMb.txt                          #
+                    │       ├── Total_ROHs_number.txt                    #
+                    │       ├── He_histo_region.pdf                      #
+                    │       ├── He_withROH_<..>.1.pdf                    #
+                    │       └── ..
+                    ├── mywindowhe.<WIN_SIZE>.allsites_roh.txt           # table showing per window: miss sites, non-miss sites, het sites, alt hom sites
                     └── ..
 
 ```
