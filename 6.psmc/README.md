@@ -1,4 +1,4 @@
-# Past Population Dynamics Inference
+# 5. Past Population Dynamics Inference
 🧬🕰🧬🕰🧬🕰🧬🕰🧬🕰🧬🕰🧬🕰🧬🕰🧬🕰🧬🕰🧬🕰
 
 This analysis **estimates historical population sizes from a single genome sequence** using the Pairwise Sequentially Markovian Coalescent (**PSMC**). Considering its **limitations** (e.g., assumptions about **recombination rates** and low accuracy for **recent historical changes**), it's a powerful way to glean insights about the **demographic history** of the species directly from the assembly.
@@ -9,18 +9,16 @@ This analysis **estimates historical population sizes from a single genome seque
 └── jATG
     └── [SPECIES_NAME]
         └── [ASSEMBLY_ID]
-            ├── 1.stats
+            ├── 1.overview
             │   └── ..
             ├── 2.masking
             │   └── ..
-            ├── 3.gc_telo
-            │   └── ..
             └── [SAMPLE_NAME]
-                ├── 4.snp_calling
+                ├── 3.calling
                 │   └── ..
-                ├── 5.het_roh
+                ├── 4.het_roh
                 │   └── ..
-                └── 6.psmc
+                └── 5.psmc
                     ├── <..>_consensus.fasta              # Hard-masked assembly without small scaffolds and sex chromosomes, and with the SNPs information 
                     ├── <..>.psmcfa                       
                     ├── <..>.psmcfa.split.psmcfa          
