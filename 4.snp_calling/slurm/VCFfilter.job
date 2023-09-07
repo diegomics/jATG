@@ -13,38 +13,6 @@ cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCF
 mkdir filtered
 
 
-# get READ/SAMPLE variables
-#if [[ "${READ_TYPE}" == "illuminaPE" ]]
-#then
-#
-#	if [ -z "${SAMPLE_NAME}" ]
-#	then
-#		READ=$(ls ${TRIM_DIR}/*_R1.trimmed.fq.gz | tail -n 1)
-#		READ_NAME=$(basename ${READ} _R1.trimmed.fq.gz)
-#		SAMPLE_NAME="${READ_NAME}"
-#		echo "Sample: ${SAMPLE_NAME}"
-#	else
-#		echo "Sample: ${SAMPLE_NAME}"
-#	fi
-#
-#elif  [[ "${READ_TYPE}" == "HiFi" ]]
-#then
-#
-#	if [ -z "${SAMPLE_NAME}" ]
-#	then
-#        	READ=$(ls ${TRIM_DIR}/*.trimmed.fq.gz | tail -n 1)
-#        	READ_NAME=$(basename ${READ} .trimmed.fq.gz)
-#	        SAMPLE_NAME="${READ_NAME}"
-#	        echo "Sample: ${SAMPLE_NAME}"
-#	else
-#	        echo "Sample: ${SAMPLE_NAME}"
-#	fi
-#
-#else
-#        echo 'Invalid read type. Valid values for READ_TYPE variable in variables.cnf file are: "illuminaPE" or "HiFi"'
-#fi
-
-
 # Total VCF coverage
 bcftools query -f '%DP\n' ${SAMPLE_NAME}.Genot.full.bcf | awk '{sum+=$1; count++} END {print sum/count}' > filtered/meanCov
 
