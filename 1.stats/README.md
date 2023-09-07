@@ -39,7 +39,7 @@ This first analysis aims to generate a rapid overview of the genome assembly and
 
 2) Check if the provided reference of close-related species contains sex-chromosome relevant data: `bash 2.reference_check.sh`
 
-3) Run the analysis based on the inputs provided: `bash 3.Run_stats.sh`
+3) Run the analysis based on the inputs provided: `bash 3.Run_overview.sh`
 
 \*) It uses up to 6 cpus and 18 Gb of RAM
 
