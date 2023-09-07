@@ -33,7 +33,6 @@ Complete variant-calling pipeline based on [GATK](https://gatk.broadinstitute.or
                         ├── filtered                                             # Filtered VCFs VCF-based metrics folder
                         │   ├── <..>.Genot.full.mainNoSex.mask.filt.vcf.bgz      # base pair resolution filtered gVCF
                         │   ├── <..>.Genot.full.mainNoSex.mask.filt.vcf.bgz.tbi
-                        │   ├── <..>.Genot.full.mainNoSex.mask.filt.stats        # base pair resolution filtered gVCF full stats (number of SNPs, etc)
                         │   ├── <..>.Genot.PASS.bcf                              # filtered binary VCF
                         │   ├── <..>.Genot.PASS.bcf.csi
                         │   ├── <..>.Genot.PASS.stats                            # filtered binary VCF full stats (number of SNPs, etc)
