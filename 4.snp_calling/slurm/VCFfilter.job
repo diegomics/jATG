@@ -55,7 +55,6 @@ fi
 awk '{print $1 "\t1\t" $2}' ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/0_idx/*.fa.fai > temp_scaffolds_lengths
 
 awk 'NR==FNR{a[$1]; next} $1 in a' ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/1.stats/main_scaffolds temp_scaffolds_lengths > temp_main_scaffolds_lengths
-#grep -f ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/1.stats/main_scaffolds temp_scaffolds_lengths > temp_main_scaffolds_lengths
 
 if [ -z "${SEX_CHROMS}" ]
 then
