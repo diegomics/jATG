@@ -1,5 +1,5 @@
 # assembly variables
-export MIN_SCAFF=""            # sets a min scaffold length # IMPORTANT!!! Leave it blank ("") to use default of "5000000"
+export MIN_SCAFF=""              # sets a min scaffold length in bp to consider main scaffolds # IMPORTANT!!! Leave it blank ("") to use default of "5000000"
 
 # reference (or related species) genome variables
 export REF_SPECIES_NAME="Tursiops_truncatus"              # name of the reference genome, use underscore instead space, eg: Homo_sapiens. Leave the field empty ("") if no data available (it will not run the Sex-chrom analysis)
