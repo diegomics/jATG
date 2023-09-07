@@ -26,15 +26,15 @@ This analysis relies on [Darwindow](https://github.com/mennodejong1986/Darwindow
                     │       ├── lROH.txt                                 
                     │       ├── nROH.svg                                 # barplot of genome-wide total number of RoH binned by size
                     │       ├── nROH.txt                                 
-                    │       ├── Genomewide_He.txt                        #
-                    │       ├── Genomewide_propROH.txt                   #
-                    │       ├── ROH_positions.txt                        #
-                    │       ├── Scaff_He.txt                             #
-                    │       ├── Scaff_propROH.txt                        #
-                    │       ├── totalROHsMb.txt                          #
-                    │       ├── Total_ROHs_number.txt                    #
-                    │       ├── He_histo_region.pdf                      #
-                    │       ├── He_withROH_<..>.1.pdf                    #
+                    │       ├── Genomewide_He.txt                        # genome-wide heterozygosity (%)
+                    │       ├── Genomewide_propROH.txt                   # genome-wide proportion of RoH
+                    │       ├── ROH_positions.txt                        
+                    │       ├── Scaff_He.txt                             # heterozygosity (%) per scaffold
+                    │       ├── Scaff_propROH.txt                        # proportion of RoH per scaffold
+                    │       ├── totalROHsMb.txt                           
+                    │       ├── Total_ROHs_number.txt                    
+                    │       ├── He_histo_region.pdf                      
+                    │       ├── He_withROH_<..>.1.pdf                    # RoH and heterozygosity per scaffold
                     │       └── ..
                     ├── mywindowhe.<WIN_SIZE>.allsites_roh.txt           # table showing per window: miss sites, non-miss sites, het sites, alt hom sites
                     └── ..
