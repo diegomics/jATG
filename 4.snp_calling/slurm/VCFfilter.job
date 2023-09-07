@@ -102,8 +102,3 @@ bcftools index -o filtered/${SAMPLE_NAME}.Genot.PASS.bcf.csi filtered/${SAMPLE_N
 
 # Get stats
 bcftools stats -s - filtered/${SAMPLE_NAME}.Genot.PASS.bcf > filtered/${SAMPLE_NAME}.Genot.PASS.stats
-
-
-# Remove temp files
-#rm temp_*
-
