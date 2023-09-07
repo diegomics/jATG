@@ -52,7 +52,7 @@ write.table(data.frame(dwd$ind$name, dwd$ind$regionhe),
                        file = "Genomewide_He.txt",
                        sep = "\t",
                        row.names = FALSE,
-                       col.names = c("Sample", "Het"),
+                       col.names = c("Sample", "Het(%)"),
                        quote = FALSE)
 
 write.table(cbind(Scaffold = rownames(dwd$chromhedf),
