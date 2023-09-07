@@ -12,4 +12,19 @@ export MINSIZE="5"                # min sequence length to plot in MB. Don't nee
 
 # Telomeres analysis variables
 export WINDOW_TELO=10000          # window size to search telomeric signal. Don't need to be adjusted
-export CLADE="Perciformes"        ## clade for telomere motive identification. Possible values: Accipitriformes, Actiniaria, Agaricales, Alismatales, Amphilepidida, Anura, Apiales, Aplousobranchia, Aquifoliales, Araneae, Artiodactyla, Asparagales, Asterales, Atheriniformes, Balanomorpha, Boraginales, Brassicales, Buxales, Camarodonta, Caprimulgiformes, Carcharhiniformes, Cardiida, Carnivora, Caryophyllales, Celastrales, Chaetocerotales, Cheilostomatida, Chiroptera, Chitonida, Chlamydomonadales, Coleoptera, Comatulida, Crassiclitellata, Cucurbitales, Cypriniformes, Decapoda, Dioctophymatida, Dipsacales, Ericales, Eucoccidiorida, Euglenales, Eulipotyphla, Fabales, Fagales, Forcipulatida, Fucales, Gentianales, Geophilomorpha, Geraniales, Gigartinales, Glomerida, Hemiptera, Heteronemertea, Hirudinida, Hymenoptera, Hypnales, Isochrysidales, Isopoda, Lamiales, Lepidoptera, Liliales, Lithobiomorpha, Littorinimorpha, Lunulariales, Lycopodiales, Malpighiales, Malvales, Megaloptera, Myrtales, Neuroptera, Nudibranchia, Odonata, Opiliones, Orthoptera, Ostreida, Palmariales, Pectinida, Pelecaniformes, Perciformes, Phlebobranchia, Phyllodocida, Plecoptera, Poales, Polytrichales, Primates, Procellariiformes, Pyrenomonadales, Ranunculales, Raphidioptera, Rhabditida, Rodentia, Rosales, Sabellida, Salmoniformes, Sapindales, Scombriformes, Scorpiones, Solanales, Sphagnales, Stolidobranchia, Symphypleona, Trichoptera, Trochida, Venerida
+export CLADE="Perciformes"        # clade for telomere motive identification. Possible values: Accipitriformes, Actiniaria, 
+                                  # Agaricales, Alismatales, Amphilepidida, Anura, Apiales, Aplousobranchia, Aquifoliales, 
+                                  # Araneae, Artiodactyla, Asparagales, Asterales, Atheriniformes, Balanomorpha, Boraginales, 
+                                  # Brassicales, Buxales, Camarodonta, Caprimulgiformes, Carcharhiniformes, Cardiida, Carnivora, 
+                                  # Caryophyllales, Celastrales, Chaetocerotales, Cheilostomatida, Chiroptera, Chitonida, 
+                                  # Chlamydomonadales, Coleoptera, Comatulida, Crassiclitellata, Cucurbitales, Cypriniformes, 
+                                  # Decapoda, Dioctophymatida, Dipsacales, Ericales, Eucoccidiorida, Euglenales, Eulipotyphla, 
+                                  # Fabales, Fagales, Forcipulatida, Fucales, Gentianales, Geophilomorpha, Geraniales, Gigartinales, 
+                                  # Glomerida, Hemiptera, Heteronemertea, Hirudinida, Hymenoptera, Hypnales, Isochrysidales, Isopoda, 
+                                  # Lamiales, Lepidoptera, Liliales, Lithobiomorpha, Littorinimorpha, Lunulariales, Lycopodiales, 
+                                  # Malpighiales, Malvales, Megaloptera, Myrtales, Neuroptera, Nudibranchia, Odonata, Opiliones, 
+                                  # Orthoptera, Ostreida, Palmariales, Pectinida, Pelecaniformes, Perciformes, Phlebobranchia, 
+                                  # Phyllodocida, Plecoptera, Poales, Polytrichales, Primates, Procellariiformes, Pyrenomonadales, 
+                                  # Ranunculales, Raphidioptera, Rhabditida, Rodentia, Rosales, Sabellida, Salmoniformes, Sapindales, 
+                                  # Scombriformes, Scorpiones, Solanales, Sphagnales, Stolidobranchia, Symphypleona, Trichoptera,
+                                  # Trochida, Venerida
