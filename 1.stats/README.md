@@ -19,7 +19,6 @@ This first analysis aims to generate a rapid overview of the genome assembly and
                 │   ├── <..>.html                          # interactive DotPlot between the assembly and a reference (if provided)
                 │   └── <..>.png                           # png of the DotPlot between the assembly and a reference (if provided)
                 ├── GC_Telo
-                │   ├── ..
                 │   ├── <..>_GC.tab                        # GC% across the assembly
                 │   ├── <..>_telomeric_repeat_windows.tsv  # telomeric signal across the assembly
                 │   ├── <..>_gaps.bed                      # position of the gaps across the assembly
