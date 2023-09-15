@@ -7,9 +7,37 @@ then
         echo "jATG_env already available!"
 else
         echo "* creating conda environment ..."
-	conda create -n jATG_env -y -c conda-forge -c r -c agbiome -c bioconda -c jrhawley assembly-stats bbtools miniprot seqtk fastx_toolkit minimap2 bedops seqtk seqkit tidk bedtools samtools htslib bcftools bwa-mem2 csvtk vcflib psmc gnuplot texlive-core ghostscript biopython r-ggplot2 r-optparse r-plotly bioconductor-karyoploter r-cowplot r-tidyr r-svglite r-zoo r-rcartocolor
-	#source activate jATG_env
-	#conda install --force-reinstall -y -c conda-forge java-jdk
+	conda create -n jATG_env -y -c conda-forge --override-channels -c r -c agbiome -c bioconda -c jrhawley \
+	assembly-stats=1.0.1 \
+	bbtools=37.62 \
+	bcftools=1.17 \
+	bedops=2.4.41 \
+	bedtools=2.31.0 \
+	bioconductor-karyoploter=1.26.0 \
+	biopython=1.81 \
+	bwa-mem2=2.2.1 \
+	csvtk=0.27.2 \
+	fastx_toolkit=0.0.14 \
+	ghostscript=9.56.1 \
+	gnuplot=5.4.8 \
+	htslib=1.17 \
+	minimap2=2.26 \
+	miniprot=0.12 \
+	psmc=0.6.5 \
+	samtools=1.17 \
+	seqkit=2.5.1 \
+	seqtk=1.4 \
+	r-cowplot=1.1.1 \
+	r-ggplot2=3.4.3 \
+	r-optparse=1.7.3 \
+	r-plotly=4.10.2 \
+	r-rcartocolor=2.1.1 \
+	r-svglite=2.1.1 \
+	r-tidyr=1.3.0 \
+	r-zoo=1.8_12 \
+	texlive-core=20230313 \
+	tidk=0.2.31 \
+	vcflib=1.0.9
 fi
 
 
