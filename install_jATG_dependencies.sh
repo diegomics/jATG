@@ -7,7 +7,7 @@ then
         echo "jATG_env already available!"
 else
         echo "* creating conda environment ..."
-	conda create -n jATG_env2 -y -c conda-forge -c r -c agbiome -c bioconda -c jrhawley assembly-stats bbtools miniprot seqtk fastx_toolkit minimap2 bedops seqtk seqkit tidk bedtools samtools htslib bcftools bwa-mem2 csvtk vcflib psmc gnuplot texlive-core ghostscript biopython r-ggplot2 r-optparse r-plotly bioconductor-karyoploter r-cowplot r-tidyr r-svglite r-zoo r-rcartocolor
+	conda create -n jATG_env -y -c conda-forge -c r -c agbiome -c bioconda -c jrhawley assembly-stats bbtools miniprot seqtk fastx_toolkit minimap2 bedops seqtk seqkit tidk bedtools samtools htslib bcftools bwa-mem2 csvtk vcflib psmc gnuplot texlive-core ghostscript biopython r-ggplot2 r-optparse r-plotly bioconductor-karyoploter r-cowplot r-tidyr r-svglite r-zoo r-rcartocolor
 	#source activate jATG_env
 	#conda install --force-reinstall -y -c conda-forge java-jdk
 fi
