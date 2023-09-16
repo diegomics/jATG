@@ -7,7 +7,8 @@ then
         echo "jATG_env already available!"
 else
         echo "* creating conda environment ..."
-	conda create -n jATG_env -y -c conda-forge --override-channels -c r -c agbiome -c bioconda -c jrhawley \
+	conda create -n jATG_env -y \
+ 	-c conda-forge -c r -c agbiome -c bioconda -c jrhawley \
 	assembly-stats=1.0.1 \
 	bbtools=37.62 \
 	bcftools=1.17 \
@@ -37,7 +38,8 @@ else
 	r-zoo=1.8_12 \
 	texlive-core=20230313 \
 	tidk=0.2.31 \
-	vcflib=1.0.9
+	vcflib=1.0.9 \
+ 	> 2>&1 | tee environment_creation_log.txt
 fi
 
 
