@@ -64,7 +64,7 @@ else
 	grep -v $VAR temp_main_scaffolds_lengths > filtered/main_scaffoldsNoSex_lengths
 fi
 
-bcftools view -O u -R filtered/main_scaffoldsNoSex_lengths ${SAMPLE_NAME}.Genot.full.bcf -o temp_${SAMPLE_NAME}.Genot.full.mainNoSex.vcf
+bcftools view -O v -R filtered/main_scaffoldsNoSex_lengths ${SAMPLE_NAME}.Genot.full.bcf -o temp_${SAMPLE_NAME}.Genot.full.mainNoSex.vcf
 
 
 # Mask the VCF for repetitive content
