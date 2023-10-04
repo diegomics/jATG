@@ -2,12 +2,12 @@ source 0.general_variables.cnf
 
 export PATH="${CONDA_BIN_DIR}:${PATH}"
 
-if conda env list | grep "jATG_env" >/dev/null 2>&1
+if mamba env list | grep "jATG_env" >/dev/null 2>&1
 then
         echo "jATG_env already available!"
 else
         echo "* creating conda environment ..."
-	conda create -n jATG_env -y \
+	mamba create -n jATG_env -y \
  	-c conda-forge -c r -c agbiome -c bioconda -c jrhawley \
 	assembly-stats=1.0.1 \
 	bbtools=37.62 \
