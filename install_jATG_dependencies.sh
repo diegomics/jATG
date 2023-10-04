@@ -22,7 +22,7 @@ else
 	ghostscript=9.56.1 \
 	gnuplot=5.4.8 \
 	htslib=1.17 \
-	intervaltree=3.1.0 \ 
+	intervaltree=3.1.0 \
 	minimap2=2.26 \
 	miniprot=0.12 \
 	psmc=0.6.5 \
