@@ -7,7 +7,7 @@
 
 Requirements:
 * [Slurm](https://slurm.schedmd.com)
-* [Conda](https://docs.conda.io)
+* [Mamba](https://mamba.readthedocs.io/en/latest/)
 * [Singularity](https://sylabs.io/guides/3.0/user-guide/index.html)
 
 
