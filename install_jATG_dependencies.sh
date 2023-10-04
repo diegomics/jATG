@@ -39,8 +39,7 @@ else
 	r-zoo=1.8_12 \
 	texlive-core=20230313 \
 	tidk=0.2.31 \
-	vcflib=1.0.9 \
- 	> 2>&1 | tee environment_creation_log.txt
+	vcflib=1.0.9 > environment_creation_log.txt 2>&1
 fi
 
 
