@@ -17,7 +17,7 @@ echo ""
 
 $LOAD_SINGULARITY #comment if singularity is in path
 
-singularity exec --pwd /opt/RepeatMasker/Libraries/ "${INSTALLATION_DIR}/containers/tetools_1.8.sif" famdb.py -i RepeatMaskerLib.h5 lineage -ad ${VAR} > ${TMPDIR}/check_lineage.tmp 2>&1
+singularity exec --pwd /opt/RepeatMasker/Libraries/ "${INSTALLATION_DIR}/containers/tetools_latest.sif" famdb.py -i RepeatMaskerLib.h5 lineage -ad ${VAR} > ${TMPDIR}/check_lineage.tmp 2>&1
 
 if [[ $(cat ${TMPDIR}/check_lineage.tmp) == *"No species found for search term"* ]]; then
 	echo "WARNING! $VAR not found!"
