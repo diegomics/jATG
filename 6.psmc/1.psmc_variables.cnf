@@ -7,8 +7,8 @@ export SAMPLE_NAME="ERR6412365"   # eg: Brown_Dog
 export PASS_VCF=""                # filtered vcf file  # IMPORTANT!!! Leave it blank ("") to use previously obtained (in ../4.calling/2_VCFs/filtered/..)
 
 # PSMC variables
-export PARAMS="-N30 -t15 -r4"     # 
-export TIME_INT="4+20*2+6"        # pattern of intervals in coalescent time units (+ symbol separates intervals).
+export PARAMS="-N25 -t15 -r5"     # 
+export TIME_INT="4+25*2+4+6"        # pattern of intervals in coalescent time units (+ symbol separates intervals).
 export BOOTST="10"                # rounds of bootstrapping
 export MUTATION='1.4e-9'          # per-generation mutation rate for the species (e.g.: 1.3e-08). Lowest possible number is 1e-15
 export GENERATION='10'            # generation time for the species in years
