@@ -103,6 +103,7 @@ MERGE_VCF_JOB=$(sbatch --dependency=afterok:${VARCALL_JOB_ID} --mail-user=${USER
 MERGE_VCF_JOB_ID=$(echo $MERGE_VCF_JOB | cut -d ' ' -f4)
 
 
+source deactivate
 echo ""
 echo "=== Sending jobs for step 5/5: Filtering VCF ============================================="
 echo ""
