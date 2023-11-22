@@ -38,10 +38,17 @@ $GATHERVCFS
 
 ###############################################################################
 echo ""
+echo ". # Filling INFO/TYPE tag..."
+echo ""
+
+bcftools +fill-tags ${SAMPLE_NAME}.Genot.full.vcf.gz -O b -o ${SAMPLE_NAME}.Genot.full.bcf -- -t TYPE
+
+
+###############################################################################
+echo ""
 echo ". Indexing VCF..."
 echo ""
 
-bcftools view -O b ${SAMPLE_NAME}.Genot.full.vcf.gz -o ${SAMPLE_NAME}.Genot.full.bcf
 bcftools index ${SAMPLE_NAME}.Genot.full.bcf
 
 
