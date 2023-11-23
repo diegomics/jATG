@@ -73,11 +73,11 @@ python ${INSTALLATION_DIR}/4.snp_calling/scripts/vcf_masking.py temp_${SAMPLE_NA
 
 # Mask the VCF for quality and confidence filters
 bcftools filter --threads 2 --set-GTs . -e "\
-(FMT/DP<8) || \
-(FMT/DP>80) || \
+(FMT/DP<$MIN_DEPTH) || \
+(FMT/DP>$MAX_DEPTH) || \
 (INFO/QD<2.0) || \
 (INFO/FS>60.0) || \
-(INFO/MQ<40.0) || \
+(INFO/MQ<$MAP_QUAL) || \
 (INFO/MQRankSum<-12.5) || \
 (INFO/ReadPosRankSum<-8.0) || \
 (INFO/ReadPosRankSum>8.0) || \
