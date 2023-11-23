@@ -72,9 +72,20 @@ python ${INSTALLATION_DIR}/4.snp_calling/scripts/vcf_masking.py temp_${SAMPLE_NA
 
 
 # Mask the VCF for quality and confidence filters
-bcftools filter --threads 2 \
---set-GTs . \
--e "(FMT/DP<$MIN_DEPTH) || (FMT/DP>$MAX_DEPTH) || (INFO/QD<2.0) || (INFO/FS>60.0) || (INFO/MQ<40.0) || (INFO/MQRankSum<-12.5) || (INFO/ReadPosRankSum<-8.0) || (INFO/ReadPosRankSum>8.0) || (INFO/SOR>3.0) || (N_ALT()>1) || (GT='0/0' && FMT/AD[0:1]*1.0/(FMT/AD[0:0]+FMT/AD[0:1])>0.1) || (GT='1/1' && FMT/AD[0:0]*1.0/(FMT/AD[0:0]+FMT/AD[0:1])>0.1) || (GT='0/1' && (FMT/AD[0:1]*1.0/(FMT/AD[0:0]+FMT/AD[0:1])<0.2 || FMT/AD[0:1]*1.0/(FMT/AD[0:0]+FMT/AD[0:1])>0.8)) || (TYPE = 'indel')"  \
+bcftools filter --threads 2 --set-GTs . -e "\
+(FMT/DP<8) || \
+(FMT/DP>80) || \
+(INFO/QD<2.0) || \
+(INFO/FS>60.0) || \
+(INFO/MQ<40.0) || \
+(INFO/MQRankSum<-12.5) || \
+(INFO/ReadPosRankSum<-8.0) || \
+(INFO/ReadPosRankSum>8.0) || \
+(INFO/SOR>3.0) || \
+(GT='0/0' && FMT/AD[0:1]*1.0/(FMT/AD[0:0]+FMT/AD[0:1])>0.1) || \
+(GT='1/1' && FMT/AD[0:0]*1.0/(FMT/AD[0:0]+FMT/AD[0:1])>0.1) || \
+(GT='0/1' && (FMT/AD[0:1]*1.0/(FMT/AD[0:0]+FMT/AD[0:1])<0.2 || FMT/AD[0:1]*1.0/(FMT/AD[0:0]+FMT/AD[0:1])>0.8)) || \
+(INFO/TYPE='INDEL')"  \
 temp_${SAMPLE_NAME}.Genot.full.mainNoSex.mask.vcf -O z -o filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz
 
 bcftools index -t -o filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz.tbi filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz
