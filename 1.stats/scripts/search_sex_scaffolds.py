@@ -28,39 +28,50 @@ def get_genes_linked_to_sex_chromosomes(species, email):
     fasta_sequences = []
 
     for gene_id in gene_ids:
-        handle = Entrez.efetch(db="gene", id=str(gene_id), rettype="xml")
-        gene_record = Entrez.read(handle)
-        handle.close()
-        gene_info = gene_record[0]['Entrezgene_gene']['Gene-ref']
-        gene_loc = "Chromosome location not found"
-        for commentary in gene_record[0].get('Entrezgene_locus', []):
-            label = commentary.get('Gene-commentary_label', '')
-            if 'Chromosome' in label:
-                gene_loc = label
-                break
-        gene_dict = {
-            'Symbol': gene_info['Gene-ref_locus'],
-            'Name': gene_info['Gene-ref_desc'],
-            'Location': gene_loc
-        }
-        genes.append(gene_dict)
+        try:
+            handle = Entrez.efetch(db="gene", id=str(gene_id), rettype="xml")
+            gene_record = Entrez.read(handle)
+            handle.close()
 
-        link_handle = Entrez.elink(dbfrom="gene", db="protein", id=str(gene_id))
-        link_record = Entrez.read(link_handle)
-        link_handle.close()
+            gene_info = gene_record[0]['Entrezgene_gene']['Gene-ref']
+            gene_loc = "Chromosome location not found"
 
-        for link in link_record[0]["LinkSetDb"][0]["Link"]:
-            prot_id = link["Id"]
-            seq_handle = Entrez.efetch(db="protein", id=prot_id, rettype="fasta", retmode="text")
-            fasta_sequence = seq_handle.read()
-            seq_handle.close()
-            fasta_sequences.append(fasta_sequence)
+            for commentary in gene_record[0].get('Entrezgene_locus', []):
+                label = commentary.get('Gene-commentary_label', '')
+                if 'Chromosome' in label:
+                    gene_loc = label
+                    break
+
+            gene_dict = {
+                'Symbol': gene_info['Gene-ref_locus'],
+                'Name': gene_info['Gene-ref_desc'],
+                'Location': gene_loc
+            }
+            genes.append(gene_dict)
+
+            link_handle = Entrez.elink(dbfrom="gene", db="protein", id=str(gene_id))
+            link_record = Entrez.read(link_handle)
+            link_handle.close()
+
+            for link in link_record[0]["LinkSetDb"][0]["Link"]:
+                prot_id = link["Id"]
+
+                try:
+                    seq_handle = Entrez.efetch(db="protein", id=prot_id, rettype="fasta", retmode="text")
+                    fasta_sequence = seq_handle.read()
+                    seq_handle.close()
+                    fasta_sequences.append(fasta_sequence)
+                except Exception as e:
+                    print(f"Error fetching protein sequence for ID {prot_id}: {e}")
+        except Exception as e:
+            print(f"Error processing gene ID {gene_id}: {e}")
 
     if not genes:
         print("Nothing found for the given species name. Try running 2.reference_check.sh with another name")
         return None, None
     else:
         return genes, fasta_sequences
+
 
 def main():
     parser = argparse.ArgumentParser()
