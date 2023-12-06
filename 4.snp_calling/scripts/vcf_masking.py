@@ -53,7 +53,7 @@ with open_file(vcf_file_path, 'r') as vcf_file, open_file(output_file_path, 'w')
             line_parts[4] = '.'
             line_parts[5] = '.'
             line_parts[6] = '.'
-            line_parts[7] += ';MASKED'
+            line_parts[7] = 'MASKED'
             line_parts[8] = 'GT:AD:DP:RGQ'
             line_parts[9] = './.:0:0:0'
 
