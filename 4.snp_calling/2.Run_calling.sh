@@ -102,7 +102,6 @@ VARCALL_JOB_ID=$(echo $VARCALL_JOB | cut -d ' ' -f4)
 MERGE_VCF_JOB=$(sbatch --dependency=afterok:${VARCALL_JOB_ID} --mail-user=${USER_MAIL} --mail-type=${MAIL_TYPE} --partition=${PARTITION} --qos=${QUEUE} --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs/logs/%x.%j.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs/logs/%x.%j.err slurm/Merge_VCF.job)
 MERGE_VCF_JOB_ID=$(echo $MERGE_VCF_JOB | cut -d ' ' -f4)
 
-source deactivate
 conda deactivate
 echo ""
 echo "=== Sending jobs for step 5/5: Filtering VCF ============================================="
