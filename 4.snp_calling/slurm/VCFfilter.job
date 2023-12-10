@@ -69,11 +69,6 @@ bcftools view -O v -R filtered/main_scaffoldsNoSex_lengths ${SAMPLE_NAME}.Genot.
 bcftools index -t -o temp_${SAMPLE_NAME}.Genot.full.mainNoSex.vcf.tbi temp_${SAMPLE_NAME}.Genot.full.mainNoSex.vcf
 
 
-# Mask the VCF for repetitive content
-python3 ${INSTALLATION_DIR}/4.snp_calling/scripts/vcf_masking.py temp_${SAMPLE_NAME}.Genot.full.mainNoSex.vcf ${MASKED_BED} temp_${SAMPLE_NAME}.Genot.full.mainNoSex.mask.vcf
-
-bcftools index -t -o temp_${SAMPLE_NAME}.Genot.full.mainNoSex.mask.vcf.tbi temp_${SAMPLE_NAME}.Genot.full.mainNoSex.mask.vcf
-
 # Mask the VCF for quality and confidence filters
 bcftools filter --threads 2 --set-GTs . -e "\
 (FMT/DP<$MIN_DEPTH) || \
@@ -99,9 +94,9 @@ bcftools filter --threads 2 --set-GTs . -e "\
 (GT='0|2') || \
 (GT='2|2') || \
 (GT='.|.') || \
+(INFO/MASKED) || \
 (INFO/TYPE!='SNP' && INFO/TYPE!='REF')"  \
-temp_${SAMPLE_NAME}.Genot.full.mainNoSex.mask.vcf -O z -o filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz
-
+temp_${SAMPLE_NAME}.Genot.full.mainNoSex.vcf -O z -o filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz
 
 bcftools index -t -o filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz.tbi filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz
 
@@ -128,21 +123,26 @@ echo -e "heterozygosity = nHets / totalCalls"
 echo -e "$heterozygosity = $nHets / $totalCalls"
 printf "%0.5f\n" $heterozygosity > filtered/filt_heterozygosity
 
-echo "Raw basepair-resolution VCF" >> filtered/Gentype_count
-bcftools query -f '[%GT]\n' ${SAMPLE_NAME}.Genot.full.bcf | sort | uniq -c >> filtered/Gentype_count
-echo "" >> filtered/Gentype_count
 
-echo "Main scaffolds & no Sex chromosomes basepair-resolution VCF" >> filtered/Gentype_count
-bcftools query -f '[%GT]\n' temp_${SAMPLE_NAME}.Genot.full.mainNoSex.vcf | sort | uniq -c >> filtered/Gentype_count
-echo "" >> filtered/Gentype_count
+# Get genotypes table from all VCFs produced so far
+python3 ${INSTALLATION_DIR}/4.snp_calling/scripts/count_genotypes.py ${OUT_DIR} ${SPECIES_NAME} ${ASSEMBLY_ID} ${SAMPLE_NAME}
 
-echo "Masked, main scaffolds & no Sex chromosomes basepair-resolution VCF" >> filtered/Gentype_count
-bcftools query -f '[%GT]\n' temp_${SAMPLE_NAME}.Genot.full.mainNoSex.mask.vcf | sort | uniq -c >> filtered/Gentype_count
-echo "" >> filtered/Gentype_count
 
-echo "Filtered, masked, main scaffolds & no Sex chromosomes basepair-resolution VCF" >> filtered/Gentype_count
-bcftools query -f '[%GT]\n' filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz | sort | uniq -c >> filtered/Gentype_count
-echo "" >> filtered/Gentype_count
+#echo "Raw basepair-resolution VCF" >> filtered/Gentype_count
+#bcftools query -f '[%GT]\n' ${SAMPLE_NAME}.Genot.full.bcf | sort | uniq -c >> filtered/Gentype_count
+#echo "" >> filtered/Gentype_count
 
-echo "Filtered, masked, main scaffolds & no Sex chromosomes VCF" >> filtered/Gentype_count
-bcftools query -f '[%GT]\n' filtered/${SAMPLE_NAME}.Genot.PASS.bcf | sort | uniq -c >> filtered/Gentype_count
+#echo "Main scaffolds & no Sex chromosomes basepair-resolution VCF" >> filtered/Gentype_count
+#bcftools query -f '[%GT]\n' temp_${SAMPLE_NAME}.Genot.full.mainNoSex.vcf | sort | uniq -c >> filtered/Gentype_count
+#echo "" >> filtered/Gentype_count
+
+#echo "Masked, main scaffolds & no Sex chromosomes basepair-resolution VCF" >> filtered/Gentype_count
+#bcftools query -f '[%GT]\n' temp_${SAMPLE_NAME}.Genot.full.mainNoSex.mask.vcf | sort | uniq -c >> filtered/Gentype_count
+#echo "" >> filtered/Gentype_count
+
+#echo "Filtered, masked, main scaffolds & no Sex chromosomes basepair-resolution VCF" >> filtered/Gentype_count
+#bcftools query -f '[%GT]\n' filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz | sort | uniq -c >> filtered/Gentype_count
+#echo "" >> filtered/Gentype_count
+
+#echo "Filtered, masked, main scaffolds & no Sex chromosomes VCF" >> filtered/Gentype_count
+#bcftools query -f '[%GT]\n' filtered/${SAMPLE_NAME}.Genot.PASS.bcf | sort | uniq -c >> filtered/Gentype_count
