@@ -13,16 +13,15 @@ def open_file(file_path, mode):
 
 # Check that correct number of arguments are passed
 if len(sys.argv) != 4:
-	print("""
-	Usage: python vcf_masking.py <vcf_file_path> <bed_file_path> <output_file_path>
-	input and output vcf file can also be non-gzipped
-	""")
-	sys.exit(1)
+    print("""
+    Usage: python vcf_masking.py <vcf_file_path> <bed_file_path> <output_file_path>
+    input and output vcf file can also be non-gzipped
+    """)
+    sys.exit(1)
 
 vcf_file_path = sys.argv[1]
 bed_file_path = sys.argv[2]
 output_file_path = sys.argv[3]
-
 
 # Read the BED file into a dictionary of interval trees
 trees = {}
@@ -38,19 +37,25 @@ with open(bed_file_path, 'r') as bed_file:
 
 # Process the VCF file
 with open_file(vcf_file_path, 'r') as vcf_file, open_file(output_file_path, 'w') as output_file:
+    header_added = False
     for line in vcf_file:
         # If the line is part of the header, write it to the output file unmodified
-        if line.startswith('#'):
+        if line.startswith('##'):
             output_file.write(line)
-            continue
+        elif line.startswith('#CHROM') and not header_added:
+            # Add the MASK INFO header before the #CHROM line
+            mask_header = '##INFO=<ID=MASKED,Number=0,Type=Flag,Description="Indicates that the variant has been masked">\n'
+            output_file.write(mask_header)
+            output_file.write(line)
+            header_added = True
+        else:
+            line_parts = line.split()
+            chrom = line_parts[0]
+            pos = int(line_parts[1])
 
-        line_parts = line.split()
-        chrom = line_parts[0]
-        pos = int(line_parts[1])
+            # Modify the line if the position falls within any of the BED intervals
+            if chrom in trees and trees[chrom][pos]:
+                line_parts[7] += ';MASKED'
 
-        # Modify the line if the position falls within any of the BED intervals
-        if chrom in trees and trees[chrom][pos]:
-            line_parts[7] += ';MASKED'
-
-        # Write the (possibly modified) line to the output file
-        output_file.write('\t'.join(line_parts) + '\n')
+            # Write the (possibly modified) line to the output file
+            output_file.write('\t'.join(line_parts) + '\n')
