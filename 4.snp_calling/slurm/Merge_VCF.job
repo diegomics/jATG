@@ -41,12 +41,27 @@ echo ""
 echo ". # Filling INFO/TYPE tag..."
 echo ""
 
-bcftools +fill-tags ${SAMPLE_NAME}.Genot.full.vcf.gz -O b -o ${SAMPLE_NAME}.Genot.full.bcf -- -t TYPE
+bcftools +fill-tags ${SAMPLE_NAME}.Genot.full.vcf.gz -O v -o temp_${SAMPLE_NAME}.Genot.full.tagged.vcf -- -t TYPE
 
 
 ###############################################################################
 echo ""
-echo ". Indexing VCF..."
+echo ". # Adding MASKED tag for repetitive content..."
+echo ""
+
+python3 ${INSTALLATION_DIR}/4.snp_calling/scripts/vcf_masking.py temp_${SAMPLE_NAME}.Genot.full.tagged.vcf ${MASKED_BED} temp_${SAMPLE_NAME}.Genot.full.tagged.masked.vcf
+
+
+###############################################################################
+echo ". # Converting to binary..."
+echo ""
+
+bcftools view temp_${SAMPLE_NAME}.Genot.full.tagged.masked.vcf -O b -o ${SAMPLE_NAME}.Genot.full.bcf --output-type u
+
+
+###############################################################################
+echo ""
+echo ". Indexing..."
 echo ""
 
 bcftools index ${SAMPLE_NAME}.Genot.full.bcf
