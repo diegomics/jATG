@@ -29,10 +29,10 @@ BASE_PATH = f"{OUT_DIR}/jATG/{SPECIES_NAME}/{ASSEMBLY_ID}/{SAMPLE_NAME}/4.callin
 
 # Define the paths to your VCF files
 vcf_paths = {
-    "Raw basepair-resolution VCF": f"{BASE_PATH}/{SAMPLE_NAME}.Genot.full.bcf",
-    "Main scaffolds & no Sex chromosomes basepair-resolution VCF": f"{BASE_PATH}/temp_{SAMPLE_NAME}.Genot.full.mainNoSex.vcf",
-    "Filtered, masked, main scaffolds & no Sex chromosomes basepair-resolution VCF": f"{BASE_PATH}/filtered/{SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz",
-    "Filtered, masked, main scaffolds & no Sex chromosomes VCF": f"{BASE_PATH}/filtered/{SAMPLE_NAME}.Genot.PASS.bcf"
+    "Raw basepair": f"{BASE_PATH}/{SAMPLE_NAME}.Genot.full.bcf",
+    "Main autosome basepair: f"{BASE_PATH}/temp_{SAMPLE_NAME}.Genot.full.mainNoSex.vcf",
+    "Filtered basepair": f"{BASE_PATH}/filtered/{SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz",
+    "Filtered": f"{BASE_PATH}/filtered/{SAMPLE_NAME}.Genot.PASS.bcf"
 }
 
 # Collect genotype counts for each VCF file
