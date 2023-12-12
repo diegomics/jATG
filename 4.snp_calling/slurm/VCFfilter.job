@@ -129,22 +129,4 @@ printf "%0.5f\n" $heterozygosity > filtered/filt_heterozygosity
 # Get genotypes table from all VCFs produced so far
 python3 ${INSTALLATION_DIR}/4.snp_calling/scripts/count_genotypes.py ${OUT_DIR} ${SPECIES_NAME} ${ASSEMBLY_ID} ${SAMPLE_NAME}
 
-
-#echo "Raw basepair-resolution VCF" >> filtered/Gentype_count
-#bcftools query -f '[%GT]\n' ${SAMPLE_NAME}.Genot.full.bcf | sort | uniq -c >> filtered/Gentype_count
-#echo "" >> filtered/Gentype_count
-
-#echo "Main scaffolds & no Sex chromosomes basepair-resolution VCF" >> filtered/Gentype_count
-#bcftools query -f '[%GT]\n' temp_${SAMPLE_NAME}.Genot.full.mainNoSex.vcf | sort | uniq -c >> filtered/Gentype_count
-#echo "" >> filtered/Gentype_count
-
-#echo "Masked, main scaffolds & no Sex chromosomes basepair-resolution VCF" >> filtered/Gentype_count
-#bcftools query -f '[%GT]\n' temp_${SAMPLE_NAME}.Genot.full.mainNoSex.mask.vcf | sort | uniq -c >> filtered/Gentype_count
-#echo "" >> filtered/Gentype_count
-
-#echo "Filtered, masked, main scaffolds & no Sex chromosomes basepair-resolution VCF" >> filtered/Gentype_count
-#bcftools query -f '[%GT]\n' filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz | sort | uniq -c >> filtered/Gentype_count
-#echo "" >> filtered/Gentype_count
-
-#echo "Filtered, masked, main scaffolds & no Sex chromosomes VCF" >> filtered/Gentype_count
-#bcftools query -f '[%GT]\n' filtered/${SAMPLE_NAME}.Genot.PASS.bcf | sort | uniq -c >> filtered/Gentype_count
+csvtk pretty  genotype_counts_table.csv -S 3line > genotype_counts_table.txt
