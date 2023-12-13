@@ -68,7 +68,7 @@ fi
 
 bcftools view --threads 2 -O b -R filtered/main_scaffoldsNoSex_lengths ${SAMPLE_NAME}.Genot.full.bcf -o temp_${SAMPLE_NAME}.Genot.full.mainNoSex.bcf
 
-bcftools index --threads 2 -t -o temp_${SAMPLE_NAME}.Genot.full.mainNoSex.bcf.csi temp_${SAMPLE_NAME}.Genot.full.mainNoSex.bcf
+bcftools index --threads 2 -o temp_${SAMPLE_NAME}.Genot.full.mainNoSex.bcf.csi temp_${SAMPLE_NAME}.Genot.full.mainNoSex.bcf
 
 
 ###############################################################################
