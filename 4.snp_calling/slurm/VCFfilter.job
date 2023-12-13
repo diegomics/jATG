@@ -9,11 +9,13 @@
 export PATH="${CONDA_BIN_DIR}:${PATH}"
 source activate jATG_env
 
+TIMESTAMP=$(date +%F_%T)
+
 cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs
 mkdir filtered
 
 
-# Total VCF coverage
+echo "${TIMESTAMP} Getting total VCF coverage..."
 bcftools query -f '%DP\n' ${SAMPLE_NAME}.Genot.full.bcf | awk '{sum+=$1; count++} END {print sum/count}' > filtered/meanCov
 
 for CHROM in $(bcftools view -h ${SAMPLE_NAME}.Genot.full.bcf | grep "##contig=<ID=" | sed 's/.*ID=\([^,]*\),.*/\1/'); do
@@ -51,7 +53,7 @@ fi
 
 
 
-# Filter VCF by size and Sex
+echo "${TIMESTAMP} Filtering VCF by size and Sex..."
 awk '{print $1 "\t1\t" $2}' ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/0_idx/*.fa.fai > temp_scaffolds_lengths
 
 awk 'NR==FNR{a[$1]; next} $1 in a' ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/1.stats/main_scaffolds temp_scaffolds_lengths > temp_main_scaffolds_lengths
@@ -69,7 +71,7 @@ bcftools view -O v -R filtered/main_scaffoldsNoSex_lengths ${SAMPLE_NAME}.Genot.
 bcftools index -t -o temp_${SAMPLE_NAME}.Genot.full.mainNoSex.vcf.tbi temp_${SAMPLE_NAME}.Genot.full.mainNoSex.vcf
 
 
-# Mask the VCF for quality and confidence filters
+echo "${TIMESTAMP} Masking the VCF for quality and confidence filters..."
 bcftools filter --threads 2 --set-GTs . -e "\
 (FMT/DP<$MIN_DEPTH) || \
 (FMT/DP>$MAX_DEPTH) || \
@@ -102,15 +104,15 @@ temp_${SAMPLE_NAME}.Genot.full.mainNoSex.vcf -O z -o filtered/${SAMPLE_NAME}.Gen
 
 bcftools index -t -o filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz.tbi filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz
 
-# Get stats
+echo "${TIMESTAMP} Getting stats..."
 bcftools stats -s - filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz > filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.stats
 
-# Filter only PASS positions 
+echo "${TIMESTAMP} Filtering only PASS positions..."
 bcftools view -O b -f PASS filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz > filtered/${SAMPLE_NAME}.Genot.PASS.bcf
 bcftools index -o filtered/${SAMPLE_NAME}.Genot.PASS.bcf.csi filtered/${SAMPLE_NAME}.Genot.PASS.bcf
 
 
-# Get stats
+echo "${TIMESTAMP} Getting stats..."
 bcftools stats -s - filtered/${SAMPLE_NAME}.Genot.PASS.bcf > filtered/${SAMPLE_NAME}.Genot.PASS.stats
 
 nHets=$(awk '/^PSC/ {print $6}' filtered/${SAMPLE_NAME}.Genot.PASS.stats)
@@ -126,7 +128,7 @@ echo -e "$heterozygosity = $nHets / $totalCalls"
 printf "%0.5f\n" $heterozygosity > filtered/filt_heterozygosity
 
 
-# Get genotypes table from all VCFs produced so far
+echo "${TIMESTAMP} Getting genotypes table from all VCFs produced so far..."
 python3 ${INSTALLATION_DIR}/4.snp_calling/scripts/count_genotypes.py ${OUT_DIR} ${SPECIES_NAME} ${ASSEMBLY_ID} ${SAMPLE_NAME}
 
 csvtk pretty  genotype_counts_table.csv -S 3line > genotype_counts_table.txt
