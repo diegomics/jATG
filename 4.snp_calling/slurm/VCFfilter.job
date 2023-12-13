@@ -66,9 +66,9 @@ else
 	grep -v $VAR temp_main_scaffolds_lengths > filtered/main_scaffoldsNoSex_lengths
 fi
 
-bcftools view --threads 2 -O v -R filtered/main_scaffoldsNoSex_lengths ${SAMPLE_NAME}.Genot.full.bcf -o temp_${SAMPLE_NAME}.Genot.full.mainNoSex.vcf
+bcftools view --threads 2 -O b -R filtered/main_scaffoldsNoSex_lengths ${SAMPLE_NAME}.Genot.full.bcf -o temp_${SAMPLE_NAME}.Genot.full.mainNoSex.bcf
 
-bcftools index --threads 2 -t -o temp_${SAMPLE_NAME}.Genot.full.mainNoSex.vcf.tbi temp_${SAMPLE_NAME}.Genot.full.mainNoSex.vcf
+bcftools index --threads 2 -t -o temp_${SAMPLE_NAME}.Genot.full.mainNoSex.bcf.csi temp_${SAMPLE_NAME}.Genot.full.mainNoSex.bcf
 
 
 ###############################################################################
@@ -101,7 +101,7 @@ bcftools filter --threads 2 --set-GTs . -e "\
 (GT='./.') || (GT='.|.') || \
 (INFO/MASKED) || \
 (INFO/TYPE!='SNP' && INFO/TYPE!='REF')"  \
-temp_${SAMPLE_NAME}.Genot.full.mainNoSex.vcf -O z -o filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz
+temp_${SAMPLE_NAME}.Genot.full.mainNoSex.bcf -O z -o filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz
 
 bcftools index --threads 2 -t -o filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz.tbi filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz
 
