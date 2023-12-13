@@ -1,6 +1,6 @@
 import sys
 import subprocess
-import pandas as pd
+import csv
 
 def get_genotype_counts(vcf_path):
     # Construct the bcftools command
@@ -12,10 +12,7 @@ def get_genotype_counts(vcf_path):
     for line in result.stdout.split('\n'):
         genotype = line.strip()
         if genotype:
-            if genotype in counts:
-                counts[genotype] += 1
-            else:
-                counts[genotype] = 1
+            counts[genotype] = counts.get(genotype, 0) + 1
     return counts
 
 if len(sys.argv) != 5:
@@ -33,7 +30,7 @@ BASE_PATH = f"{OUT_DIR}/jATG/{SPECIES_NAME}/{ASSEMBLY_ID}/{SAMPLE_NAME}/4.callin
 # Define the paths to your VCF files
 vcf_paths = {
     "Raw basepair": f"{BASE_PATH}/{SAMPLE_NAME}.Genot.full.bcf",
-    "Main autosome basepair: f"{BASE_PATH}/temp_{SAMPLE_NAME}.Genot.full.mainNoSex.vcf",
+    "Main autosome basepair": f"{BASE_PATH}/temp_{SAMPLE_NAME}.Genot.full.mainNoSex.vcf",
     "Filtered basepair": f"{BASE_PATH}/filtered/{SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz",
     "Filtered": f"{BASE_PATH}/filtered/{SAMPLE_NAME}.Genot.PASS.bcf"
 }
@@ -41,11 +38,12 @@ vcf_paths = {
 # Collect genotype counts for each VCF file
 data = {stage: get_genotype_counts(path) for stage, path in vcf_paths.items()}
 
-# Convert the data to a pandas DataFrame
-df = pd.DataFrame(data).fillna(0).astype(int)
-df.index.name = "Genotype"
-df = df.reset_index()
-
-# Save the DataFrame to a CSV file
+# Write the results to a CSV file
 output_csv = f"{BASE_PATH}/filtered/genotype_counts_table.csv"
-df.to_csv(output_csv, index=False)
+with open(output_csv, 'w', newline='') as csvfile:
+    csvwriter = csv.writer(csvfile)
+    csvwriter.writerow(['Genotype'] + list(data.keys()))  # Header
+    genotypes = set(gt for counts in data.values() for gt in counts)
+    for gt in genotypes:
+        row = [gt] + [data[stage].get(gt, 0) for stage in data]
+        csvwriter.writerow(row)
