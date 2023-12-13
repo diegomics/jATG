@@ -4,15 +4,18 @@ import pandas as pd
 
 def get_genotype_counts(vcf_path):
     # Construct the bcftools command
-    command = f"bcftools query -f '[%GT]\\n' {vcf_path} | sort | uniq -c"
+    command = f"bcftools query -f '[%GT]\\n' {vcf_path}"
     # Run the command and capture the output
     result = subprocess.run(command, shell=True, stdout=subprocess.PIPE, text=True)
     # Parse the output
     counts = {}
     for line in result.stdout.split('\n'):
-        if line.strip():
-            count, genotype = line.split(maxsplit=1)
-            counts[genotype] = int(count)
+        genotype = line.strip()
+        if genotype:
+            if genotype in counts:
+                counts[genotype] += 1
+            else:
+                counts[genotype] = 1
     return counts
 
 if len(sys.argv) != 5:
