@@ -46,9 +46,6 @@ df = pd.DataFrame(data).fillna(0).astype(int)
 df.index.name = "Genotype"
 df = df.reset_index()
 
-# Optionally, save the DataFrame to a CSV file
+# Save the DataFrame to a CSV file
 output_csv = f"{BASE_PATH}/filtered/genotype_counts_table.csv"
 df.to_csv(output_csv, index=False)
-
-# Display the DataFrame
-print(df)
