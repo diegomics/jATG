@@ -16,7 +16,7 @@ mkdir filtered
 
 ###############################################################################
 echo "${TIMESTAMP} Getting total VCF coverage..."
-bcftools query --threads 2 -f '%DP\n' ${SAMPLE_NAME}.Genot.full.bcf | awk '{sum+=$1; count++} END {print sum/count}' > filtered/meanCov
+bcftools query -f '%DP\n' ${SAMPLE_NAME}.Genot.full.bcf | awk '{sum+=$1; count++} END {print sum/count}' > filtered/meanCov
 
 for CHROM in $(bcftools view -h ${SAMPLE_NAME}.Genot.full.bcf | grep "##contig=<ID=" | sed 's/.*ID=\([^,]*\),.*/\1/'); do
     MEAN_COV=$(bcftools view -r $CHROM ${SAMPLE_NAME}.Genot.full.bcf | bcftools query -f '%DP\n' | awk '{sum+=$1; count++} END {print sum/count}')
