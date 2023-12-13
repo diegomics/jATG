@@ -25,7 +25,6 @@ else
 	intervaltree=3.1.0 \
 	minimap2=2.26 \
 	miniprot=0.12 \
-	pandas=2.1.3 \
 	psmc=0.6.5 \
 	samtools=1.17 \
 	seqkit=2.5.1 \
