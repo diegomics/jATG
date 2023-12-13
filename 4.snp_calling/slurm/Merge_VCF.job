@@ -11,14 +11,15 @@ source activate jATG_env
 
 ${SINGULARITY_LOAD}
 
+TIMESTAMP=$(date +%F_%T)
+
 cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs
 
 export LC_ALL=C
 
 ###############################################################################
-echo ""
-echo ". Starting VCFs merging..."
-echo ""
+echo "${TIMESTAMP} Starting VCFs merging..."
+
 
 GATHERVCFS="singularity exec -B ${BIND_DIR}:${BIND_DIR} ${INSTALLATION_DIR}/containers/gatk_latest.sif gatk --java-options -Xmx${SLURM_MEM_PER_NODE}M GatherVcfs"
 
