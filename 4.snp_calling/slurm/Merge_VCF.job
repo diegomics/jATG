@@ -69,21 +69,3 @@ echo ". Getting some stats..."
 echo ""
 
 bcftools stats -s - ${SAMPLE_NAME}.Genot.full.bcf > ${SAMPLE_NAME}.Genot.full.stats
-
-#nHets=$(awk '/^PSC/ {print $6}' ${SAMPLE_NAME}.Genot.full.stats)
-#nRefHom=$(awk '/^PSC/ {print $4}' ${SAMPLE_NAME}.Genot.full.stats)
-#nNonRefHom=$(awk '/^PSC/ {print $5}' ${SAMPLE_NAME}.Genot.full.stats)
-
-#totalCalls=$((nHets + nRefHom + nNonRefHom))
-
-#heterozygosity=$(echo "scale=5; $nHets / $totalCalls" | bc -l)
-
-#printf "%0.5f\n" $heterozygosity > raw_heterozygosity
-
-
-
-#singularity exec -B ${BIND_DIR}:${BIND_DIR} ${INSTALLATION_DIR}/4.snp_calling/gatk_latest.sif gatk \
-#--java-options "-Xmx${SLURM_MEM_PER_NODE}M" IndexFeatureFile \
-#--input ${SAMPLE_NAME}.Genot.full.vcf.gz
-
-#bcftools index ${SAMPLE_NAME}.Genot.full.vcf.gz
