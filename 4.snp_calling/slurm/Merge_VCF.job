@@ -38,25 +38,21 @@ $GATHERVCFS
 
 ###############################################################################
 echo ""
-echo ". # Filling INFO/TYPE tag..."
-echo ""
-
-bcftools +fill-tags ${SAMPLE_NAME}.Genot.full.vcf.gz -O v -o temp_${SAMPLE_NAME}.Genot.full.tagged.vcf -- -t TYPE
-
-
-###############################################################################
-echo ""
 echo ". # Adding MASKED tag for repetitive content..."
 echo ""
 
-python3 ${INSTALLATION_DIR}/4.snp_calling/scripts/vcf_masking.py temp_${SAMPLE_NAME}.Genot.full.tagged.vcf ${MASKED_BED} temp_${SAMPLE_NAME}.Genot.full.tagged.masked.vcf
+awk '{print $1"\t"$2"\t"$3"\t1"}' ${MASKED_BED} > temp_masked.bed
+echo '##INFO=<ID=MASKED,Number=0,Type=Flag,Description="Masked due to overlap with RepeatMasker BED file">' > temp_head.txt
+
+bcftools annotate -a temp_masked.bed -c CHROM,FROM,TO,INFO/MASKED -h temp_head.txt ${SAMPLE_NAME}.Genot.full.vcf.gz -O v -o temp_${SAMPLE_NAME}.Genot.full.masked.vcf
 
 
 ###############################################################################
-echo ". # Converting to binary..."
+echo ""
+echo ". # Filling INFO/TYPE tag..."
 echo ""
 
-bcftools view temp_${SAMPLE_NAME}.Genot.full.tagged.masked.vcf -O b -o ${SAMPLE_NAME}.Genot.full.bcf --output-type u
+bcftools +fill-tags temp_${SAMPLE_NAME}.Genot.full.masked.vcf -O b -o ${SAMPLE_NAME}.Genot.full.bcf -- -t TYPE
 
 
 ###############################################################################
