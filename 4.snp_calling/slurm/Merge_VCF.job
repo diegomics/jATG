@@ -59,3 +59,6 @@ bcftools index --threads 2 ${SAMPLE_NAME}.Genot.full.bcf
 echo "$(date +%F_%T) Getting some stats..."
 
 bcftools stats --threads 2 -s - ${SAMPLE_NAME}.Genot.full.bcf > ${SAMPLE_NAME}.Genot.full.stats
+
+
+echo "$(date +%F_%T) Ending job..."
