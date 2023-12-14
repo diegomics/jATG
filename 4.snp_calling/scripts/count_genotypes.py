@@ -21,6 +21,7 @@ BASE_PATH = f"{OUT_DIR}/jATG/{SPECIES_NAME}/{ASSEMBLY_ID}/{SAMPLE_NAME}/4.callin
 
 vcf_paths = {
     "Raw basepair": f"{BASE_PATH}/{SAMPLE_NAME}.Genot.full.bcf",
+    "Main autosome basepair": f"{BASE_PATH}/temp_{SAMPLE_NAME}.Genot.full.mainNoSex.bcf",
     "Filtered basepair": f"{BASE_PATH}/filtered/{SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz",
     "Filtered": f"{BASE_PATH}/filtered/{SAMPLE_NAME}.Genot.PASS.bcf"
 }
