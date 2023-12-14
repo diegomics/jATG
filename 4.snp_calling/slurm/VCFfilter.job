@@ -9,13 +9,11 @@
 export PATH="${CONDA_BIN_DIR}:${PATH}"
 source activate jATG_env
 
-TIMESTAMP=$(date +%F_%T)
-
 cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs
 mkdir filtered
 
 ###############################################################################
-echo "${TIMESTAMP} Getting total VCF coverage..."
+echo "$(date +%F_%T) Getting total VCF coverage..."
 bcftools query -f '%DP\n' ${SAMPLE_NAME}.Genot.full.bcf | awk '{sum+=$1; count++} END {print sum/count}' > filtered/meanCov
 
 for CHROM in $(bcftools view -h ${SAMPLE_NAME}.Genot.full.bcf | grep "##contig=<ID=" | sed 's/.*ID=\([^,]*\),.*/\1/'); do
@@ -53,7 +51,7 @@ fi
 
 
 ###############################################################################
-echo "${TIMESTAMP} Filtering VCF by size and Sex..."
+echo "$(date +%F_%T) Filtering VCF by size and Sex..."
 awk '{print $1 "\t1\t" $2}' ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/0_idx/*.fa.fai > temp_scaffolds_lengths
 
 awk 'NR==FNR{a[$1]; next} $1 in a' ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/1.stats/main_scaffolds temp_scaffolds_lengths > temp_main_scaffolds_lengths
@@ -72,7 +70,7 @@ bcftools index --threads 2 -o temp_${SAMPLE_NAME}.Genot.full.mainNoSex.bcf.csi t
 
 
 ###############################################################################
-echo "${TIMESTAMP} Masking the VCF for quality and confidence filters..."
+echo "$(date +%F_%T) Masking the VCF for quality and confidence filters..."
 bcftools filter --threads 2 --set-GTs . -e "\
 (INFO/MASKED=1) || \
 (FMT/DP<$MIN_DEPTH) || \
@@ -107,18 +105,18 @@ bcftools index --threads 2 -t -o filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.ma
 
 
 ###############################################################################
-echo "${TIMESTAMP} Getting stats..."
+echo "$(date +%F_%T) Getting stats..."
 bcftools stats --threads 2 -s - filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz > filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.stats
 
 
 ###############################################################################
-echo "${TIMESTAMP} Filtering only PASS positions..."
+echo "$(date +%F_%T) Filtering only PASS positions..."
 bcftools view --threads 2 -O b -f PASS filtered/${SAMPLE_NAME}.Genot.full.mainNoSex.mask.filt.vcf.bgz > filtered/${SAMPLE_NAME}.Genot.PASS.bcf
 bcftools index --threads 2 -o filtered/${SAMPLE_NAME}.Genot.PASS.bcf.csi filtered/${SAMPLE_NAME}.Genot.PASS.bcf
 
 
 ###############################################################################
-echo "${TIMESTAMP} Getting stats..."
+echo "$(date +%F_%T) Getting stats..."
 bcftools stats --threads 2 -s - filtered/${SAMPLE_NAME}.Genot.PASS.bcf > filtered/${SAMPLE_NAME}.Genot.PASS.stats
 
 nHets=$(awk '/^PSC/ {print $6}' filtered/${SAMPLE_NAME}.Genot.PASS.stats)
@@ -135,7 +133,7 @@ printf "%0.5f\n" $heterozygosity > filtered/filt_heterozygosity
 
 
 ###############################################################################
-echo "${TIMESTAMP} Getting genotypes table from all VCFs produced so far..."
+echo "$(date +%F_%T) Getting genotypes table from all VCFs produced so far..."
 python3 ${INSTALLATION_DIR}/4.snp_calling/scripts/count_genotypes.py ${OUT_DIR} ${SPECIES_NAME} ${ASSEMBLY_ID} ${SAMPLE_NAME}
 
 csvtk pretty  genotype_counts_table.csv -S 3line > genotype_counts_table.txt
