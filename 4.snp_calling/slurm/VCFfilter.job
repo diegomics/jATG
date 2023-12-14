@@ -136,7 +136,7 @@ printf "%0.5f\n" $heterozygosity > filtered/filt_heterozygosity
 echo "$(date +%F_%T) Getting genotypes table from all VCFs produced so far..."
 python3 ${INSTALLATION_DIR}/4.snp_calling/scripts/count_genotypes.py ${OUT_DIR} ${SPECIES_NAME} ${ASSEMBLY_ID} ${SAMPLE_NAME}
 
-csvtk pretty  genotype_counts_table.csv -S 3line > genotype_counts_table.txt
+csvtk pretty filtered/genotype_counts_table.csv -S 3line > filtered/genotype_counts_table.txt
 
 
 echo "$(date +%F_%T) Ending job..."
