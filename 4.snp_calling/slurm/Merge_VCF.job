@@ -11,14 +11,12 @@ source activate jATG_env
 
 ${SINGULARITY_LOAD}
 
-TIMESTAMP=$(date +%F_%T)
-
 cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs
 
 export LC_ALL=C
 
 ###############################################################################
-echo "${TIMESTAMP} Starting VCFs merging..."
+echo "$(date +%F_%T) Starting VCFs merging..."
 
 GATHERVCFS="singularity exec -B ${BIND_DIR}:${BIND_DIR} ${INSTALLATION_DIR}/containers/gatk_latest.sif gatk --java-options -Xmx${SLURM_MEM_PER_NODE}M GatherVcfs"
 
@@ -37,7 +35,7 @@ $GATHERVCFS
 
 
 ###############################################################################
-echo "${TIMESTAMP} Adding MASKED tag for repetitive content..."
+echo "$(date +%F_%T) Adding MASKED tag for repetitive content..."
 
 awk '{print $1"\t"$2"\t"$3"\t1"}' ${MASKED_BED} > temp_masked.bed
 echo '##INFO=<ID=MASKED,Number=0,Type=Flag,Description="Masked due to overlap with RepeatMasker BED file">' > temp_head.txt
@@ -46,18 +44,18 @@ bcftools annotate --threads 2 -a temp_masked.bed -c CHROM,FROM,TO,INFO/MASKED -h
 
 
 ###############################################################################
-echo "${TIMESTAMP} Filling INFO/TYPE tag..."
+echo "$(date +%F_%T) Filling INFO/TYPE tag..."
 
 bcftools +fill-tags --threads 2 temp_${SAMPLE_NAME}.Genot.full.masked.bcf -O b -o ${SAMPLE_NAME}.Genot.full.bcf -- -t TYPE
 
 
 ###############################################################################
-echo "${TIMESTAMP} Indexing..."
+echo "$(date +%F_%T) Indexing..."
 
 bcftools index --threads 2 ${SAMPLE_NAME}.Genot.full.bcf
 
 
 ###############################################################################
-echo "${TIMESTAMP} Getting some stats..."
+echo "$(date +%F_%T) Getting some stats..."
 
 bcftools stats --threads 2 -s - ${SAMPLE_NAME}.Genot.full.bcf > ${SAMPLE_NAME}.Genot.full.stats
