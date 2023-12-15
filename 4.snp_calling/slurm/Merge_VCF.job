@@ -15,32 +15,21 @@ cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCF
 
 export LC_ALL=C
 
-###############################################################################
-echo "$(date +%F_%T) Starting VCFs merging..."
-
-GATHERVCFS="singularity exec -B ${BIND_DIR}:${BIND_DIR} ${INSTALLATION_DIR}/containers/gatk_latest.sif gatk --java-options -Xmx${SLURM_MEM_PER_NODE}M GatherVcfs"
-
-# loop over files
-for interval_vcf in *.Genot.interval*.vcf.gz
-do
-    # append each file to the command string
-    GATHERVCFS+=" --INPUT $interval_vcf"
-done
-
-# add the output file to the command
-GATHERVCFS+=" --OUTPUT ${SAMPLE_NAME}.Genot.full.vcf.gz --TMP_DIR ${TMPDIR}"
-
-# run the command
-$GATHERVCFS
 
 
 ###############################################################################
 echo "$(date +%F_%T) Adding MASKED tag for repetitive content..."
 
+rm -r filtered/
+rm temp*
+
+mv ${SAMPLE_NAME}.Genot.full.bcf temp_Genot.full.bcf
+mv ${SAMPLE_NAME}.Genot.full.bcf.csi temp_Genot.full.bcf.csi
+
 awk '{print $1"\t"$2"\t"$3"\t1"}' ${MASKED_BED} > temp_masked.bed
 echo '##INFO=<ID=MASKED,Number=0,Type=Flag,Description="Masked due to overlap with RepeatMasker BED file">' > temp_head.txt
 
-bcftools annotate --threads 2 -a temp_masked.bed -c CHROM,FROM,TO,INFO/MASKED -h temp_head.txt ${SAMPLE_NAME}.Genot.full.vcf.gz -O b -o temp_${SAMPLE_NAME}.Genot.full.masked.bcf
+bcftools annotate --threads 2 -a temp_masked.bed -c CHROM,FROM,TO,INFO/MASKED -h temp_head.txt temp_Genot.full.bcf -O b -o temp_${SAMPLE_NAME}.Genot.full.masked.bcf
 
 
 ###############################################################################
