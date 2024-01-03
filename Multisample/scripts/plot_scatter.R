@@ -40,7 +40,7 @@ plotScatter <- function(data, value_column, palette, title, y_axis, out_name) {
 
 # Process and plot for each file type
 genomewide_he_data <- processData(paste0(asm_name, "_samples_Genomewide_He.tsv"))
-plotScatter(genomewide_he_data, "Genomewide_He", "RedOr", "Genomewide Heterozygosity", "He Value", "Genomewide_He_Plot")
+plotScatter(genomewide_he_data, "Genomewide_He", "RedOr", "Genomewide Heterozygosity", "He(%)", "Genomewide_He_Plot")
 
 genomewide_propROH_data <- processData(paste0(asm_name, "_samples_Genomewide_propROH.tsv"))
 plotScatter(genomewide_propROH_data, "Genomewide_propROH", "TealGrn", "Genomewide Proportion of RoH", "Proportion", "Genomewide_propROH_Plot")
