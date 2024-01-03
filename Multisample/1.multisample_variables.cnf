@@ -1,0 +1,7 @@
+# reads variables
+export SAMPLE_NAMES="Pehuel, SAMN18477436, SAMN18477434, SAMN18477435"     # eg: The order given will be the use for the tables and plots 
+
+# RoH variables
+export WIN_SIZE="50000"             # Size of the window to evaluate heterozygosity. All samples should have the same value
+export NUM_WIN="2"                # Minimum number of adjacent windows. All samples should have the same value
+export MAX_MISS="0.6"               # Proportion of maximum missing sites. All samples should have the same value
