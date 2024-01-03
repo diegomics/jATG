@@ -14,7 +14,7 @@ mkdir -p ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/Multisample/Het_RoH
 cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}
 
 # Generate tables
-echo "Combining Het_RoH results for samples ${SAMPLE_NAMES} for Het_RoH analysis using w=${WIN_SIZE}, n=${NUM_WIN}, m=${MAX_MISS}"
+echo "Combining Het_RoH results of samples ${SAMPLE_NAMES} for Het_RoH analysis using w=${WIN_SIZE}, n=${NUM_WIN}, m=${MAX_MISS}"
 
 
 # Array of file names
@@ -28,7 +28,7 @@ for file in "${files[@]}"; do
     echo -e "Sample\t${file}" > Multisample/Het_RoH/${output}
 
     # Loop through each sample
-    IFS=',' read -ra ADDR <<< "${SAMPLE_NAMES}"
+    IFS=',' read -ra ADDR <<< "$(echo "$SAMPLE_NAMES" | tr -d '[:blank:]')"
     for i in "${ADDR[@]}"; do
         # Construct file path
         if [[ "$file" == "Genomewide_propROH" ]]; then
