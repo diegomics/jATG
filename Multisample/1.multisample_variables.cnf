@@ -1,5 +1,5 @@
 # reads variables
-export SAMPLE_NAMES="Pehuel, SAMN18477436, SAMN18477434, SAMN18477435"     # eg: The order given will be the use for the tables and plots 
+export SAMPLE_NAMES="Pehuel, SAMN18477436, SAMN18477434, SAMN18477435"     # The order given will be used for the tables and plots 
 
 # RoH variables
 export WIN_SIZE="50000"             # Size of the window to evaluate heterozygosity. All samples should have the same value
