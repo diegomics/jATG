@@ -25,7 +25,7 @@ processData <- function(file_name) {
 # Function to plot scatter plot
 plotScatter <- function(data, value_column, palette, title, y_axis, out_name) {
     plot <- ggplot(data, aes(x = Sample, y = !!sym(value_column), color = Sample)) +
-        geom_point(size = 4) +
+        geom_point(size = 6) +
         scale_color_carto_d(palette = palette) +
         theme_minimal() +
         labs(title = title, x = "Sample", y = y_axis) +
