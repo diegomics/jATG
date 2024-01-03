@@ -36,6 +36,7 @@ else
 	r-rcartocolor=2.1.1 \
 	r-svglite=2.1.1 \
 	r-tidyr=1.3.0 \
+ 	r-readr=2.1.4 \
 	r-zoo=1.8_12 \
 	texlive-core=20230313 \
 	tidk=0.2.41 \
