@@ -10,54 +10,43 @@ export PATH="${CONDA_BIN_DIR}:${PATH}"
 source activate jATG_env
 
 
+mkdir -p ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/Multisample/Het_RoH
+cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}
 
+# Generate tables
+echo "Combining Het_RoH results for samples ${SAMPLE_NAMES} for Het_RoH analysis using w=${WIN_SIZE}, n=${NUM_WIN}, m=${MAX_MISS}"
 
-
-
-
-sample="Pehuel,SAMN18477436,SAMN18477434,SAMN18477435"
-w=50000
-n=2
-m=0.6
-asm="ASM1813914v2"
 
 # Array of file names
 files=("Genomewide_propROH" "Genomewide_He" "totalROHsMb" "Total_ROHs_number")
 
 # Loop through each file type
 for file in "${files[@]}"; do
-    output="${asm}_samples_${file}.tsv"
+    output="${ASSEMBLY_ID}_samples_${file}.tsv"
 
     # Print header
-    echo -e "Sample\t${file}" > "$output"
+    echo -e "Sample\t${file}" > Multisample/Het_RoH/${output}
 
     # Loop through each sample
-    IFS=',' read -ra ADDR <<< "$sample"
+    IFS=',' read -ra ADDR <<< "${SAMPLE_NAMES}"
     for i in "${ADDR[@]}"; do
         # Construct file path
         if [[ "$file" == "Genomewide_propROH" ]]; then
-            filepath="${i}/5.het_roh.w${w}/w${w}n${n}m${m}h*/${file}.txt"
+            filepath="${i}/5.het_roh.w${WIN_SIZE}/w${WIN_SIZE}n${NUM_WIN}m${MAX_MISS}h*/${file}.txt"
 	elif [[ "$file" == "Genomewide_He" ]]; then
-            filepath="${i}/5.het_roh.w${w}/w${w}n${n}m${m}h*/${file}.txt"
+            filepath="${i}/5.het_roh.w${WIN_SIZE}/w${WIN_SIZE}n${NUM_WIN}m${MAX_MISS}h*/${file}.txt"
 	elif [[ "$file" == "totalROHsMb" ]]; then
-            filepath="${i}/5.het_roh.w${w}/w${w}n${n}m${m}h*/${file}.txt"
+            filepath="${i}/5.het_roh.w${WIN_SIZE}/w${WIN_SIZE}n${NUM_WIN}m${MAX_MISS}h*/${file}.txt"
 	elif [[ "$file" == "Total_ROHs_number" ]]; then
-            filepath="${i}/5.het_roh.w${w}/w${w}n${n}m${m}h*/${file}.txt"
+            filepath="${i}/5.het_roh.w${WIN_SIZE}/w${WIN_SIZE}n${NUM_WIN}m${MAX_MISS}h*/${file}.txt"
         fi
         # Extract and print the relevant line
-        grep "$i" $filepath | awk '{print $1 "\t" $2}' >> "$output"
+        grep "$i" $filepath | awk '{print $1 "\t" $2}' >> Multisample/Het_RoH/${output}
     done
 done
 
 
-
-sample="Pehuel,SAMN18477436,SAMN18477434,SAMN18477435"
-w=50000
-n=2
-m=0.6
-asm="ASM1813914v2"
-
-# Array of file types (fROH, lROH, nROH)
+# Array of file names
 file_types=("fROH" "lROH" "nROH")
 
 # List of length categories
@@ -74,14 +63,15 @@ for file_type in "${file_types[@]}"; do
     done
 
     # Prepare the output file and print header
-    output_file="${asm}_samples_${file_type}.tsv"
-    echo -e "length\t${sample//,/\\t}" > "$output_file"
+    output_file="${ASSEMBLY_ID}_samples_${file_type}.tsv"
+    #echo -e "length\t${sample//,/\\t}" > "$output_file"
+    echo -e "length\t${SAMPLE_NAMES//,/\\t}" | tr -s '\t' > Multisample/Het_RoH/${output_file}
 
     # Process each sample
-    IFS=',' read -ra ADDR <<< "$sample"
+    IFS=',' read -ra ADDR <<< "${SAMPLE_NAMES}"
     for i in "${ADDR[@]}"; do
         # Construct file path
-        filepath="${i}/5.het_roh.w${w}/w${w}n${n}m${m}h*/${file_type}.txt"
+        filepath="${i}/5.het_roh.w${WIN_SIZE}/w${WIN_SIZE}n${NUM_WIN}m${MAX_MISS}h*/${file_type}.txt"
         
         # Read the file and process each line
         while IFS=$'\t' read -r length value; do
@@ -101,11 +91,16 @@ for file_type in "${file_types[@]}"; do
         row=$(echo -e "${values[$length]}" | sed 's/[ \t]*$//')
 
         # Print the row
-        echo -e "${length}\t${row}" >> "$output_file"
+        echo -e "${length}\t${row}" >> Multisample/Het_RoH/${output_file}
     done
 done
 
 
+# Create plots
+
+cd Multisample/Het_RoH
+
+Rscript ${INSTALLATION_DIR}/Multisample/scripts/.R
 
 
 
