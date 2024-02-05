@@ -9,6 +9,8 @@
 export PATH="${CONDA_BIN_DIR}:${PATH}"
 source activate jATG_env
 
+export LC_NUMERIC="en_US.UTF-8"
+
 cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs
 mkdir filtered
 
