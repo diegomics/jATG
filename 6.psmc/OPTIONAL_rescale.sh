@@ -43,5 +43,5 @@ echo ""
 echo "=== Sending jobs for optional step  ====================================="
 echo ""
 
-PLOT_JOB=$(sbatch --mail-user=${USER_MAIL} --mail-type=${MAIL_TYPE} --partition=${PARTITION} --qos=${QUEUE} --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/logs/%x.%j.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/logs/%x.%j.err slurm/Plot.job)
+PLOT_JOB=$(sbatch ${SLURM_VARS} --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/logs/%x.%j.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/logs/%x.%j.err slurm/Plot.job)
 PLOT_JOB_ID=$(echo ${PLOT_JOB} | cut -d ' ' -f4)
