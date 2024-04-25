@@ -15,8 +15,5 @@ export CONDA_BIN_DIR="/my/folder/conda/bin"
 export SINGULARITY_LOAD="module load singularity"                   # comment this line if singularity is in PATH
 export BIND_DIR="/my/folder/"
 
-# slurm-specific variables
-export USER_MAIL='my@email.com'
-export MAIL_TYPE='END,FAIL'
-export PARTITION='begendiv,main'
-export QUEUE="standard"
+# slurm-specific variable grouping multiple parameters
+export SLURM_VARS='--mail-user=<your_email> --mail-type=END,FAIL --partition=begendiv,main --qos=standard --constraint=no_gpu'
