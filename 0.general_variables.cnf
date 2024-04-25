@@ -16,4 +16,4 @@ export SINGULARITY_LOAD="module load singularity"                   # comment th
 export BIND_DIR="/my/folder/"
 
 # slurm-specific variable grouping multiple parameters
-export SLURM_VARS='--mail-user=<your_email> --mail-type=END,FAIL --partition=begendiv,main --qos=standard --constraint=no_gpu'
+export SLURM_VARS='--mail-user=your@email.com --mail-type=END,FAIL --partition=begendiv,main --qos=standard --constraint=no_gpu' # add any other particular cluster variable here
