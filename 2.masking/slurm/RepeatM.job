@@ -19,9 +19,17 @@ export LC_ALL=C
 echo "=== 1/5. Indexing genome for RepeatModeler...  ======================================="
 
 mkdir -p ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/2.masking/1_modeler
+rm -r /dev/shm/${ASSEMBLY_ID}/2.masking 2>/dev/null
 mkdir -p /dev/shm/${ASSEMBLY_ID}/2.masking/1_modeler
 
 cd /dev/shm/${ASSEMBLY_ID}/2.masking/1_modeler
+
+if [ ! -d "$TMPDIR" ]; then
+    mkdir -p "$TMPDIR"
+    echo "Directory $TMPDIR created."
+else
+    echo "Directory $TMPDIR already exists."
+fi
 
 if [[ "${ASSEMBLY##*.}" == "gz" ]]
 then
