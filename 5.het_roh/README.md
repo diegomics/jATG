@@ -27,7 +27,7 @@ This analysis relies on [Darwindow](https://github.com/mennodejong1986/Darwindow
                     │   ├── lROH.txt                                 
                     │   ├── nROH.svg                                 # barplot of genome-wide total number of RoH binned by size
                     │   ├── nROH.txt                                 
-                    │   ├── Genomewide_He.txt                        #
+                    │   ├── Genomewide_He.txt                        # genome-wide heterozygosity in % (het% = het/bp x 100)
                     │   ├── Genomewide_propROH.txt                   #
                     │   ├── ROH_positions.txt                        #
                     │   ├── Scaff_He.txt                             #
