@@ -103,7 +103,7 @@ MYVCF=${VCF_NAME}                                      		# Note: without gz exte
 POPFILE=popfile.txt										# Only needed if flag 'pop_scores' is set to TRUE
 
 winsize=${WIN_SIZE}
-mincontigbp=5000000												# minimum length of contig (in bp) to be considered in analysis
+mincontigbp=${MIN_SCAF}												# minimum length of contig (in bp) to be considered in analysis
 suffix="allsites_roh"
 biallelic=FALSE
 annotated=FALSE
