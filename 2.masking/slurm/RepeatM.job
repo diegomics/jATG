@@ -100,7 +100,6 @@ singularity exec --bind ${BIND_DIR}:${BIND_DIR} "${INSTALLATION_DIR}/containers/
 RepeatMasker -pa 4 -a -s -gccalc -xsmall -gff -lib ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/2.masking/2_libraries/${ASSEMBLY_NAME}_combined.fa ${ASSEMBLY_NAME}
 
 mv ${ASSEMBLY_NAME}.masked ${ASSEMBLY_NAME}.masked.fa
-pigz -p 16 ${ASSEMBLY_NAME}.masked.fa
 
 # generate bed files useful for masking
 rmsk2bed --max-mem 192G < ${ASSEMBLY_NAME}.out > ${ASSEMBLY_NAME}.bed
@@ -110,12 +109,7 @@ rm temp.bed
 
 # generate hard-masked assembly fasta file
 bedtools maskfasta -fi ${ASSEMBLY_NAME}.masked.fa -bed ${ASSEMBLY_NAME}.3cols.bed -fo ${ASSEMBLY_NAME}.HM.fa
-pigz -p 16 ${ASSEMBLY_NAME}.HM.fa
 
-pigz -p 16 {ASSEMBLY_NAME}.out
-pigz -p 16 {ASSEMBLY_NAME}.out.gff
-pigz -p 16 {ASSEMBLY_NAME}.align
-pigz -p 16 {ASSEMBLY_NAME}.align_with_div
 
 echo "=== 5/5. Plotting results...  ========================================================"
 
@@ -133,6 +127,12 @@ echo -e "${ASSEMBLY_ID}\t$(realpath ${ASSEMBLY_NAME}.tsv)" > plotREP.cfg
 
 Rscript ${INSTALLATION_DIR}/2.masking/scripts/plotREP.R plotREP.cfg ${ASSEMBLY_NAME}.svg
 
+pigz -p 16 ${ASSEMBLY_NAME}.masked.fa
+pigz -p 16 ${ASSEMBLY_NAME}.HM.fa
+pigz -p 16 {ASSEMBLY_NAME}.out
+pigz -p 16 {ASSEMBLY_NAME}.out.gff
+pigz -p 16 {ASSEMBLY_NAME}.align
+pigz -p 16 {ASSEMBLY_NAME}.align_with_div
 
 cp -r * ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/2.masking/3_masker
 rm -rf /dev/shm/${ASSEMBLY_ID}/2.masking/3_masker
