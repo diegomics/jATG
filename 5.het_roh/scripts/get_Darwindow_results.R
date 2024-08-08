@@ -125,7 +125,7 @@ runindscaffold(height_unit=1,
 #           ylabel="F_roh",
 #           mywidth=5)
 
-write.table(data.frame(dwd$ind$name, dwd$ind$froh),
+write.table(data.frame(dwd$ind$name, dwd$ind$froh2),
                        file = "Genomewide_propROH.txt",
                        sep = "\t",
                        row.names = FALSE,
