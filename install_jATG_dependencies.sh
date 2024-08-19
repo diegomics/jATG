@@ -46,11 +46,12 @@ fi
 
 ${SINGULARITY_LOAD}
 export LC_ALL=C
-mkdir -p ${INSTALLATION_DIR}/containers
+mkdir -p ${INSTALLATION_DIR}/containers/tmp
 cd ${INSTALLATION_DIR}/containers
 
 GATK_VER="4.2.6.1"
 TET_VER="1.85"
+export TMPDIR="${INSTALLATION_DIR}/containers/tmp"
 
 if [ -e "${INSTALLATION_DIR}/containers/gatk_${GATK_VER}.sif" ]
 then
