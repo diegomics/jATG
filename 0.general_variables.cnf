@@ -12,8 +12,9 @@ export TMPDIR="${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/tmp"  # Default fo
 export CONDA_BIN_DIR="/my/folder/conda/bin"
 
 # singularity-specific variables
-export SINGULARITY_LOAD="module load singularity"                   # comment this line if singularity is in PATH
+export SINGULARITY_LOAD="module load apptainer"                   # comment this line if singularity is in PATH
 export BIND_DIR="/my/folder/"
 
 # slurm-specific variable grouping multiple parameters
+export USER_MAIL="your@email.com"
 export SLURM_VARS='--mail-user=your@email.com --mail-type=END,FAIL --partition=begendiv,main --qos=standard --constraint=no_gpu' # add any other particular cluster variable here
