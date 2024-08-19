@@ -129,10 +129,10 @@ Rscript ${INSTALLATION_DIR}/2.masking/scripts/plotREP.R plotREP.cfg ${ASSEMBLY_N
 
 pigz -p 16 ${ASSEMBLY_NAME}.masked.fa
 pigz -p 16 ${ASSEMBLY_NAME}.HM.fa
-pigz -p 16 {ASSEMBLY_NAME}.out
-pigz -p 16 {ASSEMBLY_NAME}.out.gff
-pigz -p 16 {ASSEMBLY_NAME}.align
-pigz -p 16 {ASSEMBLY_NAME}.align_with_div
+pigz -p 16 ${ASSEMBLY_NAME}.out
+pigz -p 16 ${ASSEMBLY_NAME}.out.gff
+pigz -p 16 ${ASSEMBLY_NAME}.align
+pigz -p 16 ${ASSEMBLY_NAME}.align_with_div
 
 cp -r * ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/2.masking/3_masker
 rm -rf /dev/shm/${ASSEMBLY_ID}/2.masking/3_masker
