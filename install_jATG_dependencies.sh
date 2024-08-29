@@ -49,7 +49,8 @@ export LC_ALL=C
 mkdir -p ${INSTALLATION_DIR}/containers/tmp
 cd ${INSTALLATION_DIR}/containers
 
-GATK_VER="4.2.6.1"
+#GATK_VER="4.2.6.1"
+GATK_VER="4.6.0.0"
 TET_VER="1.85"
 export TMPDIR="${INSTALLATION_DIR}/containers/tmp"
 
