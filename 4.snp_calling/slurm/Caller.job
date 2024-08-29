@@ -3,8 +3,8 @@
 #SBATCH -J GATK
 
 #SBATCH --cpus-per-task=4
-#SBATCH --mem=64G
-#SBATCH --time=3-00:00:00
+#SBATCH --mem=48G
+#SBATCH --time=2-00:00:00
 
 export PATH="${CONDA_BIN_DIR}:${PATH}"
 source activate jATG_env
