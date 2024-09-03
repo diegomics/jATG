@@ -4,12 +4,15 @@
 
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=48G
-#SBATCH --time=2-00:00:00
+#SBATCH --time=2-12:00:00
 
 export PATH="${CONDA_BIN_DIR}:${PATH}"
 source activate jATG_env
 
 ${SINGULARITY_LOAD}
+
+RESERVE_MEM=2000
+export HEAP_SIZE=$((SLURM_MEM_PER_NODE - RESERVE_MEM))
 
 cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs
 
@@ -38,7 +41,7 @@ INTERVAL_NAME=$(basename $INTERVAL .list)
 export LC_ALL=C
 
 singularity exec -B ${BIND_DIR}:${BIND_DIR} ${INSTALLATION_DIR}/containers/gatk_latest.sif gatk \
---java-options "-Xmx${SLURM_MEM_PER_NODE}M" HaplotypeCaller \
+--java-options "-Xmx${HEAP_SIZE}M -XX:ParallelGCThreads=2" HaplotypeCaller \
 --reference ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/0_idx/${ASSEMBLY_NAME}.fa \
 --input ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/${SAMPLE_NAME}.merged.bam \
 --intervals ${INTERVAL} \
@@ -46,11 +49,11 @@ singularity exec -B ${BIND_DIR}:${BIND_DIR} ${INSTALLATION_DIR}/containers/gatk_
 --output-mode EMIT_ALL_CONFIDENT_SITES \
 -ERC BP_RESOLUTION \
 --tmp-dir ${TMPDIR} \
---native-pair-hmm-threads ${SLURM_CPUS_PER_TASK}
+--native-pair-hmm-threads 2 --use-jdk-inflater --use-jdk-deflater --pair-hmm-implementation LOGLESS_CACHING
 
 
 singularity exec -B ${BIND_DIR}:${BIND_DIR} ${INSTALLATION_DIR}/containers/gatk_latest.sif gatk \
---java-options "-Xmx${SLURM_MEM_PER_NODE}M" GenotypeGVCFs \
+--java-options "-Xmx${HEAP_SIZE}M" GenotypeGVCFs \
 --reference ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/0_idx/${ASSEMBLY_NAME}.fa \
 --variant ${SAMPLE_NAME}.HapCal.${INTERVAL_NAME}.vcf.gz \
 --output ${SAMPLE_NAME}.Genot.${INTERVAL_NAME}.vcf.gz \
