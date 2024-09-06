@@ -41,11 +41,11 @@ READ_ID=$(basename $VAR .${VAR##*.})
 #      echo "Mapping data for the sample name: ${SAMPLE_NAME}"
 #fi
 
-minimap2 -t 24 --MD --eqx -ax map-hifi \
+minimap2 -t 20 --MD --eqx -ax map-hifi \
 -R "@RG\tID:${READ_ID}\tSM:${SAMPLE_NAME}" \
 "${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/0_idx/${ASSEMBLY_NAME}.mmi" ${READ} | \
-samtools view -@ 12 -b -u | \
-samtools sort -@ 12 -o ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/temp_${READ_ID}.bam
+samtools view -@ 2 -b -u | \
+samtools sort -@ 4 -m 4G -o ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/temp_${READ_ID}.bam
 
 ###############################################################################
 echo ""
