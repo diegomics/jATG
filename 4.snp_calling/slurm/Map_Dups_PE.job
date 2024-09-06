@@ -76,7 +76,7 @@ bwa-mem2 mem -t 20 -M \
 ${READ1} \
 "${TRIMMED_READS_DIR}/${READ2_NAME}" | \
 samtools view -@ 2 -b -u | \
-samtools sort -@ 4 -m 4 -o "${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/temp_${READ_ID}.bam"
+samtools sort -@ 4 -m 4G -o "${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/temp_${READ_ID}.bam"
 
 
 ###############################################################################
