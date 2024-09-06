@@ -107,12 +107,13 @@ singularity exec -B ${BIND_DIR}:${BIND_DIR} ${INSTALLATION_DIR}/containers/gatk_
 -O ${READ_ID}.markdup.bam \
 -M ${READ_ID}.markdup_metrics.txt \
 --tmp-dir ${TMPDIR} \
+--read-validation-stringency SILENT \
 --spark-master local[${SLURM_CPUS_PER_TASK}] \
 --conf spark.driver.memory=${SPARK_DRIVER_MEM}m \
 --conf spark.executor.memory=${SPARK_EXECUTOR_MEM}m \
 --conf spark.executor.cores=${SLURM_CPUS_PER_TASK} \
---conf spark.network.timeout=800 \
--read-validation-stringency SILENTtion-stringency SILENT
+--conf spark.network.timeout=800
+
 
 
 ###############################################################################
