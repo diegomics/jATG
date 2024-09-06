@@ -11,6 +11,15 @@ source activate jATG_env
 
 ${SINGULARITY_LOAD}
 
+RESERVE_MEM=2000
+HEAP_SIZE=$((SLURM_MEM_PER_NODE - RESERVE_MEM))
+
+#20%
+SPARK_DRIVER_MEM=$((HEAP_SIZE / 5))
+SPARK_EXECUTOR_MEM=$((HEAP_SIZE - SPARK_DRIVER_MEM))
+
+#1/4 of available cores, max 8
+GC_THREADS=$(( SLURM_CPUS_PER_TASK / 4 < 8 ? SLURM_CPUS_PER_TASK / 4 : 8 ))
 
 cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs
 
@@ -61,16 +70,28 @@ echo ""
 
 export LC_ALL=C
 
+#singularity exec -B ${BIND_DIR}:${BIND_DIR} ${INSTALLATION_DIR}/containers/gatk_latest.sif gatk \
+#--java-options "-Xmx${SLURM_MEM_PER_NODE}M" MarkDuplicates \
+#-ASSUME_SORTED true \
+#-VALIDATION_STRINGENCY SILENT \
+#-MAX_FILE_HANDLES_FOR_READ_ENDS_MAP 1000 \
+#-I temp_${READ_ID}.bam \
+#-O ${READ_ID}.markdup.bam \
+#-M ${READ_ID}.markdup_metrics.txt \
+#-TMP_DIR ${TMPDIR}
+
 singularity exec -B ${BIND_DIR}:${BIND_DIR} ${INSTALLATION_DIR}/containers/gatk_latest.sif gatk \
---java-options "-Xmx${SLURM_MEM_PER_NODE}M" MarkDuplicates \
--ASSUME_SORTED true \
--VALIDATION_STRINGENCY SILENT \
--MAX_FILE_HANDLES_FOR_READ_ENDS_MAP 1000 \
+--java-options "-Xmx${HEAP_SIZE}M -XX:ParallelGCThreads=${GC_THREADS}" MarkDuplicatesSpark \
 -I temp_${READ_ID}.bam \
 -O ${READ_ID}.markdup.bam \
 -M ${READ_ID}.markdup_metrics.txt \
--TMP_DIR ${TMPDIR}
-
+--tmp-dir ${TMPDIR} \
+--read-validation-stringency SILENT \
+--spark-master local[${SLURM_CPUS_PER_TASK}] \
+--conf spark.driver.memory=${SPARK_DRIVER_MEM}m \
+--conf spark.executor.memory=${SPARK_EXECUTOR_MEM}m \
+--conf spark.executor.cores=${SLURM_CPUS_PER_TASK} \
+--conf spark.network.timeout=800
 
 ###############################################################################
 echo ""
