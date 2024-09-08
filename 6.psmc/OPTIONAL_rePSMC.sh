@@ -55,12 +55,12 @@ echo ""
 
 mkdir -p ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/${PSMC_FOLDER}/logs
 
-PSMC_JOB=$(sbatch --dependency=afterok:${CONVERT_JOB_ID} ${SLURM_VARS} --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/${PSMC_FOLDER}/logs/%x.%j.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/${PSMC_FOLDER}/logs/%x.%j.err slurm/PSMC.job)
+PSMC_JOB=$(sbatch ${SLURM_VARS} --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/${PSMC_FOLDER}/logs/%x.%j.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/${PSMC_FOLDER}/logs/%x.%j.err slurm/PSMC.job)
 PSMC_JOB_ID=$(echo ${PSMC_JOB} | cut -d ' ' -f4)
 
 
 echo ""
-echo "=== Sending jobs for step 2/2:  ====================================="
+echo "=== Sending jobs for optional step 2/2:  ====================================="
 echo ""
 
 PLOT_JOB=$(sbatch --dependency=afterok:${PSMC_JOB_ID} ${SLURM_VARS} --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/${PSMC_FOLDER}/logs/%x.%j.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/${PSMC_FOLDER}/logs/%x.%j.err slurm/Plot.job)
