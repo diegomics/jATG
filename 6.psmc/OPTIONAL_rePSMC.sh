@@ -1,1 +1,67 @@
+source $(dirname $PWD)/0.general_variables.cnf
+source 1.psmc_variables.cnf
 
+
+if [[ "${ASSEMBLY##*.}" == "gz" ]]
+then
+    INTER=$(basename ${ASSEMBLY} .gz)
+    export ASSEMBLY_NAME=$(basename $INTER .${INTER##*.})
+elif  [[ "${ASSEMBLY##*.}" == "fa" ]] || [[ "${ASSEMBLY##*.}" == "fasta" ]] || [[ "${ASSEMBLY##*.}" == "fna" ]]
+then
+    export ASSEMBLY_NAME=$(basename $ASSEMBLY .${ASSEMBLY##*.})
+else
+    echo "Invalid reference extension name!"
+fi
+
+if [ -z "${ASSEMBLY_HM}" ]
+then
+        echo -e "Using previously obtained file ${ASSEMBLY_NAME}.HM.fa for downstream analysis"
+        export ASSEMBLY_HM="${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/2.masking/3_masker/${ASSEMBLY_NAME}.HM.fa"
+else
+        echo -e "Using provided ${ASSEMBLY_HM} for downstream analysis"
+fi
+
+if [ -z "${CHROM_LIST}" ]
+then
+        echo -e "Using previously obtained file main_scaffoldsNoSex_lengths for downstream analysis"
+        export CHROM_LIST="${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs/filtered/main_scaffoldsNoSex_lengths"
+else
+        echo -e "Using provided ${CHROM_LIST} for downstream analysis"
+fi
+
+if [ -z "${PASS_VCF}" ]
+then
+        echo -e "Using previously obtained file ${SAMPLE_NAME}.Genot.PASS.bcf for downstream analysis"
+        export PASS_VCF="${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs/filtered/${SAMPLE_NAME}.Genot.PASS.bcf"
+else
+        echo -e "Using provided ${PASS_VCF} for downstream analysis"
+fi
+
+# Extract values from PARAMS variable
+N=$(echo $PARAMS | grep -oP 'N\K\d+')
+t=$(echo $PARAMS | grep -oP 't\K\d+')
+r=$(echo $PARAMS | grep -oP 'r\K\d+')
+
+# Process TIME_INT variable
+PROC_TIME=$(echo $TIME_INT | sed 's/\*/./' | sed 's/+/_/g')
+
+# Create folder name
+export PSMC_FOLDER="N${N}t${t}r${r}p${PROC_TIME}"
+
+
+echo ""
+echo "=== Sending jobs for optional step 1/2:  ====================================="
+echo ""
+
+mkdir -p ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/${PSMC_FOLDER}/logs
+
+PSMC_JOB=$(sbatch --dependency=afterok:${CONVERT_JOB_ID} ${SLURM_VARS} --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/${PSMC_FOLDER}/logs/%x.%j.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/${PSMC_FOLDER}/logs/%x.%j.err slurm/PSMC.job)
+PSMC_JOB_ID=$(echo ${PSMC_JOB} | cut -d ' ' -f4)
+
+
+echo ""
+echo "=== Sending jobs for step 2/2:  ====================================="
+echo ""
+
+PLOT_JOB=$(sbatch --dependency=afterok:${PSMC_JOB_ID} ${SLURM_VARS} --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/${PSMC_FOLDER}/logs/%x.%j.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/${PSMC_FOLDER}/logs/%x.%j.err slurm/Plot.job)
+PLOT_JOB_ID=$(echo ${PLOT_JOB} | cut -d ' ' -f4)
