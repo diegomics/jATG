@@ -43,7 +43,6 @@ t=$(echo $PARAMS | grep -oP 't\K\d+')
 r=$(echo $PARAMS | grep -oP 'r\K\d+')
 
 # Process TIME_INT variable
-# Replace '*' with '.' and '+' with '_'
 PROC_TIME=$(echo $TIME_INT | sed 's/\*/./' | sed 's/+/_/g')
 
 # Create folder name
