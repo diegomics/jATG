@@ -42,7 +42,7 @@ This analysis **estimates historical population sizes from a single genome seque
 
 2) Run the analysis with: `bash 3.Run_psmc.sh`
 
-OPTIONAL: if you want to re-run the PSMC with different parameters (`PARAMS`) and/or time intervals values, edit accordingly `1.psmc_variables.cnf` and run: `bash OPTIONAL_rePSMC.sh`
+OPTIONAL: if you want to re-run the PSMC with different parameters (`PARAMS`) and/or time intervals (`TIME_INT`) values, edit accordingly `1.psmc_variables.cnf` and run: `bash OPTIONAL_rePSMC.sh`
 
 OPTIONAL: if you want to re-scale the PSMC results with different `MUTATION` and `GENERATION` values, edit accordingly `1.psmc_variables.cnf` and run: `bash OPTIONAL_reScale.sh`
 
