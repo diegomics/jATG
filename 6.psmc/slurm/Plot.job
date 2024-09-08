@@ -10,7 +10,7 @@ export PATH="${CONDA_BIN_DIR}:${PATH}"
 source activate jATG_env
 
 
-cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc
+cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/${PSMC_FOLDER}
 
 PLOTS_DIR="plots.m${MUTATION}.g${GENERATION}"
 mkdir $PLOTS_DIR
