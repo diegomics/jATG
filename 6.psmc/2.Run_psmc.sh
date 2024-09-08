@@ -47,7 +47,7 @@ r=$(echo $PARAMS | grep -oP 'r\K\d+')
 PROC_TIME=$(echo $TIME_INT | sed 's/\*/./' | sed 's/+/_/g')
 
 # Create folder name
-PSMC_FOLDER="N${N}t${t}r${r}p${PROC_TIME}"
+export PSMC_FOLDER="N${N}t${t}r${r}p${PROC_TIME}"
 
 
 echo ""
