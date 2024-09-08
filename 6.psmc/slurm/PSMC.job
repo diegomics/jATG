@@ -10,10 +10,10 @@ export PATH="${CONDA_BIN_DIR}:${PATH}"
 source activate jATG_env
 
 
-cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc
+cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/${PSMC_FOLDER}
 
-psmc ${PARAMS} -p "${TIME_INT}" -o ${SAMPLE_NAME}.psmc ${SAMPLE_NAME}.psmcfa 
-seq ${BOOTST} | xargs -i echo psmc ${PARAMS} -b -p "${TIME_INT}" -o round-{}.psmc ${SAMPLE_NAME}.psmcfa.split.psmcfa | sh
+psmc ${PARAMS} -p "${TIME_INT}" -o ${SAMPLE_NAME}.psmc ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/${SAMPLE_NAME}.psmcfa 
+seq ${BOOTST} | xargs -i echo psmc ${PARAMS} -b -p "${TIME_INT}" -o round-{}.psmc ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/${SAMPLE_NAME}.psmcfa.split.psmcfa | sh
 cat ${SAMPLE_NAME}.psmc round-*.psmc > ${SAMPLE_NAME}.combined.psmc
 #rm round-*.psmc
 
