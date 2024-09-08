@@ -38,10 +38,21 @@ else
         echo -e "Using provided ${PASS_VCF} for downstream analysis"
 fi
 
+# Extract values from PARAMS variable
+N=$(echo $PARAMS | grep -oP 'N\K\d+')
+t=$(echo $PARAMS | grep -oP 't\K\d+')
+r=$(echo $PARAMS | grep -oP 'r\K\d+')
+
+# Process TIME_INT variable
+PROC_TIME=$(echo $TIME_INT | sed 's/\*/./' | sed 's/+/_/g')
+
+# Create folder name
+export PSMC_FOLDER="N${N}t${t}r${r}p${PROC_TIME}"
+
 
 echo ""
 echo "=== Sending jobs for optional step  ====================================="
 echo ""
 
-PLOT_JOB=$(sbatch ${SLURM_VARS} --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/logs/%x.%j.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/logs/%x.%j.err slurm/Plot.job)
+PLOT_JOB=$(sbatch ${SLURM_VARS} --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/${PSMC_FOLDER}/logs/%x.%j.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/${PSMC_FOLDER}/logs/%x.%j.err slurm/Plot.job)
 PLOT_JOB_ID=$(echo ${PLOT_JOB} | cut -d ' ' -f4)
