@@ -37,14 +37,26 @@ else
         echo -e "Using provided ${PASS_VCF} for downstream analysis"
 fi
 
+# Extract values from PARAMS variable
+N=$(echo $PARAMS | grep -oP 'N\K\d+')
+t=$(echo $PARAMS | grep -oP 't\K\d+')
+r=$(echo $PARAMS | grep -oP 'r\K\d+')
+
+# Process TIME_INT variable
+# Replace '*' with '.' and '+' with '_'
+PROC_TIME=$(echo $TIME_INT | sed 's/\*/./' | sed 's/+/_/g')
+
+# Create folder name
+PSMC_FOLDER="N${N}t${t}r${r}p${PROC_TIME}"
+
 
 echo ""
 echo "=== Sending jobs for step 1/4:  ====================================="
 echo ""
 
-mkdir -p ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/logs
+mkdir -p ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/${PSMC_FOLDER}/logs
 
-CONSENSUS_JOB=$(sbatch ${SLURM_VARS} --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/logs/%x.%j.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/logs/%x.%j.err slurm/Consensus.job)
+CONSENSUS_JOB=$(sbatch ${SLURM_VARS} --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/${PSMC_FOLDER}/logs/%x.%j.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/${PSMC_FOLDER}/logs/%x.%j.err slurm/Consensus.job)
 CONSENSUS_JOB_ID=$(echo ${CONSENSUS_JOB} | cut -d ' ' -f4)
 
 
@@ -52,7 +64,7 @@ echo ""
 echo "=== Sending jobs for step 2/4:  ====================================="
 echo ""
 
-CONVERT_JOB=$(sbatch --dependency=afterok:${CONSENSUS_JOB_ID} ${SLURM_VARS} --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/logs/%x.%j.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/logs/%x.%j.err slurm/Convert.job)
+CONVERT_JOB=$(sbatch --dependency=afterok:${CONSENSUS_JOB_ID} ${SLURM_VARS} --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/${PSMC_FOLDER}/logs/%x.%j.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/${PSMC_FOLDER}/logs/%x.%j.err slurm/Convert.job)
 CONVERT_JOB_ID=$(echo ${CONVERT_JOB} | cut -d ' ' -f4)
 
 
@@ -61,7 +73,7 @@ echo ""
 echo "=== Sending jobs for step 3/4:  ====================================="
 echo ""
 
-PSMC_JOB=$(sbatch --dependency=afterok:${CONVERT_JOB_ID} ${SLURM_VARS} --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/logs/%x.%j.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/logs/%x.%j.err slurm/PSMC.job)
+PSMC_JOB=$(sbatch --dependency=afterok:${CONVERT_JOB_ID} ${SLURM_VARS} --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/${PSMC_FOLDER}/logs/%x.%j.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/${PSMC_FOLDER}/logs/%x.%j.err slurm/PSMC.job)
 PSMC_JOB_ID=$(echo ${PSMC_JOB} | cut -d ' ' -f4)
 
 
@@ -70,5 +82,5 @@ echo ""
 echo "=== Sending jobs for step 4/4:  ====================================="
 echo ""
 
-PLOT_JOB=$(sbatch --dependency=afterok:${PSMC_JOB_ID} ${SLURM_VARS} --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/logs/%x.%j.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/logs/%x.%j.err slurm/Plot.job)
+PLOT_JOB=$(sbatch --dependency=afterok:${PSMC_JOB_ID} ${SLURM_VARS} --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/${PSMC_FOLDER}/logs/%x.%j.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/6.psmc/${PSMC_FOLDER}/logs/%x.%j.err slurm/Plot.job)
 PLOT_JOB_ID=$(echo ${PLOT_JOB} | cut -d ' ' -f4)
