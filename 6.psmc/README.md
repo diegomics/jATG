@@ -44,7 +44,7 @@ This analysis **estimates historical population sizes from a single genome seque
 
 OPTIONAL: if you want to re-run the PSMC with different parameters (`PARAMS`) and/or time intervals (`TIME_INT`) values, edit accordingly `1.psmc_variables.cnf` and run: `bash OPTIONAL_rePSMC.sh`
 
-OPTIONAL: if you want to re-scale the PSMC results with different `MUTATION` and `GENERATION` values, edit accordingly `1.psmc_variables.cnf` and run: `bash OPTIONAL_reScale.sh`
+OPTIONAL: if you want to re-scale the PSMC results with different `MUTATION` and/or `GENERATION` values, edit accordingly `1.psmc_variables.cnf` and run: `bash OPTIONAL_reScale.sh`
 
 \*) It uses up to 8 cpus and 16 Gb of RAM
 
