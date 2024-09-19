@@ -4,4 +4,4 @@ export REF_ASSEMBLY="/my/folder/GCF_011762595.1.fna.gz"   # path to the referenc
 export REF_ID="mTurTru1"                                  # Not necessary if REF_ASSEMBLY is not provided
 
 # min scaffold size to be considered a main scaffold
-export MIN_SCAF="5000000"
+export MIN_SCAF="1000000"
