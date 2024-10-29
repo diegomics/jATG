@@ -1,0 +1,53 @@
+#!/bin/bash
+
+#SBATCH -J HapCal
+
+#SBATCH --cpus-per-task=2
+#SBATCH --mem=16G
+#SBATCH --time=3-00:00:00
+
+export PATH="${CONDA_BIN_DIR}:${PATH}"
+source activate jATG_env
+
+${SINGULARITY_LOAD}
+
+
+RESERVE_MEM=2000
+export HEAP_SIZE=$((SLURM_MEM_PER_NODE - RESERVE_MEM))
+
+cd ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs
+
+
+# get ASSEMBLY_NAME variable and file in deepvariant folder (because it complains otherwise)
+if [[ "${ASSEMBLY##*.}" == "gz" ]]
+then
+	INTER=$(basename ${ASSEMBLY} .gz)
+        ASSEMBLY_NAME=$(basename $INTER .${INTER##*.})
+#        gunzip -c ${ASSEMBLY} > "${ASSEMBLY_NAME}.fa"
+elif  [[ "${ASSEMBLY##*.}" == "fa" ]] || [[ "${ASSEMBLY##*.}" == "fasta" ]] || [[ "${ASSEMBLY##*.}" == "fna" ]]
+then
+        ASSEMBLY_NAME=$(basename $ASSEMBLY .${ASSEMBLY##*.})
+#        cp ${ASSEMBLY} "${ASSEMBLY_NAME}.fa"
+else
+        echo "Invalid reference extension name!"
+fi
+
+
+#cp "${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/0_idx/${ASSEMBLY_NAME}.fa.fai" .
+
+
+INTERVAL=$(ls ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/0_idx/interval*.list 2>/dev/null | head -n ${SLURM_ARRAY_TASK_ID} | tail -n 1)
+INTERVAL_NAME=$(basename $INTERVAL .list)
+
+export LC_ALL=C
+
+singularity exec -B ${BIND_DIR}:${BIND_DIR} ${INSTALLATION_DIR}/containers/gatk_latest.sif gatk \
+--java-options "-Xmx${HEAP_SIZE}M -XX:ParallelGCThreads=1" HaplotypeCaller \
+--reference ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/0_idx/${ASSEMBLY_NAME}.fa \
+--input ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/${SAMPLE_NAME}.merged.bam \
+--intervals ${INTERVAL} \
+--output ${SAMPLE_NAME}.HapCal.${INTERVAL_NAME}.vcf.gz \
+--output-mode EMIT_ALL_CONFIDENT_SITES \
+-ERC BP_RESOLUTION \
+--tmp-dir ${TMPDIR} \
+--native-pair-hmm-threads 2 --use-jdk-inflater --use-jdk-deflater --pair-hmm-implementation LOGLESS_CACHING
