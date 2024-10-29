@@ -45,7 +45,7 @@ then
 	LENGTH=$(ls ${TRIMMED_READS_DIR}/*{1.trim*fq,1.fq,1.trim*fastq,1.fastq}.gz 2>/dev/null | sort | uniq | wc -l)
         mkdir -p "${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/logs"
         mkdir -p "${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/eval"
-        MAP_JOB=$(sbatch --dependency=afterok:${INDEX_JOB_ID} ${SLURM_VARS} --array=1-${LENGTH} --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/logs/%x.%A_%a.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/logs/%x.%A_%a.err slurm/Map_Dups_PE.job)
+        MAP_JOB=$(sbatch --dependency=afterok:${INDEX_JOB_ID} ${SLURM_VARS} --array=1-${LENGTH}%8 --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/logs/%x.%A_%a.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/logs/%x.%A_%a.err slurm/Map_Dups_PE.job)
         MAP_JOB_ID=$(echo ${MAP_JOB} | cut -d ' ' -f4)
 
 elif  [[ "${READ_TYPE}" == "HiFi" ]]
@@ -53,7 +53,7 @@ then
         LENGTH=$(ls ${TRIMMED_READS_DIR}/*{trim*fq,fq,trim*fastq,fastq}.gz 2>/dev/null | sort | uniq | wc -l)
         mkdir -p "${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/logs"
         mkdir -p "${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/eval"
-        MAP_JOB=$(sbatch --dependency=afterok:${INDEX_JOB_ID} ${SLURM_VARS} --array=1-${LENGTH} --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/logs/%x.%A_%a.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/logs/%x.%A_%a.err slurm/Map_Dups_HiFi.job)
+        MAP_JOB=$(sbatch --dependency=afterok:${INDEX_JOB_ID} ${SLURM_VARS} --array=1-${LENGTH}%8 --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/logs/%x.%A_%a.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/1_BAMs/logs/%x.%A_%a.err slurm/Map_Dups_HiFi.job)
         MAP_JOB_ID=$(echo ${MAP_JOB} | cut -d ' ' -f4)
 
 else
@@ -94,13 +94,18 @@ echo ""
 python ${INSTALLATION_DIR}/4.snp_calling/scripts/make_scaf_intervals.py "${ASSEMBLY_NAME}.fa.fai"
 cd -
 
+
 LENGTH=$(ls ${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/0_idx/interval*.list 2>/dev/null | wc -l)
 mkdir -p "${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs/logs"
-VARCALL_JOB=$(sbatch --dependency=afterok:${MERGE_BAM_JOB_ID} ${SLURM_VARS} --array=1-${LENGTH} --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs/logs/%x.%j.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs/logs/%x.%j.err slurm/Caller.job)
-VARCALL_JOB_ID=$(echo $VARCALL_JOB | cut -d ' ' -f4)
+
+HAPLO_JOB=$(sbatch --dependency=afterok:${MERGE_BAM_JOB_ID} ${SLURM_VARS} --array=1-${LENGTH}%8 --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs/logs/%x.%j.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs/logs/%x.%j.err slurm/HaploCall.job)
+HAPLO_JOB_ID=$(echo $HAPLO_JOB | cut -d ' ' -f4)
+
+GENO_JOB=$(sbatch --dependency=afterok:${HAPLO_JOB_ID} ${SLURM_VARS} --array=1-${LENGTH}%8 --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs/logs/%x.%j.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs/logs/%x.%j.err slurm/GenoGVCF.job)
+GENO_JOB_ID=$(echo $GENO_JOB | cut -d ' ' -f4)
 
 conda deactivate
-MERGE_VCF_JOB=$(sbatch --dependency=afterok:${VARCALL_JOB_ID} ${SLURM_VARS} --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs/logs/%x.%j.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs/logs/%x.%j.err slurm/Merge_VCF.job)
+MERGE_VCF_JOB=$(sbatch --dependency=afterok:${GENO_JOB_ID} ${SLURM_VARS} --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs/logs/%x.%j.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs/logs/%x.%j.err slurm/Merge_VCF.job)
 MERGE_VCF_JOB_ID=$(echo $MERGE_VCF_JOB | cut -d ' ' -f4)
 
 
@@ -116,4 +121,3 @@ echo "=== Sending jobs for extra step: Cleaning temp files =====================
 echo ""
 CLEANING_JOB=$(sbatch --dependency=afterok:${FILTER_JOB_ID} ${SLURM_VARS} --output=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs/logs/%x.%j.out --error=${OUT_DIR}/jATG/${SPECIES_NAME}/${ASSEMBLY_ID}/${SAMPLE_NAME}/4.calling/2_VCFs/logs/%x.%j.err slurm/cleaning.job)
 CLEAINING_JOB_ID=$(echo $CLEANING_JOB | cut -d ' ' -f4)
-
